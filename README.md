@@ -6,7 +6,7 @@ It is possible to run basic accounting operations such as interest calculations,
 ## Tech-stack
 The application is implemented both in Java and Python programming languages for their simplicity and platform independent code in case of JVM with Java and Python Interpreter in case of Python.
 * ### UI/UX
-UI and UX are made with the Java Swing framework, with modifications to facilitate the developer experience for the creator and future contributors to the project. All UI source code is found in the `schoolaccountingstudio.ui` package.
+UI and UX are made with the Java Swing framework, with modifications to facilitate the developer experience for the creator and future contributors to the project. All UI source code is found in the `schoolaccountingstudio-ui` module.
 * ### Document generation
 Document generation is implemented mostly with Java programming language due to its simple and various ways of implementing the file writing system and SQLite database calls are made with Python programming language because of its simple features to operate with databases.
 * ### Dependencies

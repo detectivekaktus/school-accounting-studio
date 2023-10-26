@@ -1,6 +1,6 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
-public class Main {
+public class MainWindow {
 
     public static void main(String[] args) {
 

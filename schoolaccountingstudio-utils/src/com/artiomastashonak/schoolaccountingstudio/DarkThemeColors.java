@@ -1,34 +1,29 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
+import java.awt.Color;
+
 public enum DarkThemeColors {
 
-    MAIN_WINDOW_BACKGROUND_COLOR(54, 54, 54, 1.0f),
-    MENU_BAR_BACKGROUND_COLOR(37, 37, 37, 1.0f),
-    POP_UP_WINDOW_BACKGROUND_COLOR(71, 71, 71, 1.0f),
-    BUTTON_BACKGROUND_COLOR(90, 90, 90, 1.0f),
-    SELECTED_BUTTON_BACKGROUND_COLOR(95, 95, 95, 1.0f),
-    TEXT_ENTRY_BACKGROUND_COLOR(56, 56, 56, 1.0f),
+    MAIN_WINDOW_BACKGROUND_COLOR(new Color(54, 54, 54)),
+    MENU_BAR_BACKGROUND_COLOR(new Color(37, 37, 37)),
+    POP_UP_WINDOW_BACKGROUND_COLOR(new Color(71, 71, 71)),
+    BUTTON_BACKGROUND_COLOR(new Color(90, 90, 90)),
+    SELECTED_BUTTON_BACKGROUND_COLOR(new Color(95, 95, 95)),
+    TEXT_ENTRY_BACKGROUND_COLOR(new Color(56, 56, 56)),
 
-    PRIMARY_TEXT_COLOR(255, 255, 255, 1.0f),
-    SECONDARY_TEXT_COLOR(155, 155, 155, 1.0f),
-    TERTIARY_TEXT_COLOR(207, 207, 207, 1.0f),
+    PRIMARY_TEXT_COLOR(new Color(255, 255, 255)),
+    SECONDARY_TEXT_COLOR(new Color(155, 155, 155)),
+    TERTIARY_TEXT_COLOR(new Color(207, 207, 207)),
 
-    VIOLET_PRIMARY_ACCENT_COLOR(149, 88, 249, 1.0f),
-    VIOLET_SECONDARY_ACCENT_COLOR(194, 156, 255, 1.0f),
-    VIOLET_TERTIARY_ACCENT_COLOR(149, 88, 249, 0.25f),
+    VIOLET_PRIMARY_ACCENT_COLOR(new Color(149, 88, 249)),
+    VIOLET_SECONDARY_ACCENT_COLOR(new Color(194, 156, 255)),
 
-    DANGER_COLOR(250, 89, 89, 1.0f);
+    DANGER_COLOR(new Color(255, 89, 89));
 
-    public final int red;
-    public final int green;
-    public final int blue;
-    public final float alpha;
+    public final Color color;
 
-    DarkThemeColors(int red, int green, int blue, float alpha) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.alpha = alpha;
+    DarkThemeColors(Color color) {
+        this.color = color;
     }
 
 }

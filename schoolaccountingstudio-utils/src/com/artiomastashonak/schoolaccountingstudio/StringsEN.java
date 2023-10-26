@@ -8,6 +8,8 @@ public enum StringsEN {
 
     WELCOME_DIALOG_MESSAGE("You are using free and open source application developed by Artiom Astashonak for High School \"Guglielmo Oberdan\" in Treviglio."),
 
+    FILE_MANAGER_TITLE("File manager"),
+
     INVOICE_SECTION_TITLE("Invoices"),
     INVOICE_CREATE_BUTTON_ACTION("Create new invoice"),
 
