@@ -2,7 +2,6 @@ package com.artiomastashonak.schoolaccountingstudio.tree;
 
 import com.artiomastashonak.schoolaccountingstudio.DarkThemeColors;
 import com.artiomastashonak.schoolaccountingstudio.TextSizes;
-
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.Component;

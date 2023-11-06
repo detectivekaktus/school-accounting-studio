@@ -1,8 +1,9 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
+import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Font;
@@ -19,28 +20,30 @@ public class MainWindow {
             FileManager fileManager = new FileManager(directories);
 
             JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new CardLayout());
+            CardLayout mainPanelCardLayout = new CardLayout();
+            mainPanel.setLayout(mainPanelCardLayout);
+            mainPanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
 
             JPanel welcomePanel = new JPanel();
-            welcomePanel.setLayout(new BorderLayout());
+            welcomePanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
 
-            JPanel welcomeNavigationPanel = new JPanel();
-            welcomeNavigationPanel.setLayout(new BoxLayout(welcomeNavigationPanel, BoxLayout.Y_AXIS));
-            welcomeNavigationPanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
-            welcomeNavigationPanel.setForeground(DarkThemeColors.PRIMARY_TEXT_COLOR.color);
+            Button createInvoiceButton = new Button(StringsEN.INVOICE_CREATE_BUTTON_ACTION.value,
+                    new Font("K2D", Font.ITALIC, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size),
+                    DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color,
+                    DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color);
+            createInvoiceButton.setBorder(null);
+            welcomePanel.add(createInvoiceButton);
 
-            Label welcomeLabel = new Label(StringsEN.WELCOME_MESSAGE.value, new Font("K2D", Font.PLAIN, TextSizes.WELCOME_TITLE_TEXT_SIZE.size), DarkThemeColors.PRIMARY_TEXT_COLOR.color, DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
-            welcomeNavigationPanel.add(welcomeLabel);
+            JScrollPane welcomePanelScrollPane = new JScrollPane(welcomePanel);
+            welcomePanelScrollPane.setBorder(null);
 
-            Button invoiceCreateButton = new Button(StringsEN.INVOICE_CREATE_BUTTON_ACTION.value, new Font("K2D", Font.ITALIC, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color);
-            invoiceCreateButton.setBorder(null);
-            welcomeNavigationPanel.add(invoiceCreateButton);
-
-            welcomePanel.add(welcomeNavigationPanel, BorderLayout.CENTER);
-            mainPanel.add(welcomePanel, "WELCOME_PANEL");
+            mainPanel.add(welcomePanelScrollPane, "WELCOME_PANEL");
+            mainPanel.add(new InvoicePanel(), "INVOICE_PANEL");
 
             window.add(fileManager, BorderLayout.WEST);
             window.add(mainPanel, BorderLayout.CENTER);
+
+            createInvoiceButton.addActionListener((e) -> mainPanelCardLayout.show(mainPanel, "INVOICE_PANEL"));
 
             window.setVisible(true);
         };

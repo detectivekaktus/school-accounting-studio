@@ -18,5 +18,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="schoolaccountingstudio-ui" />
     <orderEntry type="module" module-name="schoolaccountingstudio-utils" />
+    <orderEntry type="module" module-name="schoolaccountingstudio-instruments" />
   </component>
 </module>

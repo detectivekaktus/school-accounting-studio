@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/schoolaccountingstudio.iml" filepath="$PROJECT_DIR$/schoolaccountingstudio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/schoolaccountingstudio-invoice-solver/schoolaccountingstudio-invoice-solver.iml" filepath="$PROJECT_DIR$/schoolaccountingstudio-invoice-solver/schoolaccountingstudio-invoice-solver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/schoolaccountingstudio-instruments/schoolaccountingstudio-instruments.iml" filepath="$PROJECT_DIR$/schoolaccountingstudio-instruments/schoolaccountingstudio-instruments.iml" />
       <module fileurl="file://$PROJECT_DIR$/schoolaccountingstudio-ui/schoolaccountingstudio-ui.iml" filepath="$PROJECT_DIR$/schoolaccountingstudio-ui/schoolaccountingstudio-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/schoolaccountingstudio-utils/schoolaccountingstudio-utils.iml" filepath="$PROJECT_DIR$/schoolaccountingstudio-utils/schoolaccountingstudio-utils.iml" />
     </modules>
