@@ -6,7 +6,7 @@ import java.awt.Color;
 
 public class TextInput extends JTextField {
 
-    public TextInput(Font font, Color textColor, Color backgroundColor) {
+    public TextInput(Color backgroundColor, Color textColor, Font font) {
         setBackground(backgroundColor);
         setForeground(textColor);
         setFont(font);

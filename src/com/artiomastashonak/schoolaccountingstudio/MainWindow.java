@@ -3,53 +3,31 @@ package com.artiomastashonak.schoolaccountingstudio;
 import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Font;
-import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainWindow {
 
+    public static Locale LOCALE = Locale.ENGLISH;
+    public static ResourceBundle BUNDLE = ResourceBundle.getBundle("strings/strings", LOCALE);
+
     public static void main(String[] args) {
+        Window window = new Window(new ImageIcon(), BUNDLE);
 
-        Runnable mainWindowRunnable = () -> {
-            Window window = new Window(new ImageIcon());
+        CardLayout cardLayout = new CardLayout();
 
-            File[] directories = {new File("generated/invoices/")};
-            FileManager fileManager = new FileManager(directories);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(cardLayout);
 
-            JPanel mainPanel = new JPanel();
-            CardLayout mainPanelCardLayout = new CardLayout();
-            mainPanel.setLayout(mainPanelCardLayout);
-            mainPanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
+        mainPanel.add(new InvoicePanel(BUNDLE), "INVOICE");
 
-            JPanel welcomePanel = new JPanel();
-            welcomePanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
+        cardLayout.show(mainPanel, "INVOICE");
 
-            Button createInvoiceButton = new Button(StringsEN.INVOICE_CREATE_BUTTON_ACTION.value,
-                    new Font("K2D", Font.ITALIC, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size),
-                    DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color,
-                    DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color);
-            createInvoiceButton.setBorder(null);
-            welcomePanel.add(createInvoiceButton);
+        window.add(mainPanel, BorderLayout.CENTER);
 
-            JScrollPane welcomePanelScrollPane = new JScrollPane(welcomePanel);
-            welcomePanelScrollPane.setBorder(null);
-
-            mainPanel.add(welcomePanelScrollPane, "WELCOME_PANEL");
-            mainPanel.add(new InvoicePanel(), "INVOICE_PANEL");
-
-            window.add(fileManager, BorderLayout.WEST);
-            window.add(mainPanel, BorderLayout.CENTER);
-
-            createInvoiceButton.addActionListener((e) -> mainPanelCardLayout.show(mainPanel, "INVOICE_PANEL"));
-
-            window.setVisible(true);
-        };
-
-        Thread mainWindowThread = new Thread(mainWindowRunnable);
-        mainWindowThread.start();
+        window.setVisible(true);
     }
 
 }

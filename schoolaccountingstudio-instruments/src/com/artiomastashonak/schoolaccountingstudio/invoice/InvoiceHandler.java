@@ -1,7 +1,4 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
-public class InvoiceGenerator {
-
-
-
+public class InvoiceHandler {
 }
