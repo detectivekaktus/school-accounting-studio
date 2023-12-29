@@ -57,12 +57,14 @@ public class MenuBar extends JMenuBar {
         setupMenu(fileMenu);
 
         JMenu fileCreateMenu = new JMenu(bundle.getString("fileMenuCreate"));
+        fileCreateMenu.setOpaque(true);
         setupMenu(fileCreateMenu);
         fileCreateInvoice = new JMenuItem(bundle.getString("fileMenuInvoice"));
         setupMenuItem(fileCreateInvoice);
         fileCreateMenu.add(fileCreateInvoice);
 
         JMenu fileOpenMenu = new JMenu(bundle.getString("fileMenuOpen"));
+        fileOpenMenu.setOpaque(true);
         setupMenu(fileOpenMenu);
         fileOpenInvoice = new JMenuItem(bundle.getString("fileMenuInvoice"));
         setupMenuItem(fileOpenInvoice);
