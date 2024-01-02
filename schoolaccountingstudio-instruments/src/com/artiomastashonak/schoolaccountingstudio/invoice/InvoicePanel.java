@@ -6,11 +6,11 @@ import com.artiomastashonak.schoolaccountingstudio.Label;
 import com.artiomastashonak.schoolaccountingstudio.TextField;
 import com.artiomastashonak.schoolaccountingstudio.TextSizes;
 import org.jetbrains.annotations.NotNull;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public final class InvoicePanel extends JPanel {
@@ -33,6 +33,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField sellerEmail = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerRegister = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerSharedCapital = new TextField(textInputColor, textColor, inputFont);
+    private Button submitSellerButton;
 
     private final Button openCustomerButton;
     public final TextField customerName = new TextField(textInputColor, textColor, inputFont);
@@ -41,6 +42,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField customerEmail = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerRegister = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerSharedCapital = new TextField(textInputColor, textColor, inputFont);
+    private Button submitCustomerButton;
 
     private final Button openInvoiceInfoButton;
     public final TextField invoiceNumber = new TextField(textInputColor, textColor, inputFont);
@@ -53,6 +55,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField invoiceDocumentedCost = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceInterests = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceDeposit = new TextField(textInputColor, textColor, inputFont);
+    private Button submitInvoiceInfo;
 
     private final TextField measureUnit;
     private final TextField quantity;
@@ -65,7 +68,13 @@ public final class InvoicePanel extends JPanel {
 
     private final Button addItemButton;
 
-    public JTable invoiceTable;
+    public final JTable invoiceTable;
+    public DefaultTableModel tableModel;
+
+    private final Button printHTMLButton;
+    private final Button printXMLButton;
+
+    private final Button resetButton;
 
     public InvoicePanel(@NotNull ResourceBundle bundle) {
         this.bundle = bundle;
@@ -203,8 +212,9 @@ public final class InvoicePanel extends JPanel {
         add(addItemButton);
         layout.putConstraint(SpringLayout.NORTH, addItemButton, 25, SpringLayout.SOUTH, discount2);
         layout.putConstraint(SpringLayout.EAST, addItemButton, 0, SpringLayout.EAST, discount2);
+        addItemButton.addActionListener((e) -> addItemAndClearInput());
 
-        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel();
 
         String[] columns = {bundle.getString("measureUnitShort"),
                 bundle.getString("quantityShort"),
@@ -225,13 +235,145 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, tableScrollPane, 10, SpringLayout.SOUTH, addItemButton);
         layout.putConstraint(SpringLayout.WEST, tableScrollPane, 200, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.EAST, tableScrollPane, 0, SpringLayout.EAST, addItemButton);
+
+        printHTMLButton = new Button(bundle.getString("printMenuHTML"),
+                buttonColor,
+                textColor,
+                inputFont);
+        add(printHTMLButton);
+        layout.putConstraint(SpringLayout.NORTH, printHTMLButton, 10, SpringLayout.SOUTH, tableScrollPane);
+        layout.putConstraint(SpringLayout.EAST, printHTMLButton, 0, SpringLayout.EAST, tableScrollPane);
+
+        printXMLButton = new Button(bundle.getString("printMenuXML"),
+                buttonColor,
+                textColor,
+                inputFont);
+        add(printXMLButton);
+        layout.putConstraint(SpringLayout.NORTH, printXMLButton, 10, SpringLayout.SOUTH, tableScrollPane);
+        layout.putConstraint(SpringLayout.EAST, printXMLButton, -10, SpringLayout.WEST, printHTMLButton);
+
+        resetButton = new Button(bundle.getString("reset"),
+                buttonColor,
+                textColor,
+                inputFont);
+        add(resetButton);
+        layout.putConstraint(SpringLayout.NORTH, resetButton, 10, SpringLayout.SOUTH, tableScrollPane);
+        layout.putConstraint(SpringLayout.EAST, resetButton, -10, SpringLayout.WEST, printXMLButton);
+        resetButton.addActionListener((e) -> reset());
+    }
+
+    private void addItemAndClearInput() {
+        for (TextField textField : new TextField[]{measureUnit, quantity, description, vat, unitPrice, discount1, discount2}) {
+            if (Objects.equals(textField.getText(), "")) {
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                return;
+            }
+        }
+
+        try {
+            Integer.parseInt(quantity.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Short.parseShort(vat.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Double.parseDouble(unitPrice.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Float.parseFloat(discount1.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Float.parseFloat(discount2.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        tableModel.addRow(new Object[]{measureUnit.getText(),
+                quantity.getText(),
+                code.getText(),
+                description.getText(),
+                vat.getText(),
+                unitPrice.getText(),
+                discount1.getText(),
+                discount2.getText()});
+
+        handler.addItem(new Item(measureUnit.getText(),
+                Integer.parseInt(quantity.getText()),
+                code.getText(),
+                description.getText(),
+                Short.parseShort(vat.getText()),
+                Double.parseDouble(unitPrice.getText()),
+                Float.parseFloat(discount1.getText()),
+                Float.parseFloat(discount2.getText())));
+
+        for (TextField textField : new TextField[]{measureUnit, quantity, code, description, vat, unitPrice, discount1, discount2}) {
+            textField.setText("");
+        }
+    }
+
+    private void reset() {
+        for (TextField textField : new TextField[]{sellerName,
+                sellerAddress,
+                sellerPhone,
+                sellerEmail,
+                sellerRegister,
+                sellerSharedCapital,
+                customerName,
+                customerAddress,
+                customerPhone,
+                customerEmail,
+                customerRegister,
+                customerSharedCapital,
+                invoiceNumber,
+                invoiceDate,
+                invoiceDelivery,
+                invoiceTransport,
+                invoicePackaging,
+                invoicePayment,
+                invoiceNonDocumentedCost,
+                invoiceDocumentedCost,
+                invoiceInterests,
+                invoiceDeposit,
+                measureUnit,
+                quantity,
+                code,
+                description,
+                vat,
+                unitPrice,
+                discount1,
+                discount2}) {
+            textField.setText("");
+        }
+
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            tableModel.removeRow(row);
+        }
+
+        handler.reset();
     }
 
     private void showSellerDialog() {
         JDialog sellerDialog = new JDialog();
         sellerDialog.setTitle(bundle.getString("seller"));
         sellerDialog.setModal(true);
-        sellerDialog.setSize(400, 300);
+        sellerDialog.setSize(375, 325);
         sellerDialog.setResizable(false);
         sellerDialog.getContentPane().setBackground(mainWindowColor);
         SpringLayout layout = new SpringLayout();
@@ -315,14 +457,44 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.SOUTH, sellerSharedCapital, 0, SpringLayout.SOUTH, sellerCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, sellerSharedCapital, 5, SpringLayout.EAST, sellerCapitalLabel);
 
+        submitSellerButton = new Button(bundle.getString("submit"),
+                buttonColor,
+                textColor,
+                inputFont);
+        sellerDialog.add(submitSellerButton);
+        layout.putConstraint(SpringLayout.NORTH, submitSellerButton, 5, SpringLayout.SOUTH, sellerSharedCapital);
+        layout.putConstraint(SpringLayout.EAST, submitSellerButton, 0, SpringLayout.EAST, sellerPhone);
+        submitSellerButton.addActionListener((e) -> submitSeller());
+
         sellerDialog.show();
+    }
+
+    private void submitSeller() {
+        for (TextField textField : new TextField[]{sellerName,
+                sellerAddress,
+                sellerPhone,
+                sellerEmail,
+                sellerRegister,
+                sellerSharedCapital}) {
+            if (Objects.equals(textField.getText(), "")) {
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                return;
+            }
+        }
+
+        handler.setSeller(new String[]{sellerName.getText(),
+                sellerAddress.getText(),
+                sellerPhone.getText(),
+                sellerEmail.getText(),
+                sellerRegister.getText(),
+                sellerSharedCapital.getText()});
     }
 
     private void showCustomerDialog() {
         JDialog customerDialog = new JDialog();
         customerDialog.setTitle(bundle.getString("seller"));
         customerDialog.setModal(true);
-        customerDialog.setSize(400, 300);
+        customerDialog.setSize(375, 325);
         customerDialog.setResizable(false);
         customerDialog.getContentPane().setBackground(mainWindowColor);
         SpringLayout layout = new SpringLayout();
@@ -406,7 +578,37 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.SOUTH, customerSharedCapital, 0, SpringLayout.SOUTH, customerCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, customerSharedCapital, 5, SpringLayout.EAST, customerCapitalLabel);
 
+        submitCustomerButton = new Button(bundle.getString("submit"),
+                buttonColor,
+                textColor,
+                inputFont);
+        customerDialog.add(submitCustomerButton);
+        layout.putConstraint(SpringLayout.NORTH, submitCustomerButton, 5, SpringLayout.SOUTH, customerSharedCapital);
+        layout.putConstraint(SpringLayout.EAST, submitCustomerButton, 0, SpringLayout.EAST, customerPhone);
+        submitCustomerButton.addActionListener((e) -> submitCustomer());
+
         customerDialog.show();
+    }
+
+    private void submitCustomer() {
+        for (TextField textField : new TextField[]{customerName,
+                customerAddress,
+                customerPhone,
+                customerEmail,
+                customerRegister,
+                customerSharedCapital}) {
+            if (Objects.equals(textField.getText(), "")) {
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                return;
+            }
+        }
+
+        handler.setCustomer(new String[]{customerName.getText(),
+                customerAddress.getText(),
+                customerPhone.getText(),
+                customerEmail.getText(),
+                customerRegister.getText(),
+                customerSharedCapital.getText()});
     }
 
     private void showInvoiceInfoDialog() {
@@ -549,6 +751,73 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, invoiceDeposit, 5, SpringLayout.SOUTH, invoiceDepositLabel);
         layout.putConstraint(SpringLayout.WEST, invoiceDeposit, 5, SpringLayout.EAST, invoiceInterests);
 
+        submitInvoiceInfo = new Button(bundle.getString("submit"),
+                buttonColor,
+                textColor,
+                inputFont);
+        invoiceDialog.add(submitInvoiceInfo);
+        layout.putConstraint(SpringLayout.SOUTH, submitInvoiceInfo, 5, SpringLayout.SOUTH, invoiceDeposit);
+        layout.putConstraint(SpringLayout.EAST, submitInvoiceInfo, 5, SpringLayout.EAST, invoiceDocumentedCost);
+        submitInvoiceInfo.addActionListener((e) -> submitInvoice());
+
         invoiceDialog.show();
+    }
+
+    private void submitInvoice() {
+        for (TextField textField : new TextField[]{invoiceNumber,
+                invoiceDate,
+                invoiceDelivery,
+                invoiceTransport,
+                invoicePackaging,
+                invoicePayment,
+                invoiceNonDocumentedCost,
+                invoiceDocumentedCost,
+                invoiceInterests,
+                invoiceDeposit}) {
+            if (Objects.equals(textField.getText(), "")) {
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                return;
+            }
+        }
+
+        try {
+            Double.parseDouble(invoiceNonDocumentedCost.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Double.parseDouble(invoiceDocumentedCost.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Double.parseDouble(invoiceInterests.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Double.parseDouble(invoiceDeposit.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        handler.setNonDocumentedCost(Double.parseDouble(invoiceNonDocumentedCost.getText()));
+        handler.setDocumentedCost(Double.parseDouble(invoiceDocumentedCost.getText()));
+        handler.setInterests(Double.parseDouble(invoiceInterests.getText()));
+        handler.setDeposit(Double.parseDouble(invoiceDeposit.getText()));
+
+        handler.setInvoice(new String[]{invoiceNumber.getText(),
+                invoiceDate.getText(),
+                invoiceDelivery.getText(),
+                invoiceTransport.getText(),
+                invoicePackaging.getText(),
+                invoicePayment.getText()});
     }
 }

@@ -27,15 +27,6 @@ public class MenuBar extends JMenuBar {
     public JMenuItem fileSettingsItem;
     public JMenuItem fileExitItem;
 
-    public JMenuItem editUndoItem;
-    public JMenuItem editRedoItem;
-    public JMenuItem editCutItem;
-    public JMenuItem editCopyItem;
-    public JMenuItem editPasteItem;
-
-    public JMenuItem printHTMLItem;
-    public JMenuItem printXMLItem;
-
     public JMenuItem toolsPercentageCalcItem;
     public JMenuItem toolsInterestCalcItem;
     public JMenuItem toolsDiscountCalcItem;
@@ -94,48 +85,6 @@ public class MenuBar extends JMenuBar {
         fileMenu.add(fileExitItem);
 
         add(fileMenu);
-
-        JMenu editMenu = new JMenu(bundle.getString("menuBarEditMenu"));
-        setupMenu(editMenu);
-
-        editUndoItem = new JMenuItem(bundle.getString("editMenuUndo"));
-        setupMenuItem(editUndoItem);
-
-        editRedoItem = new JMenuItem(bundle.getString("editMenuRedo"));
-        setupMenuItem(editRedoItem);
-
-        editCutItem = new JMenuItem(bundle.getString("editMenuCut"));
-        setupMenuItem(editCutItem);
-
-        editCopyItem = new JMenuItem(bundle.getString("editMenuCopy"));
-        setupMenuItem(editCopyItem);
-
-        editPasteItem = new JMenuItem(bundle.getString("editMenuPaste"));
-        setupMenuItem(editPasteItem);
-
-        editMenu.add(editUndoItem);
-        editMenu.add(editRedoItem);
-        editMenu.addSeparator();
-        editMenu.add(editCutItem);
-        editMenu.add(editCopyItem);
-        editMenu.add(editPasteItem);
-
-        add(editMenu);
-
-        JMenu printMenu = new JMenu(bundle.getString("menuBarPrintMenu"));
-        setupMenu(printMenu);
-
-        printHTMLItem = new JMenuItem(bundle.getString("printMenuHTML"));
-        setupMenuItem(printHTMLItem);
-
-        printXMLItem = new JMenuItem(bundle.getString("printMenuXML"));
-        setupMenuItem(printXMLItem);
-
-        printMenu.add(printHTMLItem);
-        printMenu.addSeparator();
-        printMenu.add(printXMLItem);
-
-        add(printMenu);
 
         JMenu toolsMenu = new JMenu(bundle.getString("menuBarToolsMenu"));
         setupMenu(toolsMenu);
