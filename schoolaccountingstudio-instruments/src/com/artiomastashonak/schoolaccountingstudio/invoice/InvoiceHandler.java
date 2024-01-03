@@ -1,6 +1,7 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InvoiceHandler {
 
@@ -9,22 +10,45 @@ public class InvoiceHandler {
     private String[] invoice = new String[] {};
     private ArrayList<Item> items = new ArrayList<>(10);
     private double nonDocumentedCost = 0;
+    private double packagingCost = 0;
     private double documentedCost = 0;
     private double interests = 0;
     private double deposit = 0;
 
     public InvoiceHandler() { }
 
-    public long calculate() {
-        return 1L;
-    }
+    public double calculate() {
+        HashMap<Short, Double> itemsMap = new HashMap<>(4);
+        itemsMap.put((short) 4, 0.0);
+        itemsMap.put((short) 5, 0.0);
+        itemsMap.put((short) 10, 0.0);
+        itemsMap.put((short) 22, 0.0);
 
-    public void printHTML() {
+        for (Item item : items) {
+            itemsMap.put(item.vat(), itemsMap.get(item.vat()) + (100 - item.discount2())/100 * ((100 - item.discount1())/100 * (item.quantity() * item.price())));
+        }
 
-    }
+        double itemsSum = 0.0;
+        for (double value : itemsMap.values()) {
+            itemsSum += value;
+        }
 
-    public void printXML() {
+        double costCoefficient = nonDocumentedCost/itemsSum;
+        double packagingCoefficient = packagingCost/itemsSum;
 
+        itemsMap.forEach((key, value) -> {
+            itemsMap.put(key, itemsMap.get(key) + value * costCoefficient);
+            itemsMap.put(key, itemsMap.get(key) + value * packagingCoefficient);
+
+            itemsMap.put(key, itemsMap.get(key) * (100 + key)/100);
+        });
+
+        double semiResult = 0.0;
+        for (double value : itemsMap.values()) {
+            semiResult += value;
+        }
+
+        return Math.round((semiResult + documentedCost + interests + deposit) * 100.0)/100.0;
     }
 
     public void reset() {
@@ -33,9 +57,18 @@ public class InvoiceHandler {
         this.invoice = new String[] {};
         this.items = new ArrayList<>(10);
         this.nonDocumentedCost = 0;
+        this.packagingCost = 0;
         this.documentedCost = 0;
         this.interests = 0;
         this.deposit = 0;
+    }
+
+    public void printHTML() {
+
+    }
+
+    public void printXML() {
+
     }
 
     public String[] getSeller() {
@@ -76,6 +109,14 @@ public class InvoiceHandler {
 
     public void setNonDocumentedCost(double nonDocumentedCost) {
         this.nonDocumentedCost = nonDocumentedCost;
+    }
+
+    public double getPackagingCost() {
+        return packagingCost;
+    }
+
+    public void setPackagingCost(double packagingCost) {
+        this.packagingCost = packagingCost;
     }
 
     public double getDocumentedCost() {

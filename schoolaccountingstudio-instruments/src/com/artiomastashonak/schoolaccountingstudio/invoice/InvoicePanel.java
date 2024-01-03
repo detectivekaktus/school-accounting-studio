@@ -243,6 +243,7 @@ public final class InvoicePanel extends JPanel {
         add(printHTMLButton);
         layout.putConstraint(SpringLayout.NORTH, printHTMLButton, 10, SpringLayout.SOUTH, tableScrollPane);
         layout.putConstraint(SpringLayout.EAST, printHTMLButton, 0, SpringLayout.EAST, tableScrollPane);
+        printHTMLButton.addActionListener((e) -> System.out.println(handler.calculate()));
 
         printXMLButton = new Button(bundle.getString("printMenuXML"),
                 buttonColor,
@@ -802,6 +803,13 @@ public final class InvoicePanel extends JPanel {
         }
 
         try {
+            Double.parseDouble(invoicePackaging.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
             Double.parseDouble(invoiceDeposit.getText());
         } catch (Exception exception) {
             JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
@@ -809,6 +817,7 @@ public final class InvoicePanel extends JPanel {
         }
 
         handler.setNonDocumentedCost(Double.parseDouble(invoiceNonDocumentedCost.getText()));
+        handler.setPackagingCost(Double.parseDouble(invoicePackaging.getText()));
         handler.setDocumentedCost(Double.parseDouble(invoiceDocumentedCost.getText()));
         handler.setInterests(Double.parseDouble(invoiceInterests.getText()));
         handler.setDeposit(Double.parseDouble(invoiceDeposit.getText()));

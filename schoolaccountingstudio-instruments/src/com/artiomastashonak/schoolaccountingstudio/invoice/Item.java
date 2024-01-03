@@ -6,5 +6,5 @@ public record Item(String measureUnit,
                    String description,
                    short vat,
                    double price,
-                   float discount1,
-                   float discount2) { }
+                   double discount1,
+                   double discount2) { }
