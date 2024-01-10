@@ -31,6 +31,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField sellerAddress = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerPhone = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerEmail = new TextField(textInputColor, textColor, inputFont);
+    public final TextField sellerVatNumber = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerRegister = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerSharedCapital = new TextField(textInputColor, textColor, inputFont);
     private Button submitSellerButton;
@@ -40,6 +41,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField customerAddress = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerPhone = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerEmail = new TextField(textInputColor, textColor, inputFont);
+    public final TextField customerVatNumber = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerRegister = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerSharedCapital = new TextField(textInputColor, textColor, inputFont);
     private Button submitCustomerButton;
@@ -52,6 +54,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField invoicePackaging = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoicePayment = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceNonDocumentedCost = new TextField(textInputColor, textColor, inputFont);
+    public final TextField invoicePackagingCost = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceDocumentedCost = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceInterests = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceDeposit = new TextField(textInputColor, textColor, inputFont);
@@ -243,7 +246,7 @@ public final class InvoicePanel extends JPanel {
         add(printHTMLButton);
         layout.putConstraint(SpringLayout.NORTH, printHTMLButton, 10, SpringLayout.SOUTH, tableScrollPane);
         layout.putConstraint(SpringLayout.EAST, printHTMLButton, 0, SpringLayout.EAST, tableScrollPane);
-        printHTMLButton.addActionListener((e) -> System.out.println(handler.calculate()));
+        printHTMLButton.addActionListener(null);
 
         printXMLButton = new Button(bundle.getString("printMenuXML"),
                 buttonColor,
@@ -252,6 +255,14 @@ public final class InvoicePanel extends JPanel {
         add(printXMLButton);
         layout.putConstraint(SpringLayout.NORTH, printXMLButton, 10, SpringLayout.SOUTH, tableScrollPane);
         layout.putConstraint(SpringLayout.EAST, printXMLButton, -10, SpringLayout.WEST, printHTMLButton);
+        printXMLButton.addActionListener((e) -> {
+            int result = handler.printXML();
+            if (result == 0) {
+                JOptionPane.showInternalMessageDialog(null, "Invoice Successfully printed.");
+            } else {
+                JOptionPane.showInternalMessageDialog(null, "There was an error generating your invoice.");
+            }
+        });
 
         resetButton = new Button(bundle.getString("reset"),
                 buttonColor,
@@ -374,7 +385,7 @@ public final class InvoicePanel extends JPanel {
         JDialog sellerDialog = new JDialog();
         sellerDialog.setTitle(bundle.getString("seller"));
         sellerDialog.setModal(true);
-        sellerDialog.setSize(375, 325);
+        sellerDialog.setSize(375, 400);
         sellerDialog.setResizable(false);
         sellerDialog.getContentPane().setBackground(mainWindowColor);
         SpringLayout layout = new SpringLayout();
@@ -432,12 +443,25 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.SOUTH, sellerEmail, 0, SpringLayout.SOUTH, sellerEmailLabel);
         layout.putConstraint(SpringLayout.WEST, sellerEmail, 5, SpringLayout.EAST, sellerEmailLabel);
 
+        Label sellerVatNumberLabel = new Label(bundle.getString("vat"),
+                mainWindowColor,
+                textColor,
+                elementTitleFont);
+        sellerDialog.add(sellerVatNumberLabel);
+        layout.putConstraint(SpringLayout.NORTH, sellerVatNumberLabel, 5, SpringLayout.SOUTH, sellerEmailLabel);
+        layout.putConstraint(SpringLayout.WEST, sellerVatNumberLabel, 5, SpringLayout.WEST, sellerDialog);
+
+        sellerVatNumber.setColumns(12);
+        sellerDialog.add(sellerVatNumber);
+        layout.putConstraint(SpringLayout.SOUTH, sellerVatNumber, 0, SpringLayout.SOUTH, sellerVatNumberLabel);
+        layout.putConstraint(SpringLayout.WEST, sellerVatNumber, 5, SpringLayout.EAST, sellerVatNumberLabel);
+
         Label sellerRegisterLabel = new Label(bundle.getString("register"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
         sellerDialog.add(sellerRegisterLabel);
-        layout.putConstraint(SpringLayout.NORTH, sellerRegisterLabel, 5, SpringLayout.SOUTH, sellerEmailLabel);
+        layout.putConstraint(SpringLayout.NORTH, sellerRegisterLabel, 5, SpringLayout.SOUTH, sellerVatNumberLabel);
         layout.putConstraint(SpringLayout.WEST, sellerRegisterLabel, 5, SpringLayout.WEST, sellerDialog);
 
         sellerRegister.setColumns(12);
@@ -475,6 +499,7 @@ public final class InvoicePanel extends JPanel {
                 sellerAddress,
                 sellerPhone,
                 sellerEmail,
+                sellerVatNumber,
                 sellerRegister,
                 sellerSharedCapital}) {
             if (Objects.equals(textField.getText(), "")) {
@@ -487,15 +512,16 @@ public final class InvoicePanel extends JPanel {
                 sellerAddress.getText(),
                 sellerPhone.getText(),
                 sellerEmail.getText(),
+                sellerVatNumber.getText(),
                 sellerRegister.getText(),
                 sellerSharedCapital.getText()});
     }
 
     private void showCustomerDialog() {
         JDialog customerDialog = new JDialog();
-        customerDialog.setTitle(bundle.getString("seller"));
+        customerDialog.setTitle(bundle.getString("customer"));
         customerDialog.setModal(true);
-        customerDialog.setSize(375, 325);
+        customerDialog.setSize(375, 400);
         customerDialog.setResizable(false);
         customerDialog.getContentPane().setBackground(mainWindowColor);
         SpringLayout layout = new SpringLayout();
@@ -553,12 +579,25 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.SOUTH, customerEmail, 0, SpringLayout.SOUTH, customerEmailLabel);
         layout.putConstraint(SpringLayout.WEST, customerEmail, 5, SpringLayout.EAST, customerEmailLabel);
 
+        Label customerVatNumberLabel = new Label(bundle.getString("vat"),
+                mainWindowColor,
+                textColor,
+                elementTitleFont);
+        customerDialog.add(customerVatNumberLabel);
+        layout.putConstraint(SpringLayout.NORTH, customerVatNumberLabel, 5, SpringLayout.SOUTH, customerEmailLabel);
+        layout.putConstraint(SpringLayout.WEST, customerVatNumberLabel, 5, SpringLayout.WEST, customerDialog);
+
+        customerVatNumber.setColumns(12);
+        customerDialog.add(customerVatNumber);
+        layout.putConstraint(SpringLayout.SOUTH, customerVatNumber, 0, SpringLayout.SOUTH, customerVatNumberLabel);
+        layout.putConstraint(SpringLayout.WEST, customerVatNumber, 5, SpringLayout.EAST, customerVatNumberLabel);
+
         Label customerRegisterLabel = new Label(bundle.getString("register"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
         customerDialog.add(customerRegisterLabel);
-        layout.putConstraint(SpringLayout.NORTH, customerRegisterLabel, 5, SpringLayout.SOUTH, customerEmailLabel);
+        layout.putConstraint(SpringLayout.NORTH, customerRegisterLabel, 5, SpringLayout.SOUTH, customerVatNumberLabel);
         layout.putConstraint(SpringLayout.WEST, customerRegisterLabel, 5, SpringLayout.WEST, customerDialog);
 
         customerRegister.setColumns(12);
@@ -596,6 +635,7 @@ public final class InvoicePanel extends JPanel {
                 customerAddress,
                 customerPhone,
                 customerEmail,
+                customerVatNumber,
                 customerRegister,
                 customerSharedCapital}) {
             if (Objects.equals(textField.getText(), "")) {
@@ -608,6 +648,7 @@ public final class InvoicePanel extends JPanel {
                 customerAddress.getText(),
                 customerPhone.getText(),
                 customerEmail.getText(),
+                customerVatNumber.getText(),
                 customerRegister.getText(),
                 customerSharedCapital.getText()});
     }
@@ -713,38 +754,51 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, invoiceNonDocumentedCost, 5, SpringLayout.SOUTH, invoiceNonDocumentedCostLabel);
         layout.putConstraint(SpringLayout.WEST, invoiceNonDocumentedCost, 5, SpringLayout.EAST, invoicePayment);
 
+        Label invoicePackagingCostLabel = new Label(bundle.getString("packaging"),
+                mainWindowColor,
+                textColor,
+                elementTitleFont);
+        invoiceDialog.add(invoicePackagingCostLabel);
+        layout.putConstraint(SpringLayout.NORTH, invoicePackagingCostLabel, 5, SpringLayout.SOUTH, invoiceTransport);
+        layout.putConstraint(SpringLayout.WEST, invoicePackagingCostLabel,5, SpringLayout.EAST, invoiceNonDocumentedCost);
+
+        invoicePackagingCost.setColumns(12);
+        invoiceDialog.add(invoicePackagingCost);
+        layout.putConstraint(SpringLayout.NORTH, invoicePackagingCost, 5, SpringLayout.SOUTH, invoicePackagingCostLabel);
+        layout.putConstraint(SpringLayout.WEST, invoicePackagingCost, 5, SpringLayout.EAST, invoiceNonDocumentedCost);
+
         Label invoiceDocumentedCostLabel = new Label(bundle.getString("documentedCost"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
         invoiceDialog.add(invoiceDocumentedCostLabel);
-        layout.putConstraint(SpringLayout.NORTH, invoiceDocumentedCostLabel, 5, SpringLayout.SOUTH, invoiceTransport);
-        layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCostLabel, 5, SpringLayout.EAST, invoiceNonDocumentedCost);
+        layout.putConstraint(SpringLayout.NORTH, invoiceDocumentedCostLabel, 5, SpringLayout.SOUTH, invoicePackaging);
+        layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCostLabel, 5, SpringLayout.WEST, invoiceDialog);
 
         invoiceDocumentedCost.setColumns(12);
         invoiceDialog.add(invoiceDocumentedCost);
         layout.putConstraint(SpringLayout.NORTH, invoiceDocumentedCost, 5, SpringLayout.SOUTH, invoiceDocumentedCostLabel);
-        layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCost, 5, SpringLayout.EAST, invoiceNonDocumentedCost);
+        layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCost, 5, SpringLayout.WEST, invoiceDialog);
 
         Label invoiceInterestLabel = new Label(bundle.getString("interests"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
         invoiceDialog.add(invoiceInterestLabel);
-        layout.putConstraint(SpringLayout.NORTH, invoiceInterestLabel, 5, SpringLayout.SOUTH, invoicePackaging);
-        layout.putConstraint(SpringLayout.WEST, invoiceInterestLabel, 5, SpringLayout.WEST, invoiceDialog);
+        layout.putConstraint(SpringLayout.NORTH, invoiceInterestLabel, 5, SpringLayout.SOUTH, invoicePayment);
+        layout.putConstraint(SpringLayout.WEST, invoiceInterestLabel, 5, SpringLayout.EAST, invoiceDocumentedCost);
 
         invoiceInterests.setColumns(12);
         invoiceDialog.add(invoiceInterests);
         layout.putConstraint(SpringLayout.NORTH, invoiceInterests, 5, SpringLayout.SOUTH, invoiceInterestLabel);
-        layout.putConstraint(SpringLayout.WEST, invoiceInterestLabel, 5, SpringLayout.WEST, invoiceDialog);
+        layout.putConstraint(SpringLayout.WEST, invoiceInterests, 5, SpringLayout.EAST, invoiceDocumentedCost);
 
         Label invoiceDepositLabel = new Label(bundle.getString("deposit"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
         invoiceDialog.add(invoiceDepositLabel);
-        layout.putConstraint(SpringLayout.NORTH, invoiceDepositLabel, 5, SpringLayout.SOUTH, invoicePayment);
+        layout.putConstraint(SpringLayout.NORTH, invoiceDepositLabel, 5, SpringLayout.SOUTH, invoiceNonDocumentedCost);
         layout.putConstraint(SpringLayout.WEST, invoiceDepositLabel, 5, SpringLayout.EAST, invoiceInterests);
 
         invoiceDeposit.setColumns(12);
@@ -758,7 +812,7 @@ public final class InvoicePanel extends JPanel {
                 inputFont);
         invoiceDialog.add(submitInvoiceInfo);
         layout.putConstraint(SpringLayout.SOUTH, submitInvoiceInfo, 5, SpringLayout.SOUTH, invoiceDeposit);
-        layout.putConstraint(SpringLayout.EAST, submitInvoiceInfo, 5, SpringLayout.EAST, invoiceDocumentedCost);
+        layout.putConstraint(SpringLayout.EAST, submitInvoiceInfo, 5, SpringLayout.EAST, invoicePackagingCost);
         submitInvoiceInfo.addActionListener((e) -> submitInvoice());
 
         invoiceDialog.show();
@@ -772,6 +826,7 @@ public final class InvoicePanel extends JPanel {
                 invoicePackaging,
                 invoicePayment,
                 invoiceNonDocumentedCost,
+                invoicePackagingCost,
                 invoiceDocumentedCost,
                 invoiceInterests,
                 invoiceDeposit}) {
@@ -783,6 +838,13 @@ public final class InvoicePanel extends JPanel {
 
         try {
             Double.parseDouble(invoiceNonDocumentedCost.getText());
+        } catch (Exception exception) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            return;
+        }
+
+        try {
+            Double.parseDouble(invoicePackagingCost.getText());
         } catch (Exception exception) {
             JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
             return;
@@ -803,13 +865,6 @@ public final class InvoicePanel extends JPanel {
         }
 
         try {
-            Double.parseDouble(invoicePackaging.getText());
-        } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
-            return;
-        }
-
-        try {
             Double.parseDouble(invoiceDeposit.getText());
         } catch (Exception exception) {
             JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
@@ -817,7 +872,7 @@ public final class InvoicePanel extends JPanel {
         }
 
         handler.setNonDocumentedCost(Double.parseDouble(invoiceNonDocumentedCost.getText()));
-        handler.setPackagingCost(Double.parseDouble(invoicePackaging.getText()));
+        handler.setPackagingCost(Double.parseDouble(invoicePackagingCost.getText()));
         handler.setDocumentedCost(Double.parseDouble(invoiceDocumentedCost.getText()));
         handler.setInterests(Double.parseDouble(invoiceInterests.getText()));
         handler.setDeposit(Double.parseDouble(invoiceDeposit.getText()));

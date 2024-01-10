@@ -67,8 +67,27 @@ public class InvoiceHandler {
 
     }
 
-    public void printXML() {
+    public int printXML() {
+        XMLInvoicePrinter printer = new XMLInvoicePrinter(this);
+        try {
+            printer.addNumber()
+                    .addDate()
+                    .addSeller()
+                    .addCustomer()
+                    .addDelivery()
+                    .addTransport()
+                    .addPackaging()
+                    .addPayment()
+                    .addItems()
+                    .addNonDocumentedCost()
+                    .addPackagingCost()
+                    .addDocumentedCost()
+                    .addInterests()
+                    .addDeposit()
+                    .addTotal();
 
+        } catch (Exception e) { }
+        return printer.print();
     }
 
     public String[] getSeller() {
