@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --primary-color: #34ebcf;
+    --accent-color: #11806f;
+    --text-color: #000000;
+    --bright-text-color: #ffffff;
+    --white-accent-color: #e7e7e7;
+    --disabled-color: #bdbdbd;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+.break {
+    margin-bottom: 1em;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+
+table thead {
+    font-size: 1.5em;
+    font-weight: 600;
+    background-color: var(--accent-color);
+    color: var(--bright-text-color);
+}
+
+table tr,
+table th,
+table td {
+    padding: .5em .5em;
+    border-bottom: 1px solid var(--disabled-color);
+}
+
+.document {
+    margin: 0 auto;
+    width: 50%;
+    padding: .5em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .25);
+    border-bottom: 1px solid var(--disabled-color);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-color);
+    justify-content: flex-end;
+}
+
+.seller-customer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5em;
+}
+
+.seller-customer h3 {
+    font-weight: 800;
+    color: var(--accent-color);
+}
+
+.seller {
+    text-align: left;
+}
+
+.customer {
+    text-align: right;
+}
+
+.items tbody tr:nth-of-type(even) {
+    background-color: var(--white-accent-color);
+}
+
+@media print {
+    .document {
+        padding: 0;
+        width: 100%;
+    }
+
+    .seller-customer {
+        font-size: 1em;
+    }
+
+    .seller-customer h3 {
+        font-weight: 800;
+        font-size: 1.15em;
+        color: var(--accent-color);
+    }
+
+    table thead {
+        font-size: 1.2em;
+    }
+}

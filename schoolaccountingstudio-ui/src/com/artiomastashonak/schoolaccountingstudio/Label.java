@@ -7,7 +7,7 @@ import java.awt.Font;
 
 public class Label extends JLabel {
 
-    public Label(String text, Font font, Color textColor, @Nullable Color backgroundColor) {
+    public Label(String text, @Nullable Color backgroundColor, Color textColor, Font font) {
         setHorizontalAlignment(LEFT);
         setVerticalAlignment(TOP);
         setForeground(textColor);

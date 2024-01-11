@@ -1,52 +1,38 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
+import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Font;
-import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainWindow {
 
+    public static Locale LOCALE = Locale.ENGLISH;
+    public static ResourceBundle BUNDLE = ResourceBundle.getBundle("strings/strings", LOCALE);
+
     public static void main(String[] args) {
+        Window window = new Window(new ImageIcon(), BUNDLE);
 
-        Runnable mainWindowRunnable = () -> {
-            Window window = new Window(new ImageIcon());
+        CardLayout cardLayout = new CardLayout();
 
-            File[] directories = {new File("generated/invoices/")};
-            FileManager fileManager = new FileManager(directories);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(cardLayout);
 
-            JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new CardLayout());
+        InvoicePanel invoicePanel = new InvoicePanel(BUNDLE);
+        JScrollPane invoice = new JScrollPane(invoicePanel);
+        invoice.setBorder(null);
 
-            JPanel welcomePanel = new JPanel();
-            welcomePanel.setLayout(new BorderLayout());
+        mainPanel.add(invoice, "INVOICE");
 
-            JPanel welcomeNavigationPanel = new JPanel();
-            welcomeNavigationPanel.setLayout(new BoxLayout(welcomeNavigationPanel, BoxLayout.Y_AXIS));
-            welcomeNavigationPanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
-            welcomeNavigationPanel.setForeground(DarkThemeColors.PRIMARY_TEXT_COLOR.color);
+        cardLayout.show(mainPanel, "INVOICE");
 
-            Label welcomeLabel = new Label(StringsEN.WELCOME_MESSAGE.value, new Font("K2D", Font.PLAIN, TextSizes.WELCOME_TITLE_TEXT_SIZE.size), DarkThemeColors.PRIMARY_TEXT_COLOR.color, DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
-            welcomeNavigationPanel.add(welcomeLabel);
+        window.add(mainPanel, BorderLayout.CENTER);
 
-            Button invoiceCreateButton = new Button(StringsEN.INVOICE_CREATE_BUTTON_ACTION.value, new Font("K2D", Font.ITALIC, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color);
-            invoiceCreateButton.setBorder(null);
-            welcomeNavigationPanel.add(invoiceCreateButton);
-
-            welcomePanel.add(welcomeNavigationPanel, BorderLayout.CENTER);
-            mainPanel.add(welcomePanel, "WELCOME_PANEL");
-
-            window.add(fileManager, BorderLayout.WEST);
-            window.add(mainPanel, BorderLayout.CENTER);
-
-            window.setVisible(true);
-        };
-
-        Thread mainWindowThread = new Thread(mainWindowRunnable);
-        mainWindowThread.start();
+        window.setVisible(true);
     }
 
 }

@@ -10,7 +10,7 @@ UI and UX are made with the Java Swing framework, with modifications to facilita
 * ### Document generation
 Document generation is implemented mostly with Java programming language due to its simple and various ways of implementing the file writing system and SQLite database calls are made with Python programming language because of its simple features to operate with databases.
 * ### Dependencies
-The dependencies used in the project are the dependencies from JetBrains annotation module.
+1. Java JUNit 5.8.1. A library necessary for test writing the test cases for a java program.
 ## Requirements
 In order to run the application for end user, you have to have installed the following things on your computer:
 1. Java Virtual Machine. Any distribution higher than Java 18.0 is fine.

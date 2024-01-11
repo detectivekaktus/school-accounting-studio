@@ -8,7 +8,7 @@ import java.awt.Dimension;
 
 public class Button extends JButton {
 
-    public Button(String text, Font font, Color backogrundColor, Color textColor) {
+    public Button(String text, Color backogrundColor, Color textColor, Font font) {
         setText(text);
         setBackground(backogrundColor);
         setForeground(textColor);
@@ -27,7 +27,7 @@ public class Button extends JButton {
         setOpaque(true);
     }
 
-    public Button(ImageIcon icon, String text, Font font, Color backgroundColor, Color textColor) {
+    public Button(ImageIcon icon, String text, Color backgroundColor, Color textColor, Font font) {
         setIcon(icon);
         setText(text);
         setBackground(backgroundColor);
