@@ -124,6 +124,7 @@ public class XMLInvoicePrinter {
             writer.write(document);
             writer.close();
         } catch (Exception e) {
+            reset();
             return -1;
         }
 

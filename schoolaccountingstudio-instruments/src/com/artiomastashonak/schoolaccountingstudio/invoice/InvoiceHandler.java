@@ -63,8 +63,17 @@ public class InvoiceHandler {
         this.deposit = 0;
     }
 
-    public void printHTML() {
-
+    public int printHTML() {
+        HTMLInvoicePrinter printer = new HTMLInvoicePrinter(this);
+        try {
+            printer.addHeader()
+                    .addSeller()
+                    .addCustomer()
+                    .addInformation()
+                    .addItems()
+                    .addCostInformation();
+        } catch (Exception e) { }
+        return printer.print();
     }
 
     public int printXML() {

@@ -246,7 +246,14 @@ public final class InvoicePanel extends JPanel {
         add(printHTMLButton);
         layout.putConstraint(SpringLayout.NORTH, printHTMLButton, 10, SpringLayout.SOUTH, tableScrollPane);
         layout.putConstraint(SpringLayout.EAST, printHTMLButton, 0, SpringLayout.EAST, tableScrollPane);
-        printHTMLButton.addActionListener(null);
+        printHTMLButton.addActionListener((e) -> {
+            int result = handler.printHTML();
+            if (result == 0) {
+                JOptionPane.showInternalMessageDialog(null, "Invoice Successfully printed.");
+            } else {
+                JOptionPane.showInternalMessageDialog(null, "There was an error generating your invoice.");
+            }
+        });
 
         printXMLButton = new Button(bundle.getString("printMenuXML"),
                 buttonColor,
