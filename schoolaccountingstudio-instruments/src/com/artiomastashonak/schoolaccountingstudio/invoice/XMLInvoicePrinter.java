@@ -1,6 +1,7 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 
 public class XMLInvoicePrinter {
@@ -119,6 +120,8 @@ public class XMLInvoicePrinter {
 
     public int print() {
         document += "</invoice>";
+        File outputDir = new File(OUTPUT_DIRECTORY);
+        outputDir.mkdirs();
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_DIRECTORY + String.format("/invoice_n_%s_to_%s", handler.getInvoice()[0], handler.getCustomer()[0]) + ".xml"));
             writer.write(document);

@@ -30,4 +30,4 @@ bin/
 
 ### Platform independent ###
 log/
-generated/invoices/*
+generated/*
