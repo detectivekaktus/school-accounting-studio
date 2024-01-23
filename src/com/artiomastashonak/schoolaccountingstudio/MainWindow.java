@@ -1,12 +1,13 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
-import com.artiomastashonak.schoolaccountingstudio.interests.InterestDialog;
+import com.artiomastashonak.schoolaccountingstudio.interests.InterestTotAmountDialog;
 import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.KeyEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -20,7 +21,7 @@ public class MainWindow {
         MenuBar menuBar = new MenuBar(BUNDLE);
         window.setJMenuBar(menuBar);
 
-        menuBar.toolsInterestCalcItem.addActionListener((e) -> new InterestDialog(BUNDLE));
+        menuBar.toolsInterestCalcItem.addActionListener((e) -> new InterestTotAmountDialog(BUNDLE));
 
         CardLayout cardLayout = new CardLayout();
 
