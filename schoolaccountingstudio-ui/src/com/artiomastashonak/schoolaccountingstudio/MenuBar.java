@@ -27,7 +27,7 @@ public class MenuBar extends JMenuBar {
     public JMenuItem fileSettingsItem;
     public JMenuItem fileExitItem;
 
-    public JMenuItem toolsPercentageCalcItem;
+    public JMenuItem toolsProportionCalcItem;
     public JMenuItem toolsInterestCalcItem;
     public JMenuItem toolsDiscountCalcItem;
 
@@ -89,8 +89,13 @@ public class MenuBar extends JMenuBar {
         JMenu toolsMenu = new JMenu(bundle.getString("menuBarToolsMenu"));
         setupMenu(toolsMenu);
 
-        toolsPercentageCalcItem = new JMenuItem(bundle.getString("toolsMenuPercentageCalculator"));
-        setupMenuItem(toolsPercentageCalcItem);
+        JMenu mathematicalMenu = new JMenu("Mathematical instruments");
+        setupMenu(mathematicalMenu);
+
+        toolsProportionCalcItem = new JMenuItem("Proportion calculator");
+        setupMenuItem(toolsProportionCalcItem);
+
+        mathematicalMenu.add(toolsProportionCalcItem);
 
         toolsInterestCalcItem = new JMenuItem(bundle.getString("toolsMenuInterestCalculator"));
         setupMenuItem(toolsInterestCalcItem);
@@ -98,7 +103,7 @@ public class MenuBar extends JMenuBar {
         toolsDiscountCalcItem = new JMenuItem(bundle.getString("toolsMenuCommercialDiscountCalculator"));
         setupMenuItem(toolsDiscountCalcItem);
 
-        toolsMenu.add(toolsPercentageCalcItem);
+        toolsMenu.add(mathematicalMenu);
         toolsMenu.addSeparator();
         toolsMenu.add(toolsInterestCalcItem);
         toolsMenu.addSeparator();
@@ -142,6 +147,7 @@ public class MenuBar extends JMenuBar {
         menu.setForeground(foregroundColor);
         menu.getPopupMenu().setBorder(null);
         menu.setBorder(null);
+        menu.setOpaque(true);
     }
 
     private void setupMenuItem(@NotNull JMenuItem menuItem) {
@@ -150,6 +156,7 @@ public class MenuBar extends JMenuBar {
         menuItem.setForeground(foregroundColor);
         menuItem.setBorderPainted(false);
         menuItem.setBorder(null);
+        menuItem.setOpaque(true);
     }
 
 }

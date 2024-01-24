@@ -1,4 +1,4 @@
-package com.artiomastashonak.schoolaccountingstudio.interests;
+package com.artiomastashonak.schoolaccountingstudio.interest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

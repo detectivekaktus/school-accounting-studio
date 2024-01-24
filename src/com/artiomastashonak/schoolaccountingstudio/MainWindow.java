@@ -1,8 +1,9 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
 import com.artiomastashonak.schoolaccountingstudio.discount.DiscountPresentValueDialog;
-import com.artiomastashonak.schoolaccountingstudio.interests.InterestTotAmountDialog;
+import com.artiomastashonak.schoolaccountingstudio.interest.InterestTotAmountDialog;
 import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
+import com.artiomastashonak.schoolaccountingstudio.proportion.ProportionDialog;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,6 +24,7 @@ public class MainWindow {
 
         menuBar.toolsInterestCalcItem.addActionListener((e) -> new InterestTotAmountDialog(BUNDLE));
         menuBar.toolsDiscountCalcItem.addActionListener((e) -> new DiscountPresentValueDialog(BUNDLE));
+        menuBar.toolsProportionCalcItem.addActionListener((e) -> new ProportionDialog(BUNDLE));
 
         CardLayout cardLayout = new CardLayout();
 
