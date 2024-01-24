@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 
 public class InterestTotAmountDialog extends JDialog {
     private ResourceBundle bundle;
-    private InterestHandler interestHandler = new InterestHandler();
-    private TotalAmountHandler totalAmountHandler = new TotalAmountHandler();
+    private final InterestHandler interestHandler = new InterestHandler();
+    private final TotalAmountHandler totalAmountHandler = new TotalAmountHandler();
     private final Color mainWindowColor = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
     private final Color textInputColor = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
     private final Color buttonColor = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
