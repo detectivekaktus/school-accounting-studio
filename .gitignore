@@ -30,4 +30,5 @@ bin/
 
 ### Platform independent ###
 log/
-generated/invoices/*
+generated/invoices/xml/*
+generated/invoices/html/*

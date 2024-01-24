@@ -23,7 +23,6 @@ public class Window extends JFrame {
         getContentPane().setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
         setTitle(bundle.getString("applicationName"));
         setIconImage(icon.getImage());
-        setJMenuBar(menuBar);
     }
 
 }

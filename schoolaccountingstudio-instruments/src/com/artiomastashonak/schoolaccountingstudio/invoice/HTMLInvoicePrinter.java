@@ -99,9 +99,10 @@ public class HTMLInvoicePrinter {
             document += "\t\t\t\t<tr>\n";
             document += String.format("\t\t\t\t\t<th>%s %d</th>\n", item.measureUnit(), item.quantity());
             document += String.format("\t\t\t\t\t<th>%s</th>\n", item.description());
+            document += String.format("\t\t\t\t\t<th>%d</th>\n", item.vat());
             document += String.format("\t\t\t\t\t<th>%.2f&euro;</th>\n", item.price());
-            document += String.format("\t\t\t\t\t<th>%.2f&euro;</th>\n", item.discount1());
-            document += String.format("\t\t\t\t\t<th>%.2f&euro;</th>\n", item.discount2());
+            document += String.format("\t\t\t\t\t<th>%.2f</th>\n", item.discount1());
+            document += String.format("\t\t\t\t\t<th>%.2f</th>\n", item.discount2());
             document += "\t\t\t\t</tr>\n";
         }
 
@@ -110,7 +111,7 @@ public class HTMLInvoicePrinter {
                     "\t\t\t\t\t<th></th>\n" +
                     "\t\t\t\t\t<th>Non documented cost</th>\n" +
                     "\t\t\t\t\t<th></th>\n";
-            document += String.format("\t\t\t\t\t<th>%.2f&euro\n", handler.getNonDocumentedCost());
+            document += String.format("\t\t\t\t\t<th>%.2f&euro;\n", handler.getNonDocumentedCost());
             document += "\t\t\t\t\t<th></th>\n" +
                     "\t\t\t\t\t<th></th>\n" +
                     "\t\t\t\t</tr>\n";
@@ -121,7 +122,7 @@ public class HTMLInvoicePrinter {
                     "\t\t\t\t\t<th></th>\n" +
                     "\t\t\t\t\t<th>Packaging cost</th>\n" +
                     "\t\t\t\t\t<th></th>\n";
-            document += String.format("\t\t\t\t\t<th>%.2f&euro\n", handler.getPackagingCost());
+            document += String.format("\t\t\t\t\t<th>%.2f&euro;\n", handler.getPackagingCost());
             document += "\t\t\t\t\t<th></th>\n" +
                     "\t\t\t\t\t<th></th>\n" +
                     "\t\t\t\t</tr>\n";
