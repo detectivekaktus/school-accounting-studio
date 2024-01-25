@@ -5,6 +5,7 @@ import com.artiomastashonak.schoolaccountingstudio.DarkThemeColors;
 import com.artiomastashonak.schoolaccountingstudio.Label;
 import com.artiomastashonak.schoolaccountingstudio.TextField;
 import com.artiomastashonak.schoolaccountingstudio.TextSizes;
+import com.artiomastashonak.schoolaccountingstudio.exceptions.NoSolutionException;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ResourceBundle;
@@ -12,6 +13,7 @@ import java.util.ResourceBundle;
 public class ProportionDialog extends JDialog {
 
     private ResourceBundle bundle;
+    private final Proportion proportion = new Proportion();
     private final Color MAIN_WINDOW_COLOR = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
     private final Color TEXT_INPUT_COLOR = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
     private final Color BUTTON_COLOR = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
@@ -20,7 +22,7 @@ public class ProportionDialog extends JDialog {
     private final Font INPUT_FONT = new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
 
     private final TextField firstTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
-    private final TextField secondtTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
+    private final TextField secondTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
     private final TextField thirdTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
     private final TextField fourthTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
 
@@ -55,18 +57,18 @@ public class ProportionDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, firstIsToLabel, 0, SpringLayout.NORTH, firstTermTextField);
         layout.putConstraint(SpringLayout.WEST, firstIsToLabel, 5, SpringLayout.EAST, firstTermTextField);
 
-        secondtTermTextField.setColumns(5);
-        add(secondtTermTextField);
-        layout.putConstraint(SpringLayout.NORTH, secondtTermTextField, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
-        layout.putConstraint(SpringLayout.WEST, secondtTermTextField, 5, SpringLayout.EAST, firstIsToLabel);
+        secondTermTextField.setColumns(5);
+        add(secondTermTextField);
+        layout.putConstraint(SpringLayout.NORTH, secondTermTextField, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
+        layout.putConstraint(SpringLayout.WEST, secondTermTextField, 5, SpringLayout.EAST, firstIsToLabel);
 
         Label asLabel = new Label("=",
                 MAIN_WINDOW_COLOR,
                 TEXT_COLOR,
                 INPUT_FONT);
         add(asLabel);
-        layout.putConstraint(SpringLayout.NORTH, asLabel, 0, SpringLayout.NORTH, secondtTermTextField);
-        layout.putConstraint(SpringLayout.WEST, asLabel, 5, SpringLayout.EAST, secondtTermTextField);
+        layout.putConstraint(SpringLayout.NORTH, asLabel, 0, SpringLayout.NORTH, secondTermTextField);
+        layout.putConstraint(SpringLayout.WEST, asLabel, 5, SpringLayout.EAST, secondTermTextField);
 
         thirdTermTextField.setColumns(5);
         add(thirdTermTextField);
@@ -90,6 +92,19 @@ public class ProportionDialog extends JDialog {
                 BUTTON_COLOR,
                 TEXT_COLOR,
                 INPUT_FONT);
+        solveButton.addActionListener((e) -> {
+            try {
+                if (composeProportion() == -1) return;
+                double result = proportion.solve();
+                if (Double.isNaN(result)) {
+                    JOptionPane.showInternalMessageDialog(null, "No solution found because the proportion is invalid.");
+                    return;
+                }
+                JOptionPane.showInternalMessageDialog(null, String.format("The solution is: %.2f.", result));
+            } catch (NoSolutionException nse) {
+                JOptionPane.showInternalMessageDialog(null, "No solution found because the proportion is invalid.");
+            }
+        });
         add(solveButton);
         layout.putConstraint(SpringLayout.SOUTH, solveButton, -25, SpringLayout.SOUTH, getContentPane());
         layout.putConstraint(SpringLayout.EAST, solveButton, -10, SpringLayout.EAST, getContentPane());
@@ -98,10 +113,44 @@ public class ProportionDialog extends JDialog {
                 BUTTON_COLOR,
                 TEXT_COLOR,
                 INPUT_FONT);
+        resetButton.addActionListener((e) -> {
+            resetInput();
+            proportion.reset();
+        });
         add(resetButton);
         layout.putConstraint(SpringLayout.NORTH, resetButton, 0, SpringLayout.NORTH, solveButton);
         layout.putConstraint(SpringLayout.EAST, resetButton, -10, SpringLayout.WEST, solveButton);
 
         show();
+    }
+
+    private int composeProportion() {
+        int termsToFind = 0;
+        for (TextField textField : new TextField[]{firstTermTextField, secondTermTextField, thirdTermTextField, fourthTermTextField}) {
+            try {
+                Double.parseDouble(textField.getText());
+            } catch (Exception exception) {
+                termsToFind++;
+            }
+        }
+        if (termsToFind != 1) {
+            JOptionPane.showInternalMessageDialog(null, "The proportion is either composed already or unsolvable.");
+            return -1;
+        }
+        try {
+            proportion.setA(Double.parseDouble(firstTermTextField.getText()));
+            proportion.setB(Double.parseDouble(secondTermTextField.getText()));
+            proportion.setC(Double.parseDouble(thirdTermTextField.getText()));
+            proportion.setD(Double.parseDouble(fourthTermTextField.getText()));
+        } catch (Exception e) { }
+
+        return 0;
+    }
+
+    private void resetInput() {
+        for (TextField textField : new TextField[]{firstTermTextField, secondTermTextField, thirdTermTextField, fourthTermTextField}) {
+            textField.setText("");
+        }
+        proportion.reset();
     }
 }
