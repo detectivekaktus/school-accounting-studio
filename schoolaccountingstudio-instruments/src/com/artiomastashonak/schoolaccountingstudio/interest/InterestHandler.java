@@ -1,4 +1,4 @@
-package com.artiomastashonak.schoolaccountingstudio.interests;
+package com.artiomastashonak.schoolaccountingstudio.interest;
 
 public class InterestHandler {
 
