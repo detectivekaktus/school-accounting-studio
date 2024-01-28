@@ -1,12 +1,10 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
 import org.jetbrains.annotations.NotNull;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Desktop;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,9 +19,6 @@ public class MenuBar extends JMenuBar {
     private final Color backgroundColor = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
 
     public JMenuItem fileCreateInvoice;
-    public JMenuItem fileOpenInvoice;
-    public JMenuItem fileSaveAsItem;
-    public JMenuItem fileSaveItem;
     public JMenuItem fileSettingsItem;
     public JMenuItem fileExitItem;
 
@@ -45,79 +40,72 @@ public class MenuBar extends JMenuBar {
         setBorderPainted(false);
 
         JMenu fileMenu = new JMenu(bundle.getString("menuBarFileMenu"));
+        fileMenu.setMnemonic(KeyEvent.VK_F);
         setupMenu(fileMenu);
 
         JMenu fileCreateMenu = new JMenu(bundle.getString("fileMenuCreate"));
-        fileCreateMenu.setOpaque(true);
+        fileCreateMenu.setMnemonic(KeyEvent.VK_C);
         setupMenu(fileCreateMenu);
         fileCreateInvoice = new JMenuItem(bundle.getString("fileMenuInvoice"));
+        fileCreateInvoice.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         setupMenuItem(fileCreateInvoice);
         fileCreateMenu.add(fileCreateInvoice);
 
-        JMenu fileOpenMenu = new JMenu(bundle.getString("fileMenuOpen"));
-        fileOpenMenu.setOpaque(true);
-        setupMenu(fileOpenMenu);
-        fileOpenInvoice = new JMenuItem(bundle.getString("fileMenuInvoice"));
-        setupMenuItem(fileOpenInvoice);
-        fileOpenMenu.add(fileOpenInvoice);
-
-        fileSaveAsItem = new JMenuItem(bundle.getString("fileMenuSaveAs"));
-        setupMenuItem(fileSaveAsItem);
-
-        fileSaveItem = new JMenuItem(bundle.getString("fileMenuSave"));
-        setupMenuItem(fileSaveItem);
-
         fileSettingsItem = new JMenuItem(bundle.getString("fileMenuSettings"));
+        fileSettingsItem.setMnemonic(KeyEvent.VK_S);
+        fileSettingsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK | InputEvent.ALT_DOWN_MASK));
         setupMenuItem(fileSettingsItem);
 
         fileExitItem = new JMenuItem(bundle.getString("fileMenuExit"));
+        fileExitItem.setMnemonic(KeyEvent.VK_X);
         setupMenuItem(fileExitItem);
         fileExitItem.addActionListener((e) -> System.exit(0));
 
         fileMenu.add(fileCreateMenu);
-        fileMenu.add(fileOpenMenu);
-        fileMenu.addSeparator();
-        fileMenu.add(fileSaveAsItem);
-        fileMenu.add(fileSaveItem);
-        fileMenu.addSeparator();
         fileMenu.add(fileSettingsItem);
-        fileMenu.addSeparator();
         fileMenu.add(fileExitItem);
-
         add(fileMenu);
 
         JMenu toolsMenu = new JMenu(bundle.getString("menuBarToolsMenu"));
+        toolsMenu.setMnemonic(KeyEvent.VK_T);
         setupMenu(toolsMenu);
 
         JMenu mathematicalMenu = new JMenu("Mathematical instruments");
+        mathematicalMenu.setMnemonic(KeyEvent.VK_M);
         setupMenu(mathematicalMenu);
 
         toolsProportionCalcItem = new JMenuItem("Proportion calculator");
+        toolsProportionCalcItem.setMnemonic(KeyEvent.VK_P);
+        toolsProportionCalcItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
         setupMenuItem(toolsProportionCalcItem);
 
         mathematicalMenu.add(toolsProportionCalcItem);
 
         toolsInterestCalcItem = new JMenuItem(bundle.getString("toolsMenuInterestCalculator"));
+        toolsInterestCalcItem.setMnemonic(KeyEvent.VK_I);
+        toolsInterestCalcItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
         setupMenuItem(toolsInterestCalcItem);
 
         toolsDiscountCalcItem = new JMenuItem(bundle.getString("toolsMenuCommercialDiscountCalculator"));
+        toolsDiscountCalcItem.setMnemonic(KeyEvent.VK_D);
+        toolsDiscountCalcItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         setupMenuItem(toolsDiscountCalcItem);
 
         toolsMenu.add(mathematicalMenu);
-        toolsMenu.addSeparator();
         toolsMenu.add(toolsInterestCalcItem);
-        toolsMenu.addSeparator();
         toolsMenu.add(toolsDiscountCalcItem);
-
         add(toolsMenu);
 
         JMenu helpMenu = new JMenu(bundle.getString("menuBarHelpMenu"));
+        helpMenu.setMnemonic(KeyEvent.VK_H);
         setupMenu(helpMenu);
 
         helpWelcomeItem = new JMenuItem(bundle.getString("helpWelcome"));
         setupMenuItem(helpWelcomeItem);
+        helpWelcomeItem.addActionListener((e) -> JOptionPane.showMessageDialog(null, "Welcome to School Accounting Studio!\nIt's a free and open-source project developed by an Italian\nstudent to facilitate the accounting routines for everyone!", "Welcome to School Accounting Studio", JOptionPane.INFORMATION_MESSAGE));
 
         helpLicenseItem = new JMenuItem(bundle.getString("helpLicense"));
+        helpLicenseItem.setMnemonic(KeyEvent.VK_L);
         setupMenuItem(helpLicenseItem);
         helpLicenseItem.addActionListener((e) -> {
             try {
@@ -135,9 +123,7 @@ public class MenuBar extends JMenuBar {
 
         helpMenu.add(helpWelcomeItem);
         helpMenu.add(helpLicenseItem);
-        helpMenu.addSeparator();
         helpMenu.add(helpGitHubItem);
-
         add(helpMenu);
     }
 
