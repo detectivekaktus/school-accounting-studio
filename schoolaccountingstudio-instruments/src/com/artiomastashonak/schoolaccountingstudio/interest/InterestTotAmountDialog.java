@@ -16,34 +16,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InterestTotAmountDialog extends JDialog {
-    private ResourceBundle bundle;
+    private final ResourceBundle bundle;
     private final InterestHandler interestHandler = new InterestHandler();
     private final TotalAmountHandler totalAmountHandler = new TotalAmountHandler();
     private final Color mainWindowColor = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
     private final Color textInputColor = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
     private final Color buttonColor = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
     private final Color textColor = DarkThemeColors.PRIMARY_TEXT_COLOR.color;
-    private final Font sectionTitleFont = new Font("K2D", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size);
-    private final Font elementTitleFont = new Font("K2D", Font.BOLD, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size);
-    private final Font inputFont = new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
+    private final Font sectionTitleFont = new Font("sans-serif", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size);
+    private final Font elementTitleFont = new Font("sans-serif", Font.BOLD, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size);
+    private final Font inputFont = new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
 
-    private final JComboBox<String> interestTimeCombo = new JComboBox<>(new String[]{"Days", "Months", "Years"});
+    private JComboBox<String> interestTimeCombo;
     private final TextField interestTime = new TextField(textInputColor, textColor, inputFont);
     private final TextField interestCapital = new TextField(textInputColor, textColor, inputFont);
     private final TextField interestQuote = new TextField(textInputColor, textColor, inputFont);
     private final TextField interestValue = new TextField(textInputColor, textColor, inputFont);
-    private final Button interestCalcButton = new Button("Calculate", buttonColor, textColor, inputFont);
-    private final Button interestResetButton = new Button("Reset", buttonColor, textColor, inputFont);
-    private final JCheckBox interestLeapYearCheck = new JCheckBox("Leap year");
+    private JCheckBox interestLeapYearCheck;
 
-    private final JComboBox<String> totAmountTimeCombo = new JComboBox<>(new String[]{"Days", "Months", "Years"});
+    private JComboBox<String> totAmountTimeCombo;
     private final TextField totAmountTime = new TextField(textInputColor, textColor, inputFont);
     private final TextField totAmountCapital = new TextField(textInputColor, textColor, inputFont);
     private final TextField totAmountQuote = new TextField(textInputColor, textColor, inputFont);
     private final TextField totAmountValue = new TextField(textInputColor, textColor, inputFont);
-    private final Button totAmountCalcButton = new Button("Calculate", buttonColor, textColor, inputFont);
-    private final Button totAmountResetButton = new Button("Reset", buttonColor, textColor, inputFont);
-    private final JCheckBox totAmountLeapYearCheck = new JCheckBox("Leap year");
+    private JCheckBox totAmountLeapYearCheck;
 
     public InterestTotAmountDialog(ResourceBundle bundle) {
         this.bundle = bundle;
@@ -97,7 +93,7 @@ public class InterestTotAmountDialog extends JDialog {
         SpringLayout layout = new SpringLayout();
         interestPanel.setLayout(layout);
 
-        Label interestCalculatorLabel = new Label("Interest calculator",
+        Label interestCalculatorLabel = new Label(bundle.getString("interestCalculator"),
                 mainWindowColor,
                 textColor,
                 sectionTitleFont);
@@ -105,7 +101,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, interestCalculatorLabel, 5, SpringLayout.NORTH, interestPanel);
         layout.putConstraint(SpringLayout.WEST, interestCalculatorLabel, 5, SpringLayout.WEST, interestPanel);
 
-        Label interestTimeLabel = new Label("Time",
+        Label interestTimeLabel = new Label(bundle.getString("time"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -113,6 +109,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, interestTimeLabel, 5, SpringLayout.SOUTH, interestCalculatorLabel);
         layout.putConstraint(SpringLayout.WEST, interestTimeLabel, 5, SpringLayout.WEST, interestPanel);
 
+        interestTimeCombo = new JComboBox<>(new String[]{bundle.getString("days"), bundle.getString("months"), bundle.getString("years")});
         interestTimeCombo.setBackground(textInputColor);
         interestTimeCombo.setForeground(textColor);
         interestTimeCombo.setBorder(null);
@@ -125,7 +122,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, interestTime, 5, SpringLayout.SOUTH, interestTimeCombo);
         layout.putConstraint(SpringLayout.WEST, interestTime, 5, SpringLayout.WEST, interestPanel);
 
-        Label interestCapitalLabel = new Label("Capital",
+        Label interestCapitalLabel = new Label(bundle.getString("capital"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -138,7 +135,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, interestCapital, 5, SpringLayout.SOUTH, interestCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, interestCapital, 5, SpringLayout.WEST, interestPanel);
 
-        Label interestQuoteLabel = new Label("Quote",
+        Label interestQuoteLabel = new Label(bundle.getString("quote"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -151,7 +148,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, interestQuote, 5, SpringLayout.SOUTH, interestQuoteLabel);
         layout.putConstraint(SpringLayout.WEST, interestQuote, 5, SpringLayout.WEST, interestPanel);
 
-        Label interestInterestLabel = new Label("Interest",
+        Label interestInterestLabel = new Label(bundle.getString("interest"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -164,24 +161,27 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, interestValue, 5, SpringLayout.SOUTH, interestInterestLabel);
         layout.putConstraint(SpringLayout.WEST, interestValue, 5, SpringLayout.WEST, interestPanel);
 
+        Button interestCalcButton = new Button(bundle.getString("calculate"), buttonColor, textColor, inputFont);
         interestCalcButton.addActionListener((e) -> {
             insertInterestData();
             double result = interestHandler.calculate(interestTimeCombo.getSelectedIndex());
             if (result != -1) {
-                JOptionPane.showInternalMessageDialog(null, String.format("The solution is: %.2f", result));
+                JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
             } else {
-                JOptionPane.showInternalMessageDialog(null, "There was an error during calculation.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("calculationError"));
             }
         });
         interestPanel.add(interestCalcButton);
         layout.putConstraint(SpringLayout.SOUTH, interestCalcButton, -25, SpringLayout.SOUTH, interestPanel);
         layout.putConstraint(SpringLayout.EAST, interestCalcButton, -50, SpringLayout.EAST, interestPanel);
 
+        Button interestResetButton = new Button(bundle.getString("reset"), buttonColor, textColor, inputFont);
         interestResetButton.addActionListener((e) -> resetInterest());
         interestPanel.add(interestResetButton);
         layout.putConstraint(SpringLayout.NORTH, interestResetButton, 0, SpringLayout.NORTH, interestCalcButton);
         layout.putConstraint(SpringLayout.EAST, interestResetButton, -10, SpringLayout.WEST, interestCalcButton);
 
+        interestLeapYearCheck = new JCheckBox(bundle.getString("leapYear"));
         interestLeapYearCheck.setBackground(mainWindowColor);
         interestLeapYearCheck.setForeground(textColor);
         interestPanel.add(interestLeapYearCheck);
@@ -199,7 +199,7 @@ public class InterestTotAmountDialog extends JDialog {
             }
         }
         if (solutionTerm.size() != 1) {
-            JOptionPane.showInternalMessageDialog(null, "Wrong input. Check your fields.");
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("wrongInput"));
             return;
         }
         try {
@@ -207,6 +207,7 @@ public class InterestTotAmountDialog extends JDialog {
                 interestHandler.setCapital(Double.parseDouble(interestCapital.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("capitalError"));
             interestHandler.reset();
             return;
         }
@@ -216,6 +217,7 @@ public class InterestTotAmountDialog extends JDialog {
                 interestHandler.setTime(validateTime(interestTime, interestTimeCombo.getSelectedIndex()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("timeError"));
             interestHandler.reset();
             return;
         }
@@ -225,6 +227,7 @@ public class InterestTotAmountDialog extends JDialog {
                 interestHandler.setQuote(Double.parseDouble(interestQuote.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("quoteError"));
             interestHandler.reset();
             return;
         }
@@ -234,6 +237,7 @@ public class InterestTotAmountDialog extends JDialog {
                 interestHandler.setInterest(Double.parseDouble(interestValue.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("interestError"));
             interestHandler.reset();
             return;
         }
@@ -254,7 +258,7 @@ public class InterestTotAmountDialog extends JDialog {
         SpringLayout layout = new SpringLayout();
         totAmountPanel.setLayout(layout);
 
-        Label totAmountCalculatorLabel = new Label("Total amount calculator",
+        Label totAmountCalculatorLabel = new Label(bundle.getString("totalAmountCalculator"),
                 mainWindowColor,
                 textColor,
                 sectionTitleFont);
@@ -262,7 +266,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, totAmountCalculatorLabel, 5, SpringLayout.NORTH, totAmountPanel);
         layout.putConstraint(SpringLayout.WEST, totAmountCalculatorLabel, 5, SpringLayout.WEST, totAmountPanel);
 
-        Label totAmountTimeLabel = new Label("Time",
+        Label totAmountTimeLabel = new Label(bundle.getString("time"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -270,6 +274,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, totAmountTimeLabel, 5, SpringLayout.SOUTH, totAmountCalculatorLabel);
         layout.putConstraint(SpringLayout.WEST, totAmountTimeLabel, 5, SpringLayout.WEST, totAmountPanel);
 
+        totAmountTimeCombo = new JComboBox<>(new String[]{bundle.getString("days"), bundle.getString("months"), bundle.getString("years")});
         totAmountTimeCombo.setBackground(textInputColor);
         totAmountTimeCombo.setForeground(textColor);
         totAmountTimeCombo.setBorder(null);
@@ -282,7 +287,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, totAmountTime, 5, SpringLayout.SOUTH, totAmountTimeCombo);
         layout.putConstraint(SpringLayout.WEST, totAmountTime, 5, SpringLayout.WEST, totAmountPanel);
 
-        Label totAmountCapitalLabel = new Label("Capital",
+        Label totAmountCapitalLabel = new Label(bundle.getString("capital"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -295,7 +300,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, totAmountCapital, 5, SpringLayout.SOUTH, totAmountCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, totAmountCapital, 5, SpringLayout.WEST, totAmountPanel);
 
-        Label totAmountQuoteLabel = new Label("Quote",
+        Label totAmountQuoteLabel = new Label(bundle.getString("quote"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -308,7 +313,7 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, totAmountQuote, 5, SpringLayout.SOUTH, totAmountQuoteLabel);
         layout.putConstraint(SpringLayout.WEST, totAmountQuote, 5, SpringLayout.WEST, totAmountPanel);
 
-        Label totAmountValueLabel = new Label("Total amount",
+        Label totAmountValueLabel = new Label(bundle.getString("totalAmount"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -321,24 +326,27 @@ public class InterestTotAmountDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, totAmountValue, 5, SpringLayout.SOUTH, totAmountValueLabel);
         layout.putConstraint(SpringLayout.WEST, totAmountValue, 5, SpringLayout.WEST, totAmountPanel);
 
+        Button totAmountCalcButton = new Button(bundle.getString("calculate"), buttonColor, textColor, inputFont);
         totAmountCalcButton.addActionListener((e) -> {
             insertTotalAmountData();
             double result = totalAmountHandler.calculate(totAmountTimeCombo.getSelectedIndex());
             if (result != -1) {
-                JOptionPane.showInternalMessageDialog(null, String.format("The solution is: %.2f", result));
+                JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
             } else {
-                JOptionPane.showInternalMessageDialog(null, "There was an error during calculation.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("calculationError"));
             }
         });
         totAmountPanel.add(totAmountCalcButton);
         layout.putConstraint(SpringLayout.SOUTH, totAmountCalcButton, -25, SpringLayout.SOUTH, totAmountPanel);
         layout.putConstraint(SpringLayout.EAST, totAmountCalcButton, -50, SpringLayout.EAST, totAmountPanel);
 
+        Button totAmountResetButton = new Button(bundle.getString("reset"), buttonColor, textColor, inputFont);
         totAmountResetButton.addActionListener((e) -> resetTotAmount());
         totAmountPanel.add(totAmountResetButton);
         layout.putConstraint(SpringLayout.NORTH, totAmountResetButton, 0, SpringLayout.NORTH, totAmountCalcButton);
         layout.putConstraint(SpringLayout.EAST, totAmountResetButton, -10, SpringLayout.WEST, totAmountCalcButton);
 
+        totAmountLeapYearCheck = new JCheckBox(bundle.getString("leapYear"));
         totAmountLeapYearCheck.setBackground(mainWindowColor);
         totAmountLeapYearCheck.setForeground(textColor);
         totAmountPanel.add(totAmountLeapYearCheck);
@@ -356,7 +364,7 @@ public class InterestTotAmountDialog extends JDialog {
             }
         }
         if (solutionTerm.size() != 1) {
-            JOptionPane.showInternalMessageDialog(null, "Wrong input. Check your fields.");
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("wrongInput"));
             return;
         }
 
@@ -365,6 +373,7 @@ public class InterestTotAmountDialog extends JDialog {
                 totalAmountHandler.setCapital(Double.parseDouble(totAmountCapital.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("capitalError"));
             interestHandler.reset();
             return;
         }
@@ -374,6 +383,7 @@ public class InterestTotAmountDialog extends JDialog {
                 totalAmountHandler.setTime(validateTime(totAmountTime, totAmountTimeCombo.getSelectedIndex()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("timeError"));
             interestHandler.reset();
             return;
         }
@@ -383,6 +393,7 @@ public class InterestTotAmountDialog extends JDialog {
                 totalAmountHandler.setQuote(Double.parseDouble(totAmountQuote.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("quoteError"));
             totalAmountHandler.reset();
             return;
         }
@@ -392,6 +403,7 @@ public class InterestTotAmountDialog extends JDialog {
                 totalAmountHandler.setTotalAmount(Double.parseDouble(totAmountValue.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("totalAmountError"));
             totalAmountHandler.reset();
             return;
         }

@@ -22,11 +22,9 @@ public final class InvoicePanel extends JPanel {
     private final Color textInputColor = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
     private final Color buttonColor = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
     private final Color textColor = DarkThemeColors.PRIMARY_TEXT_COLOR.color;
-    private final Font sectionTitleFont = new Font("K2D", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size);
-    private final Font elementTitleFont = new Font("K2D", Font.BOLD, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size);
-    private final Font inputFont = new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
+    private final Font elementTitleFont = new Font("sans-serif", Font.BOLD, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size);
+    private final Font inputFont = new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
 
-    private final Button openSellerButton;
     public final TextField sellerName = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerAddress = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerPhone = new TextField(textInputColor, textColor, inputFont);
@@ -34,9 +32,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField sellerVatNumber = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerRegister = new TextField(textInputColor, textColor, inputFont);
     public final TextField sellerSharedCapital = new TextField(textInputColor, textColor, inputFont);
-    private Button submitSellerButton;
 
-    private final Button openCustomerButton;
     public final TextField customerName = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerAddress = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerPhone = new TextField(textInputColor, textColor, inputFont);
@@ -44,9 +40,7 @@ public final class InvoicePanel extends JPanel {
     public final TextField customerVatNumber = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerRegister = new TextField(textInputColor, textColor, inputFont);
     public final TextField customerSharedCapital = new TextField(textInputColor, textColor, inputFont);
-    private Button submitCustomerButton;
 
-    private final Button openInvoiceInfoButton;
     public final TextField invoiceNumber = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceDate = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceDelivery = new TextField(textInputColor, textColor, inputFont);
@@ -58,7 +52,6 @@ public final class InvoicePanel extends JPanel {
     public final TextField invoiceDocumentedCost = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceInterests = new TextField(textInputColor, textColor, inputFont);
     public final TextField invoiceDeposit = new TextField(textInputColor, textColor, inputFont);
-    private Button submitInvoiceInfo;
 
     private final TextField measureUnit;
     private final TextField quantity;
@@ -69,15 +62,8 @@ public final class InvoicePanel extends JPanel {
     private final TextField discount1;
     private final TextField discount2;
 
-    private final Button addItemButton;
-
     public final JTable invoiceTable;
     public DefaultTableModel tableModel;
-
-    private final Button printHTMLButton;
-    private final Button printXMLButton;
-
-    private final Button resetButton;
 
     public InvoicePanel(@NotNull ResourceBundle bundle) {
         this.bundle = bundle;
@@ -89,7 +75,7 @@ public final class InvoicePanel extends JPanel {
         Label welcomeLabel = new Label(bundle.getString("invoiceGenerator"),
                 mainWindowColor,
                 textColor,
-                sectionTitleFont);
+                new Font("sans-serif", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size));
         add(welcomeLabel);
         layout.putConstraint(SpringLayout.WEST, welcomeLabel, 450, SpringLayout.WEST, this);
 
@@ -101,7 +87,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, sellerLabel, 50, SpringLayout.SOUTH, welcomeLabel);
         layout.putConstraint(SpringLayout.WEST, sellerLabel, 200, SpringLayout.WEST, this);
 
-        openSellerButton = new Button(bundle.getString("addSeller"),
+        Button openSellerButton = new Button(bundle.getString("addSeller"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -118,7 +104,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, customerLabel, 50, SpringLayout.SOUTH, welcomeLabel);
         layout.putConstraint(SpringLayout.WEST, customerLabel, 250, SpringLayout.EAST, sellerLabel);
 
-        openCustomerButton = new Button(bundle.getString("addCustomer"),
+        Button openCustomerButton = new Button(bundle.getString("addCustomer"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -135,7 +121,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, invoiceInfoLabel, 15, SpringLayout.SOUTH, openSellerButton);
         layout.putConstraint(SpringLayout.WEST, invoiceInfoLabel, 0, SpringLayout.WEST, sellerLabel);
 
-        openInvoiceInfoButton = new Button(bundle.getString("open"),
+        Button openInvoiceInfoButton = new Button(bundle.getString("open"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -208,7 +194,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, discount2, 25, SpringLayout.SOUTH, openInvoiceInfoButton);
         layout.putConstraint(SpringLayout.WEST, discount2, 25, SpringLayout.EAST, discount1);
 
-        addItemButton = new Button(bundle.getString("add"),
+        Button addItemButton = new Button(bundle.getString("add"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -223,7 +209,7 @@ public final class InvoicePanel extends JPanel {
                 bundle.getString("quantityShort"),
                 bundle.getString("code"),
                 bundle.getString("description"),
-                bundle.getString("vatPercentage"),
+                bundle.getString("vat"),
                 bundle.getString("unitPrice"),
                 bundle.getString("discount1"),
                 bundle.getString("discount2")};
@@ -239,7 +225,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.WEST, tableScrollPane, 200, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.EAST, tableScrollPane, 0, SpringLayout.EAST, addItemButton);
 
-        printHTMLButton = new Button(bundle.getString("printMenuHTML"),
+        Button printHTMLButton = new Button(bundle.getString("printHTML"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -249,13 +235,13 @@ public final class InvoicePanel extends JPanel {
         printHTMLButton.addActionListener((e) -> {
             int result = handler.printHTML();
             if (result == 0) {
-                JOptionPane.showInternalMessageDialog(null, "Invoice Successfully printed.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("invoicePrintedSuccessfully"));
             } else {
-                JOptionPane.showInternalMessageDialog(null, "There was an error generating your invoice.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("invoicePrintingError"));
             }
         });
 
-        printXMLButton = new Button(bundle.getString("printMenuXML"),
+        Button printXMLButton = new Button(bundle.getString("printXML"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -265,13 +251,13 @@ public final class InvoicePanel extends JPanel {
         printXMLButton.addActionListener((e) -> {
             int result = handler.printXML();
             if (result == 0) {
-                JOptionPane.showInternalMessageDialog(null, "Invoice Successfully printed.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("invoicePrintedSuccessfully"));
             } else {
-                JOptionPane.showInternalMessageDialog(null, "There was an error generating your invoice.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("invoicePrintingError"));
             }
         });
 
-        resetButton = new Button(bundle.getString("reset"),
+        Button resetButton = new Button(bundle.getString("reset"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -292,35 +278,35 @@ public final class InvoicePanel extends JPanel {
         try {
             Integer.parseInt(quantity.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("quantityError"));
             return;
         }
 
         try {
             Short.parseShort(vat.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("vatError"));
             return;
         }
 
         try {
             Double.parseDouble(unitPrice.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("priceError"));
             return;
         }
 
         try {
             Float.parseFloat(discount1.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("discountError"));
             return;
         }
 
         try {
             Float.parseFloat(discount2.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("discountError"));
             return;
         }
 
@@ -489,7 +475,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.SOUTH, sellerSharedCapital, 0, SpringLayout.SOUTH, sellerCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, sellerSharedCapital, 5, SpringLayout.EAST, sellerCapitalLabel);
 
-        submitSellerButton = new Button(bundle.getString("submit"),
+        Button submitSellerButton = new Button(bundle.getString("submit"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -510,7 +496,7 @@ public final class InvoicePanel extends JPanel {
                 sellerRegister,
                 sellerSharedCapital}) {
             if (Objects.equals(textField.getText(), "")) {
-                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("sellerError"));
                 return;
             }
         }
@@ -625,7 +611,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.SOUTH, customerSharedCapital, 0, SpringLayout.SOUTH, customerCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, customerSharedCapital, 5, SpringLayout.EAST, customerCapitalLabel);
 
-        submitCustomerButton = new Button(bundle.getString("submit"),
+        Button submitCustomerButton = new Button(bundle.getString("submit"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -646,7 +632,7 @@ public final class InvoicePanel extends JPanel {
                 customerRegister,
                 customerSharedCapital}) {
             if (Objects.equals(textField.getText(), "")) {
-                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("customerError"));
                 return;
             }
         }
@@ -670,7 +656,7 @@ public final class InvoicePanel extends JPanel {
         SpringLayout layout = new SpringLayout();
         invoiceDialog.setLayout(layout);
 
-        Label invoiceNumberLabel = new Label(bundle.getString("number"),
+        Label invoiceNumberLabel = new Label(bundle.getString("documentNumber"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -787,7 +773,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, invoiceDocumentedCost, 5, SpringLayout.SOUTH, invoiceDocumentedCostLabel);
         layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCost, 5, SpringLayout.WEST, invoiceDialog);
 
-        Label invoiceInterestLabel = new Label(bundle.getString("interests"),
+        Label invoiceInterestLabel = new Label(bundle.getString("interest"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -813,7 +799,7 @@ public final class InvoicePanel extends JPanel {
         layout.putConstraint(SpringLayout.NORTH, invoiceDeposit, 5, SpringLayout.SOUTH, invoiceDepositLabel);
         layout.putConstraint(SpringLayout.WEST, invoiceDeposit, 5, SpringLayout.EAST, invoiceInterests);
 
-        submitInvoiceInfo = new Button(bundle.getString("submit"),
+        Button submitInvoiceInfo = new Button(bundle.getString("submit"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -838,7 +824,7 @@ public final class InvoicePanel extends JPanel {
                 invoiceInterests,
                 invoiceDeposit}) {
             if (Objects.equals(textField.getText(), "")) {
-                JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("invoiceError"));
                 return;
             }
         }
@@ -846,35 +832,35 @@ public final class InvoicePanel extends JPanel {
         try {
             Double.parseDouble(invoiceNonDocumentedCost.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("nonDocumentedCostError"));
             return;
         }
 
         try {
             Double.parseDouble(invoicePackagingCost.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("packagingError"));
             return;
         }
 
         try {
             Double.parseDouble(invoiceDocumentedCost.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("documentedCostError"));
             return;
         }
 
         try {
             Double.parseDouble(invoiceInterests.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("interestError"));
             return;
         }
 
         try {
             Double.parseDouble(invoiceDeposit.getText());
         } catch (Exception exception) {
-            JOptionPane.showInternalMessageDialog(null, bundle.getString("failedNewItem"));
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("depositError"));
             return;
         }
 
