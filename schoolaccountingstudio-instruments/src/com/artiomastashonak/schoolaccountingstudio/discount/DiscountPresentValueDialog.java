@@ -16,40 +16,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DiscountPresentValueDialog extends JDialog {
-    private ResourceBundle bundle;
+    private final ResourceBundle bundle;
     private final DiscountHandler discountHandler = new DiscountHandler();
     private final PresentValueHandler presentValueHandler = new PresentValueHandler();
     private final Color mainWindowColor = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
     private final Color textInputColor = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
     private final Color buttonColor = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
     private final Color textColor = DarkThemeColors.PRIMARY_TEXT_COLOR.color;
-    private final Font sectionTitleFont = new Font("K2D", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size);
-    private final Font elementTitleFont = new Font("K2D", Font.BOLD, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size);
-    private final Font inputFont = new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
+    private final Font sectionTitleFont = new Font("sans-serif", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size);
+    private final Font elementTitleFont = new Font("sans-serif", Font.BOLD, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size);
+    private final Font inputFont = new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
 
-    private final JComboBox<String> discountTimeCombo = new JComboBox<>(new String[]{"Days", "Months", "Years"});
+    private JComboBox<String> discountTimeCombo;
     private final TextField discountTime = new TextField(textInputColor, textColor, inputFont);
     private final TextField discountCapital = new TextField(textInputColor, textColor, inputFont);
     private final TextField discountQuote = new TextField(textInputColor, textColor, inputFont);
     private final TextField discountValue = new TextField(textInputColor, textColor, inputFont);
-    private final Button discountCalcButton = new Button("Calculate", buttonColor, textColor, inputFont);
-    private final Button discountResetButton = new Button("Reset", buttonColor, textColor, inputFont);
-    private final JCheckBox discountLeapYearCheck = new JCheckBox("Leap year");
+    private JCheckBox discountLeapYearCheck;
 
-    private final JComboBox<String> presValueTimeCombo = new JComboBox<>(new String[]{"Days", "Months", "Years"});
+    private JComboBox<String> presValueTimeCombo;
     private final TextField presValueTime = new TextField(textInputColor, textColor, inputFont);
     private final TextField presValueCapital = new TextField(textInputColor, textColor, inputFont);
     private final TextField presValueQuote = new TextField(textInputColor, textColor, inputFont);
     private final TextField presValue = new TextField(textInputColor, textColor, inputFont);
-    private final Button presValueCalcButton = new Button("Calculate", buttonColor, textColor, inputFont);
-    private final Button presValueResetButton = new Button("Reset", buttonColor, textColor, inputFont);
-    private final JCheckBox presValueLeapYearCheck = new JCheckBox("Leap year");
+    private JCheckBox presValueLeapYearCheck;
     
     public DiscountPresentValueDialog(ResourceBundle bundle) {
         this.bundle = bundle;
 
         setMinimumSize(new Dimension(600, 550));
-        setTitle("Financial Discount Calculator");
+        setTitle(bundle.getString("discountCalculator"));
         getContentPane().setBackground(mainWindowColor);
         setModal(false);
         setLayout(new BorderLayout());
@@ -65,13 +61,13 @@ public class DiscountPresentValueDialog extends JDialog {
         switchPanel.setLayout(new BoxLayout(switchPanel, BoxLayout.Y_AXIS));
         add(switchPanel, BorderLayout.WEST);
 
-        Button discountViewButton = new Button("Discount",
+        Button discountViewButton = new Button(bundle.getString("discount"),
                 buttonColor,
                 textColor,
                 inputFont);
         switchPanel.add(discountViewButton);
 
-        Button presValueViewButton = new Button("Present value",
+        Button presValueViewButton = new Button(bundle.getString("presentValue"),
                 buttonColor,
                 textColor,
                 inputFont);
@@ -97,7 +93,7 @@ public class DiscountPresentValueDialog extends JDialog {
         SpringLayout layout = new SpringLayout();
         discountPanel.setLayout(layout);
 
-        Label discountCalculatorLabel = new Label("Discount calculator",
+        Label discountCalculatorLabel = new Label(bundle.getString("discountCalculator"),
                 mainWindowColor,
                 textColor,
                 sectionTitleFont);
@@ -105,7 +101,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, discountCalculatorLabel, 5, SpringLayout.NORTH, discountPanel);
         layout.putConstraint(SpringLayout.WEST, discountCalculatorLabel, 5, SpringLayout.WEST, discountPanel);
 
-        Label discountTimeLabel = new Label("Time",
+        Label discountTimeLabel = new Label(bundle.getString("time"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -113,6 +109,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, discountTimeLabel, 5, SpringLayout.SOUTH, discountCalculatorLabel);
         layout.putConstraint(SpringLayout.WEST, discountTimeLabel, 5, SpringLayout.WEST, discountPanel);
 
+        discountTimeCombo = new JComboBox<>(new String[]{bundle.getString("days"), bundle.getString("moths"), bundle.getString("years")});
         discountTimeCombo.setBackground(textInputColor);
         discountTimeCombo.setForeground(textColor);
         discountTimeCombo.setBorder(null);
@@ -125,7 +122,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, discountTime, 5, SpringLayout.SOUTH, discountTimeCombo);
         layout.putConstraint(SpringLayout.WEST, discountTime, 5, SpringLayout.WEST, discountPanel);
 
-        Label discountCapitalLabel = new Label("Capital",
+        Label discountCapitalLabel = new Label(bundle.getString("capital"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -138,7 +135,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, discountCapital, 5, SpringLayout.SOUTH, discountCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, discountCapital, 5, SpringLayout.WEST, discountPanel);
 
-        Label discountQuoteLabel = new Label("Quote",
+        Label discountQuoteLabel = new Label(bundle.getString("quote"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -151,7 +148,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, discountQuote, 5, SpringLayout.SOUTH, discountQuoteLabel);
         layout.putConstraint(SpringLayout.WEST, discountQuote, 5, SpringLayout.WEST, discountPanel);
 
-        Label discountdiscountLabel = new Label("Discount",
+        Label discountdiscountLabel = new Label(bundle.getString("discount"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -164,24 +161,27 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, discountValue, 5, SpringLayout.SOUTH, discountdiscountLabel);
         layout.putConstraint(SpringLayout.WEST, discountValue, 5, SpringLayout.WEST, discountPanel);
 
+        Button discountCalcButton = new Button(bundle.getString("calculate"), buttonColor, textColor, inputFont);
         discountCalcButton.addActionListener((e) -> {
             insertDiscountData();
             double result = discountHandler.calculate(discountTimeCombo.getSelectedIndex());
             if (result != -1) {
-                JOptionPane.showInternalMessageDialog(null, String.format("The solution is: %.2f", result));
+                JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
             } else {
-                JOptionPane.showInternalMessageDialog(null, "There was an error during calculation.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("calculationError"));
             }
         });
         discountPanel.add(discountCalcButton);
         layout.putConstraint(SpringLayout.SOUTH, discountCalcButton, -25, SpringLayout.SOUTH, discountPanel);
         layout.putConstraint(SpringLayout.EAST, discountCalcButton, -50, SpringLayout.EAST, discountPanel);
 
+      Button discountResetButton = new Button(bundle.getString("reset"), buttonColor, textColor, inputFont);
         discountResetButton.addActionListener((e) -> resetDiscount());
         discountPanel.add(discountResetButton);
         layout.putConstraint(SpringLayout.NORTH, discountResetButton, 0, SpringLayout.NORTH, discountCalcButton);
         layout.putConstraint(SpringLayout.EAST, discountResetButton, -10, SpringLayout.WEST, discountCalcButton);
 
+        discountLeapYearCheck = new JCheckBox(bundle.getString("leapYear"));
         discountLeapYearCheck.setBackground(mainWindowColor);
         discountLeapYearCheck.setForeground(textColor);
         discountPanel.add(discountLeapYearCheck);
@@ -199,7 +199,7 @@ public class DiscountPresentValueDialog extends JDialog {
             }
         }
         if (solutionTerm.size() != 1) {
-            JOptionPane.showInternalMessageDialog(null, "Wrong input. Check your fields.");
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("wrongInput"));
             return;
         }
         try {
@@ -207,6 +207,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 discountHandler.setCapital(Double.parseDouble(discountCapital.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("capitalError"));
             discountHandler.reset();
             return;
         }
@@ -216,6 +217,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 discountHandler.setTime(validateTime(discountTime, discountTimeCombo.getSelectedIndex()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("timeError"));
             discountHandler.reset();
             return;
         }
@@ -225,6 +227,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 discountHandler.setQuote(Double.parseDouble(discountQuote.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("quoteError"));
             discountHandler.reset();
             return;
         }
@@ -234,6 +237,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 discountHandler.setDiscount(Double.parseDouble(discountValue.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("financialDiscountError"));
             discountHandler.reset();
             return;
         }
@@ -254,7 +258,7 @@ public class DiscountPresentValueDialog extends JDialog {
         SpringLayout layout = new SpringLayout();
         presValuePanel.setLayout(layout);
 
-        Label presValueCalculatorLabel = new Label("Present value calculator",
+        Label presValueCalculatorLabel = new Label(bundle.getString("presentValueCalculator"),
                 mainWindowColor,
                 textColor,
                 sectionTitleFont);
@@ -262,7 +266,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, presValueCalculatorLabel, 5, SpringLayout.NORTH, presValuePanel);
         layout.putConstraint(SpringLayout.WEST, presValueCalculatorLabel, 5, SpringLayout.WEST, presValuePanel);
 
-        Label presValueTimeLabel = new Label("Time",
+        Label presValueTimeLabel = new Label(bundle.getString("time"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -270,6 +274,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, presValueTimeLabel, 5, SpringLayout.SOUTH, presValueCalculatorLabel);
         layout.putConstraint(SpringLayout.WEST, presValueTimeLabel, 5, SpringLayout.WEST, presValuePanel);
 
+        presValueTimeCombo = new JComboBox<>(new String[]{bundle.getString("days"), bundle.getString("moths"), bundle.getString("years")});
         presValueTimeCombo.setBackground(textInputColor);
         presValueTimeCombo.setForeground(textColor);
         presValueTimeCombo.setBorder(null);
@@ -282,7 +287,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, presValueTime, 5, SpringLayout.SOUTH, presValueTimeCombo);
         layout.putConstraint(SpringLayout.WEST, presValueTime, 5, SpringLayout.WEST, presValuePanel);
 
-        Label presValueCapitalLabel = new Label("Capital",
+        Label presValueCapitalLabel = new Label(bundle.getString("capital"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -295,7 +300,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, presValueCapital, 5, SpringLayout.SOUTH, presValueCapitalLabel);
         layout.putConstraint(SpringLayout.WEST, presValueCapital, 5, SpringLayout.WEST, presValuePanel);
 
-        Label presValueQuoteLabel = new Label("Quote",
+        Label presValueQuoteLabel = new Label(bundle.getString("quote"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -308,7 +313,7 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, presValueQuote, 5, SpringLayout.SOUTH, presValueQuoteLabel);
         layout.putConstraint(SpringLayout.WEST, presValueQuote, 5, SpringLayout.WEST, presValuePanel);
 
-        Label presValueValueLabel = new Label("Present value",
+        Label presValueValueLabel = new Label(bundle.getString("presentValue"),
                 mainWindowColor,
                 textColor,
                 elementTitleFont);
@@ -321,24 +326,27 @@ public class DiscountPresentValueDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, presValue, 5, SpringLayout.SOUTH, presValueValueLabel);
         layout.putConstraint(SpringLayout.WEST, presValue, 5, SpringLayout.WEST, presValuePanel);
 
+      Button presValueCalcButton = new Button(bundle.getString("calculate"), buttonColor, textColor, inputFont);
         presValueCalcButton.addActionListener((e) -> {
             insertPresentValueData();
             double result = presentValueHandler.calculate(presValueTimeCombo.getSelectedIndex());
             if (result != -1) {
-                JOptionPane.showInternalMessageDialog(null, String.format("The solution is: %.2f", result));
+                JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
             } else {
-                JOptionPane.showInternalMessageDialog(null, "There was an error during calculation.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("calculationError"));
             }
         });
         presValuePanel.add(presValueCalcButton);
         layout.putConstraint(SpringLayout.SOUTH, presValueCalcButton, -25, SpringLayout.SOUTH, presValuePanel);
         layout.putConstraint(SpringLayout.EAST, presValueCalcButton, -50, SpringLayout.EAST, presValuePanel);
 
+      Button presValueResetButton = new Button(bundle.getString("reset"), buttonColor, textColor, inputFont);
         presValueResetButton.addActionListener((e) -> resetPresValue());
         presValuePanel.add(presValueResetButton);
         layout.putConstraint(SpringLayout.NORTH, presValueResetButton, 0, SpringLayout.NORTH, presValueCalcButton);
         layout.putConstraint(SpringLayout.EAST, presValueResetButton, -10, SpringLayout.WEST, presValueCalcButton);
 
+        presValueLeapYearCheck = new JCheckBox(bundle.getString("leapYear"));
         presValueLeapYearCheck.setBackground(mainWindowColor);
         presValueLeapYearCheck.setForeground(textColor);
         presValuePanel.add(presValueLeapYearCheck);
@@ -356,7 +364,7 @@ public class DiscountPresentValueDialog extends JDialog {
             }
         }
         if (solutionTerm.size() != 1) {
-            JOptionPane.showInternalMessageDialog(null, "Wrong input. Check your fields.");
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("wrongInput"));
             return;
         }
 
@@ -365,6 +373,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 presentValueHandler.setCapital(Double.parseDouble(presValueCapital.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("capitalError"));
             presentValueHandler.reset();
             return;
         }
@@ -374,6 +383,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 presentValueHandler.setTime(validateTime(presValueTime, presValueTimeCombo.getSelectedIndex()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("timeError"));
             presentValueHandler.reset();
             return;
         }
@@ -383,6 +393,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 presentValueHandler.setQuote(Double.parseDouble(presValueQuote.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("quoteError"));
             presentValueHandler.reset();
             return;
         }
@@ -392,6 +403,7 @@ public class DiscountPresentValueDialog extends JDialog {
                 presentValueHandler.setPresentValue(Double.parseDouble(presValue.getText()));
             }
         } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("presentValueError"));
             presentValueHandler.reset();
             return;
         }

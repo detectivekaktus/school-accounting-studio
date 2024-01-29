@@ -12,14 +12,11 @@ import java.util.ResourceBundle;
 
 public class ProportionDialog extends JDialog {
 
-    private ResourceBundle bundle;
+    private final ResourceBundle bundle;
     private final Proportion proportion = new Proportion();
-    private final Color MAIN_WINDOW_COLOR = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
     private final Color TEXT_INPUT_COLOR = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
-    private final Color BUTTON_COLOR = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
     private final Color TEXT_COLOR = DarkThemeColors.PRIMARY_TEXT_COLOR.color;
-    private final Font SECTION_TITLE_FONT = new Font("K2D", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size);
-    private final Font INPUT_FONT = new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
+    private final Font INPUT_FONT = new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
 
     private final TextField firstTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
     private final TextField secondTermTextField = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
@@ -28,18 +25,19 @@ public class ProportionDialog extends JDialog {
 
     public ProportionDialog(ResourceBundle bundle) {
         this.bundle = bundle;
+        Color MAIN_WINDOW_COLOR = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
 
         setMinimumSize(new Dimension(450, 250));
-        setTitle("Proportion Calculator");
+        setTitle(bundle.getString("proportionCalculator"));
         getContentPane().setBackground(MAIN_WINDOW_COLOR);
         setModal(false);
         SpringLayout layout = new SpringLayout();
         setLayout(layout);
 
-        Label proportionCalculatorLabel = new Label("Proportion calculator",
+        Label proportionCalculatorLabel = new Label(bundle.getString("proportionCalculator"),
                 MAIN_WINDOW_COLOR,
                 TEXT_COLOR,
-                SECTION_TITLE_FONT);
+                new Font("sans-serif", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size));
         add(proportionCalculatorLabel);
         layout.putConstraint(SpringLayout.NORTH, proportionCalculatorLabel, 5, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, proportionCalculatorLabel, 5, SpringLayout.WEST, this);
@@ -88,8 +86,9 @@ public class ProportionDialog extends JDialog {
         layout.putConstraint(SpringLayout.NORTH, fourthTermTextField, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
         layout.putConstraint(SpringLayout.WEST, fourthTermTextField, 5, SpringLayout.EAST, secondIsToLabel);
 
-        Button solveButton = new Button("Solve",
-                BUTTON_COLOR,
+        Color BUTTON_COLOR = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
+        Button solveButton = new Button(bundle.getString("solve"),
+        BUTTON_COLOR,
                 TEXT_COLOR,
                 INPUT_FONT);
         solveButton.addActionListener((e) -> {
@@ -97,19 +96,19 @@ public class ProportionDialog extends JDialog {
                 if (composeProportion() == -1) return;
                 double result = proportion.solve();
                 if (Double.isNaN(result)) {
-                    JOptionPane.showInternalMessageDialog(null, "No solution found because the proportion is invalid.");
+                    JOptionPane.showInternalMessageDialog(null, bundle.getString("noSolutionFoundInvalid"));
                     return;
                 }
-                JOptionPane.showInternalMessageDialog(null, String.format("The solution is: %.2f.", result));
+                JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
             } catch (NoSolutionException nse) {
-                JOptionPane.showInternalMessageDialog(null, "No solution found because the proportion is invalid.");
+                JOptionPane.showInternalMessageDialog(null, bundle.getString("noSolutionFoundInvalid"));
             }
         });
         add(solveButton);
         layout.putConstraint(SpringLayout.SOUTH, solveButton, -25, SpringLayout.SOUTH, getContentPane());
         layout.putConstraint(SpringLayout.EAST, solveButton, -10, SpringLayout.EAST, getContentPane());
 
-        Button resetButton = new Button("Reset",
+        Button resetButton = new Button(bundle.getString("reset"),
                 BUTTON_COLOR,
                 TEXT_COLOR,
                 INPUT_FONT);
@@ -134,7 +133,7 @@ public class ProportionDialog extends JDialog {
             }
         }
         if (termsToFind != 1) {
-            JOptionPane.showInternalMessageDialog(null, "The proportion is either composed already or unsolvable.");
+            JOptionPane.showInternalMessageDialog(null, bundle.getString("noSolutionFoundUnsolvableComposed"));
             return -1;
         }
         try {

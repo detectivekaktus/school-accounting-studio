@@ -35,10 +35,10 @@ public class MainWindow {
         JPanel cleanPanel = new JPanel();
         cleanPanel.setName("NONE");
         cleanPanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
-        Label logoLabel = new Label("School Accounting Studio",
+        Label logoLabel = new Label(BUNDLE.getString("applicationName"),
                 DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color,
                 DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color,
-                new Font("K2D", Font.PLAIN, 32));
+                new Font("sans-serif", Font.PLAIN, 32));
         cleanPanel.add(logoLabel);
         SpringLayout cleanPanelLayout = new SpringLayout();
         cleanPanelLayout.putConstraint(SpringLayout.NORTH, logoLabel, 10, SpringLayout.NORTH, window.getContentPane());
@@ -49,7 +49,7 @@ public class MainWindow {
         menuBar.fileCreateInvoice.addActionListener((e) -> {
             for (Component component : mainPanel.getComponents()) {
                 if (!Objects.equals(component.getName(), "INVOICE")) continue;
-                if (JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new invoice?", "Warning", JOptionPane.YES_NO_OPTION) != 0) return;
+                if (JOptionPane.showConfirmDialog(null, BUNDLE.getString("invoiceWarning"), BUNDLE.getString("warning"), JOptionPane.YES_NO_OPTION) != 0) return;
                 mainPanel.remove(component);
             }
             InvoicePanel invoicePanel = new InvoicePanel(BUNDLE);
@@ -94,18 +94,18 @@ public class MainWindow {
         SpringLayout layout = new SpringLayout();
         dialog.setLayout(layout);
 
-        Label settingsLabel = new Label("Settings",
+        Label settingsLabel = new Label(BUNDLE.getString("settings"),
                 DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color,
                 DarkThemeColors.PRIMARY_TEXT_COLOR.color,
-                new Font("K2D", Font.PLAIN, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size));
+                new Font("sans-serif", Font.PLAIN, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size));
         dialog.add(settingsLabel);
         layout.putConstraint(SpringLayout.NORTH, settingsLabel, 5, SpringLayout.NORTH, dialog);
         layout.putConstraint(SpringLayout.WEST, settingsLabel, 5, SpringLayout.WEST, dialog);
 
-        Label languageLabel = new Label("Language",
+        Label languageLabel = new Label(BUNDLE.getString("language"),
                 DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color,
                 DarkThemeColors.PRIMARY_TEXT_COLOR.color,
-                new Font("K2D", Font.PLAIN, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size));
+                new Font("sans-serif", Font.PLAIN, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size));
         dialog.add(languageLabel);
         layout.putConstraint(SpringLayout.NORTH, languageLabel, 5, SpringLayout.SOUTH, settingsLabel);
         layout.putConstraint(SpringLayout.WEST, languageLabel, 5, SpringLayout.WEST, dialog);
@@ -114,15 +114,15 @@ public class MainWindow {
         JComboBox<String> comboBox = new JComboBox<>(languages);
         comboBox.setBackground(DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color);
         comboBox.setForeground(DarkThemeColors.PRIMARY_TEXT_COLOR.color);
-        comboBox.setFont(new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size));
+        comboBox.setFont(new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size));
         dialog.add(comboBox);
         layout.putConstraint(SpringLayout.NORTH, comboBox, 5, SpringLayout.SOUTH, languageLabel);
         layout.putConstraint(SpringLayout.WEST, comboBox, 5, SpringLayout.WEST, dialog);
 
-        Button submitButton = new Button("Submit",
+        Button submitButton = new Button(BUNDLE.getString("submit"),
                 DarkThemeColors.BUTTON_BACKGROUND_COLOR.color,
                 DarkThemeColors.PRIMARY_TEXT_COLOR.color,
-                new Font("K2D", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size));
+                new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size));
         submitButton.addActionListener((e) -> {
             switch ((String) comboBox.getSelectedItem()) {
                 case "English": {
