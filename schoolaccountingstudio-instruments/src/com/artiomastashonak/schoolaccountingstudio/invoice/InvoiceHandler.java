@@ -4,170 +4,169 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InvoiceHandler {
+  private String[] seller = new String[] {};
+  private String[] customer = new String[] {};
+  private String[] invoice = new String[] {};
+  private ArrayList<Item> items = new ArrayList<>(10);
+  private double nonDocumentedCost = 0;
+  private double packagingCost = 0;
+  private double documentedCost = 0;
+  private double interests = 0;
+  private double deposit = 0;
 
-    private String[] seller = new String[] {};
-    private String[] customer = new String[] {};
-    private String[] invoice = new String[] {};
-    private ArrayList<Item> items = new ArrayList<>(10);
-    private double nonDocumentedCost = 0;
-    private double packagingCost = 0;
-    private double documentedCost = 0;
-    private double interests = 0;
-    private double deposit = 0;
+  public InvoiceHandler() { }
 
-    public InvoiceHandler() { }
+  public double calculate() {
+    HashMap<Short, Double> itemsMap = new HashMap<>(4);
+    itemsMap.put((short) 4, 0.0);
+    itemsMap.put((short) 5, 0.0);
+    itemsMap.put((short) 10, 0.0);
+    itemsMap.put((short) 22, 0.0);
 
-    public double calculate() {
-        HashMap<Short, Double> itemsMap = new HashMap<>(4);
-        itemsMap.put((short) 4, 0.0);
-        itemsMap.put((short) 5, 0.0);
-        itemsMap.put((short) 10, 0.0);
-        itemsMap.put((short) 22, 0.0);
-
-        for (Item item : items) {
-            itemsMap.put(item.vat(), itemsMap.get(item.vat()) + (100 - item.discount2())/100 * ((100 - item.discount1())/100 * (item.quantity() * item.price())));
-        }
-
-        double itemsSum = 0.0;
-        for (double value : itemsMap.values()) {
-            itemsSum += value;
-        }
-
-        double costCoefficient = nonDocumentedCost/itemsSum;
-        double packagingCoefficient = packagingCost/itemsSum;
-
-        itemsMap.forEach((key, value) -> {
-            itemsMap.put(key, itemsMap.get(key) + value * costCoefficient);
-            itemsMap.put(key, itemsMap.get(key) + value * packagingCoefficient);
-
-            itemsMap.put(key, itemsMap.get(key) * (100 + key)/100);
-        });
-
-        double semiResult = 0.0;
-        for (double value : itemsMap.values()) {
-            semiResult += value;
-        }
-
-        return Math.round((semiResult + documentedCost + interests + deposit) * 100.0)/100.0;
+    for (Item item : items) {
+      itemsMap.put(item.vat(), itemsMap.get(item.vat()) + (100 - item.discount2())/100 * ((100 - item.discount1())/100 * (item.quantity() * item.price())));
     }
 
-    public void reset() {
-        this.seller = new String[] {};
-        this.customer = new String[] {};
-        this.invoice = new String[] {};
-        this.items = new ArrayList<>(10);
-        this.nonDocumentedCost = 0;
-        this.packagingCost = 0;
-        this.documentedCost = 0;
-        this.interests = 0;
-        this.deposit = 0;
+    double itemsSum = 0.0;
+    for (double value : itemsMap.values()) {
+      itemsSum += value;
     }
 
-    public int printHTML() {
-        HTMLInvoicePrinter printer = new HTMLInvoicePrinter(this);
-        try {
-            printer.addHeader()
-                    .addSeller()
-                    .addCustomer()
-                    .addInformation()
-                    .addItems()
-                    .addCostInformation();
-        } catch (Exception e) { }
-        return printer.print();
+    double costCoefficient = nonDocumentedCost/itemsSum;
+    double packagingCoefficient = packagingCost/itemsSum;
+
+    itemsMap.forEach((key, value) -> {
+      itemsMap.put(key, itemsMap.get(key) + value * costCoefficient);
+      itemsMap.put(key, itemsMap.get(key) + value * packagingCoefficient);
+
+      itemsMap.put(key, itemsMap.get(key) * (100 + key)/100);
+    });
+
+    double semiResult = 0.0;
+    for (double value : itemsMap.values()) {
+      semiResult += value;
     }
 
-    public int printXML() {
-        XMLInvoicePrinter printer = new XMLInvoicePrinter(this);
-        try {
-            printer.addNumber()
-                    .addDate()
-                    .addSeller()
-                    .addCustomer()
-                    .addDelivery()
-                    .addTransport()
-                    .addPackaging()
-                    .addPayment()
-                    .addItems()
-                    .addNonDocumentedCost()
-                    .addPackagingCost()
-                    .addDocumentedCost()
-                    .addInterests()
-                    .addDeposit()
-                    .addTotal();
+    return Math.round((semiResult + documentedCost + interests + deposit) * 100.0)/100.0;
+  }
 
-        } catch (Exception e) { }
-        return printer.print();
-    }
+  public void reset() {
+    this.seller = new String[] {};
+    this.customer = new String[] {};
+    this.invoice = new String[] {};
+    this.items = new ArrayList<>(10);
+    this.nonDocumentedCost = 0;
+    this.packagingCost = 0;
+    this.documentedCost = 0;
+    this.interests = 0;
+    this.deposit = 0;
+  }
 
-    public String[] getSeller() {
-        return seller;
-    }
+  public int printHTML() {
+    HTMLInvoicePrinter printer = new HTMLInvoicePrinter(this);
+    try {
+      printer.addHeader()
+        .addSeller()
+        .addCustomer()
+        .addInformation()
+        .addItems()
+        .addCostInformation();
+    } catch (Exception ignored) { }
+    return printer.print();
+  }
 
-    public void setSeller(String[] seller) {
-        this.seller = seller;
-    }
+  public int printXML() {
+    XMLInvoicePrinter printer = new XMLInvoicePrinter(this);
+    try {
+      printer.addNumber()
+        .addDate()
+        .addSeller()
+        .addCustomer()
+        .addDelivery()
+        .addTransport()
+        .addPackaging()
+        .addPayment()
+        .addItems()
+        .addNonDocumentedCost()
+        .addPackagingCost()
+        .addDocumentedCost()
+        .addInterests()
+        .addDeposit()
+        .addTotal();
 
-    public String[] getCustomer() {
-        return customer;
-    }
+    } catch (Exception ignored) { }
+    return printer.print();
+  }
 
-    public void setCustomer(String[] customer) {
-        this.customer = customer;
-    }
+  public String[] getSeller() {
+    return seller;
+  }
 
-    public String[] getInvoice() {
-        return invoice;
-    }
+  public void setSeller(String[] seller) {
+    this.seller = seller;
+  }
 
-    public void setInvoice(String[] invoice) {
-        this.invoice = invoice;
-    }
+  public String[] getCustomer() {
+    return customer;
+  }
 
-    public ArrayList<Item> getItems() {
-        return items;
-    }
+  public void setCustomer(String[] customer) {
+    this.customer = customer;
+  }
 
-    public void addItem(Item item) {
-        this.items.add(item);
-    }
+  public String[] getInvoice() {
+    return invoice;
+  }
 
-    public double getNonDocumentedCost() {
-        return nonDocumentedCost;
-    }
+  public void setInvoice(String[] invoice) {
+    this.invoice = invoice;
+  }
 
-    public void setNonDocumentedCost(double nonDocumentedCost) {
-        this.nonDocumentedCost = nonDocumentedCost;
-    }
+  public ArrayList<Item> getItems() {
+    return items;
+  }
 
-    public double getPackagingCost() {
-        return packagingCost;
-    }
+  public void addItem(Item item) {
+    this.items.add(item);
+  }
 
-    public void setPackagingCost(double packagingCost) {
-        this.packagingCost = packagingCost;
-    }
+  public double getNonDocumentedCost() {
+    return nonDocumentedCost;
+  }
 
-    public double getDocumentedCost() {
-        return documentedCost;
-    }
+  public void setNonDocumentedCost(double nonDocumentedCost) {
+    this.nonDocumentedCost = nonDocumentedCost;
+  }
 
-    public void setDocumentedCost(double documentedCost) {
-        this.documentedCost = documentedCost;
-    }
+  public double getPackagingCost() {
+    return packagingCost;
+  }
 
-    public double getInterests() {
-        return interests;
-    }
+  public void setPackagingCost(double packagingCost) {
+    this.packagingCost = packagingCost;
+  }
 
-    public void setInterests(double interests) {
-        this.interests = interests;
-    }
+  public double getDocumentedCost() {
+    return documentedCost;
+  }
 
-    public double getDeposit() {
-        return deposit;
-    }
+  public void setDocumentedCost(double documentedCost) {
+    this.documentedCost = documentedCost;
+  }
 
-    public void setDeposit(double deposit) {
-        this.deposit = deposit;
-    }
+  public double getInterests() {
+    return interests;
+  }
+
+  public void setInterests(double interests) {
+    this.interests = interests;
+  }
+
+  public double getDeposit() {
+    return deposit;
+  }
+
+  public void setDeposit(double deposit) {
+    this.deposit = deposit;
+  }
 }
