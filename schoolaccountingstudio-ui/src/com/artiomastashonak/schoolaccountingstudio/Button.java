@@ -7,9 +7,9 @@ import java.awt.Font;
 import java.awt.Dimension;
 
 public class Button extends JButton {
-  public Button(String text, Color backogrundColor, Color textColor, Font font) {
+  public Button(String text, Color backgroundColor, Color textColor, Font font) {
     setText(text);
-    setBackground(backogrundColor);
+    setBackground(backgroundColor);
     setForeground(textColor);
     setFont(font);
     setFocusable(false);

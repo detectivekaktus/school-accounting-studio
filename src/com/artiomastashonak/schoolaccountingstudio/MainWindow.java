@@ -22,7 +22,7 @@ public class MainWindow {
     setConfig();
     BUNDLE = ResourceBundle.getBundle("strings/strings", Locale.of(CONFIG.get("language").toString()));
 
-    Window window = new Window(new ImageIcon(), BUNDLE);
+    Window window = new Window(new ImageIcon("resources/img/icon_256_256.png"), BUNDLE);
     MenuBar menuBar = new MenuBar(BUNDLE);
     window.setJMenuBar(menuBar);
     CardLayout cardLayout = new CardLayout();
