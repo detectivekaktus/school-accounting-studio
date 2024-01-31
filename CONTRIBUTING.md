@@ -26,9 +26,9 @@ This part ensures the elimination of simple errors and prevents code regression 
 ## Formatting
 Code formatting is a crucial part of the project. The following sub-rules of this section are listed below:
 * Use 2 spaces instead of tabs for indentation.
-* Constants must be written in uppercase.
+* Constants must be written in uppercase following the snake case style.
 
-# Commits
+## Commits
 To avoid unnecessary comments during the commit review stage, it is recommended to follow the following simple rules that will expedite the verdict process:
 * **Description of changes**. You should list all the changes you made without going into details.
 * **Work breakdown**. Do not try to fix more than one issue within a single commit.
