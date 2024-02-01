@@ -1,10 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="schoolaccountingstudio:jar">
-    <output-path>$PROJECT_DIR$/../../compiled/java/schoolaccountingstudio</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/schoolaccountingstudio_jar</output-path>
     <root id="archive" name="schoolaccountingstudio.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/../../compiled/java/schoolaccountingstudio/META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="schoolaccountingstudio" />
       <element id="module-output" name="schoolaccountingstudio-ui" />
       <element id="module-output" name="schoolaccountingstudio-utils" />
