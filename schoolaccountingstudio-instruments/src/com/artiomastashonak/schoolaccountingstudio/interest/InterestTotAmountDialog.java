@@ -45,7 +45,7 @@ public class InterestTotAmountDialog extends JDialog {
     this.BUNDLE = bundle;
 
     setMinimumSize(new Dimension(600, 550));
-    setTitle("Interests Calculator");
+    setTitle(BUNDLE.getString("interestCalculator"));
     getContentPane().setBackground(MAIN_WINDOW_COLOR);
     setModal(false);
     setLayout(new BorderLayout());
@@ -61,10 +61,10 @@ public class InterestTotAmountDialog extends JDialog {
     switchPanel.setLayout(new BoxLayout(switchPanel, BoxLayout.Y_AXIS));
     add(switchPanel, BorderLayout.WEST);
 
-    Button interestViewButton = new Button("Interest", BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
+    Button interestViewButton = new Button(BUNDLE.getString("interest"), BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
     switchPanel.add(interestViewButton);
 
-    Button totAmountViewButton = new Button("Total amount", BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
+    Button totAmountViewButton = new Button(BUNDLE.getString("totalAmount"), BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
     switchPanel.add(totAmountViewButton);
 
     JPanel interestPanel = createInterestPanel();
