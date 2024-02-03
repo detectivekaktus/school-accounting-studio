@@ -6,24 +6,15 @@ import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
 import com.artiomastashonak.schoolaccountingstudio.proportion.ProportionDialog;
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.Properties;
-import java.util.ResourceBundle;
 
 public class MainWindow {
-  public static Properties CONFIG = new Properties();
-  public static ResourceBundle BUNDLE;
 
   public static void main(String[] args) {
-    setConfig();
-    BUNDLE = ResourceBundle.getBundle("strings/strings", Locale.of(CONFIG.get("language").toString()));
+    Parameters.initialize();
 
-    Window window = new Window(new ImageIcon("resources/img/icon_256_256.png"), BUNDLE);
-    MenuBar menuBar = new MenuBar(BUNDLE);
+    Window window = new Window(new ImageIcon("resources/img/icon_256_256.png"), Parameters.getBundle());
+    MenuBar menuBar = Parameters.getMenuBar();
     window.setJMenuBar(menuBar);
     CardLayout cardLayout = new CardLayout();
     JPanel mainPanel = new JPanel();
@@ -34,7 +25,7 @@ public class MainWindow {
     JPanel cleanPanel = new JPanel();
     cleanPanel.setName("NONE");
     cleanPanel.setBackground(DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color);
-    Label logoLabel = new Label(BUNDLE.getString("applicationName"), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color, new Font("sans-serif", Font.PLAIN, 32));
+    Label logoLabel = new Label(Parameters.getBundle().getString("applicationName"), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.VIOLET_PRIMARY_ACCENT_COLOR.color, new Font("sans-serif", Font.PLAIN, 32));
     cleanPanel.add(logoLabel);
     SpringLayout cleanPanelLayout = new SpringLayout();
     cleanPanelLayout.putConstraint(SpringLayout.NORTH, logoLabel, 10, SpringLayout.NORTH, window.getContentPane());
@@ -45,10 +36,10 @@ public class MainWindow {
     menuBar.fileCreateInvoice.addActionListener((e) -> {
       for (Component component : mainPanel.getComponents()) {
         if (!Objects.equals(component.getName(), "INVOICE")) continue;
-        if (JOptionPane.showConfirmDialog(null, BUNDLE.getString("invoiceWarning"), BUNDLE.getString("warning"), JOptionPane.YES_NO_OPTION) != 0) return;
+        if (JOptionPane.showConfirmDialog(null, Parameters.getBundle().getString("invoiceWarning"), Parameters.getBundle().getString("warning"), JOptionPane.YES_NO_OPTION) != 0) return;
         mainPanel.remove(component);
       }
-      InvoicePanel invoicePanel = new InvoicePanel(BUNDLE);
+      InvoicePanel invoicePanel = new InvoicePanel(Parameters.getBundle());
       JScrollPane invoice = new JScrollPane(invoicePanel);
       invoice.setName("INVOICE");
       invoice.setBorder(null);
@@ -56,29 +47,17 @@ public class MainWindow {
       cardLayout.show(mainPanel, "INVOICE");
     });
     menuBar.fileSettingsItem.addActionListener((e) -> showSettings());
-    menuBar.toolsInterestCalcItem.addActionListener((e) -> new InterestTotAmountDialog(BUNDLE));
-    menuBar.toolsDiscountCalcItem.addActionListener((e) -> new DiscountPresentValueDialog(BUNDLE));
-    menuBar.toolsProportionCalcItem.addActionListener((e) -> new ProportionDialog(BUNDLE));
+    menuBar.toolsInterestCalcItem.addActionListener((e) -> new InterestTotAmountDialog(Parameters.getBundle()));
+    menuBar.toolsDiscountCalcItem.addActionListener((e) -> new DiscountPresentValueDialog(Parameters.getBundle()));
+    menuBar.toolsProportionCalcItem.addActionListener((e) -> new ProportionDialog(Parameters.getBundle()));
 
     window.setVisible(true);
 
-    if (CONFIG.get("firstBoot").equals("true")) {
+    if (Parameters.getConfig().get("firstBoot").equals("true")) {
       menuBar.helpWelcomeItem.doClick();
-      CONFIG.setProperty("firstBoot", "false");
-      updateConfig();
+      Parameters.getConfig().setProperty("firstBoot", "false");
+      Parameters.updateConfig();
     }
-  }
-
-  private static void setConfig() {
-    try {
-      CONFIG.load(new FileInputStream("config.properties"));
-    } catch (IOException ignored) { }
-  }
-
-  private static void updateConfig() {
-    try {
-      CONFIG.store(new FileOutputStream("config.properties"), "Configuration update caused by user action.");
-    } catch (IOException ignored) { }
   }
 
   private static void showSettings() {
@@ -90,12 +69,12 @@ public class MainWindow {
     SpringLayout layout = new SpringLayout();
     dialog.setLayout(layout);
 
-    Label settingsLabel = new Label(BUNDLE.getString("settings"), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.PRIMARY_TEXT_COLOR.color, new Font("sans-serif", Font.PLAIN, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size));
+    Label settingsLabel = new Label(Parameters.getBundle().getString("settings"), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.PRIMARY_TEXT_COLOR.color, new Font("sans-serif", Font.PLAIN, TextSizes.WELCOME_ACTION_BUTTONS_TEXT_SIZE.size));
     dialog.add(settingsLabel);
     layout.putConstraint(SpringLayout.NORTH, settingsLabel, 5, SpringLayout.NORTH, dialog);
     layout.putConstraint(SpringLayout.WEST, settingsLabel, 5, SpringLayout.WEST, dialog);
 
-    Label languageLabel = new Label(BUNDLE.getString("language"), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.PRIMARY_TEXT_COLOR.color, new Font("sans-serif", Font.PLAIN, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size));
+    Label languageLabel = new Label(Parameters.getBundle().getString("language"), DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color, DarkThemeColors.PRIMARY_TEXT_COLOR.color, new Font("sans-serif", Font.PLAIN, TextSizes.ELEMENT_TITLE_TEXT_SIZE.size));
     dialog.add(languageLabel);
     layout.putConstraint(SpringLayout.NORTH, languageLabel, 5, SpringLayout.SOUTH, settingsLabel);
     layout.putConstraint(SpringLayout.WEST, languageLabel, 5, SpringLayout.WEST, dialog);
@@ -109,40 +88,40 @@ public class MainWindow {
     layout.putConstraint(SpringLayout.NORTH, comboBox, 5, SpringLayout.SOUTH, languageLabel);
     layout.putConstraint(SpringLayout.WEST, comboBox, 5, SpringLayout.WEST, dialog);
 
-    Button submitButton = new Button(BUNDLE.getString("submit"), DarkThemeColors.BUTTON_BACKGROUND_COLOR.color, DarkThemeColors.PRIMARY_TEXT_COLOR.color, new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size));
+    Button submitButton = new Button(Parameters.getBundle().getString("submit"), DarkThemeColors.BUTTON_BACKGROUND_COLOR.color, DarkThemeColors.PRIMARY_TEXT_COLOR.color, new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size));
     submitButton.addActionListener((e) -> {
 
     });
     submitButton.addActionListener((e) -> {
       switch ((String) Objects.requireNonNull(comboBox.getSelectedItem())) {
         case "English": {
-          CONFIG.setProperty("language", "EN");
-          updateConfig();
+          Parameters.getConfig().setProperty("language", "EN");
+          Parameters.updateConfig();
           break;
         }
         case "Italiano": {
-          CONFIG.setProperty("language", "IT");
-          updateConfig();
+          Parameters.getConfig().setProperty("language", "IT");
+          Parameters.updateConfig();
           break;
         }
         case "Español": {
-          CONFIG.setProperty("language", "ES");
-          updateConfig();
+          Parameters.getConfig().setProperty("language", "ES");
+          Parameters.updateConfig();
           break;
         }
         case "Русский": {
-          CONFIG.setProperty("language", "RU");
-          updateConfig();
+          Parameters.getConfig().setProperty("language", "RU");
+          Parameters.updateConfig();
           break;
         }
         case "Shqip": {
-          CONFIG.setProperty("language", "SQ");
-          updateConfig();
+          Parameters.getConfig().setProperty("language", "SQ");
+          Parameters.updateConfig();
           break;
         }
         case "اَلْعَرَبِيَّة": {
-          CONFIG.setProperty("language", "AR");
-          updateConfig();
+          Parameters.getConfig().setProperty("language", "AR");
+          Parameters.updateConfig();
           break;
         }
         default: break;

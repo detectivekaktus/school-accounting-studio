@@ -43,7 +43,7 @@ table td {
 
 .document {
     margin: 0 auto;
-    width: 50%;
+    width: 66%;
     padding: .5em;
     box-shadow: 0 0 20px rgba(0, 0, 0, .25);
     border-bottom: 1px solid var(--disabled-color);
