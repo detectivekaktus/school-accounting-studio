@@ -1,7 +1,6 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import com.artiomastashonak.schoolaccountingstudio.Parameters;
-
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
