@@ -269,13 +269,13 @@ public final class InvoicePanel extends JPanel {
     DISCOUNT_2.getText()});
 
     HANDLER.addItem(new Item(MEASURE_UNIT.getText(),
-    Integer.parseInt(QUANTITY.getText()),
-    CODE.getText(),
-    DESCRIPTION.getText(),
-    Short.parseShort(VAT.getText()),
-    Double.parseDouble(UNIT_PRICE.getText()),
-    Float.parseFloat(DISCOUNT_1.getText()),
-    Float.parseFloat(DISCOUNT_2.getText())));
+      Integer.parseInt(QUANTITY.getText()),
+      CODE.getText(),
+      DESCRIPTION.getText(),
+      Short.parseShort(VAT.getText()),
+      Double.parseDouble(UNIT_PRICE.getText()),
+      Float.parseFloat(DISCOUNT_1.getText()),
+      Float.parseFloat(DISCOUNT_2.getText())));
 
     for (TextField textField : new TextField[]{MEASURE_UNIT, QUANTITY, CODE, DESCRIPTION, VAT, UNIT_PRICE, DISCOUNT_1, DISCOUNT_2}) {
       textField.setText("");

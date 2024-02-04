@@ -100,7 +100,6 @@ public class InvoiceHandler {
         .addInterests()
         .addDeposit()
         .addTotal();
-
     } catch (Exception ignored) { }
     return printer.print();
   }

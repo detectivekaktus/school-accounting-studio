@@ -149,6 +149,7 @@ public class InterestTotAmountDialog extends JDialog {
       } else {
         JOptionPane.showInternalMessageDialog(null, BUNDLE.getString("calculationError"));
       }
+      INTEREST_HANDLER.reset();
     });
     interestPanel.add(interestCalcButton);
     layout.putConstraint(SpringLayout.SOUTH, interestCalcButton, -25, SpringLayout.SOUTH, interestPanel);
@@ -299,6 +300,7 @@ public class InterestTotAmountDialog extends JDialog {
       } else {
         JOptionPane.showInternalMessageDialog(null, BUNDLE.getString("calculationError"));
       }
+      TOTAL_AMOUNT_HANDLER.reset();
     });
     totAmountPanel.add(totAmountCalcButton);
     layout.putConstraint(SpringLayout.SOUTH, totAmountCalcButton, -25, SpringLayout.SOUTH, totAmountPanel);
