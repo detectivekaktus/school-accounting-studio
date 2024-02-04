@@ -1,9 +1,12 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import com.artiomastashonak.schoolaccountingstudio.Parameters;
+
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Random;
 
@@ -238,6 +241,9 @@ public class HTMLInvoicePrinter {
       return -1;
     }
     reset();
+    try {
+      Desktop.getDesktop().open(new File(outputDirectory + "/" + documentName + "/" + documentName + ".html"));
+    } catch (IOException ignored) { }
     return 0;
   }
 

@@ -1,8 +1,10 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class XMLInvoicePrinter {
   private final InvoiceHandler HANDLER;
@@ -118,19 +120,21 @@ public class XMLInvoicePrinter {
 
   public int print() {
     document += "</invoice>";
-    String OUTPUT_DIRECTORY = "generated/invoices/xml";
-    File outputDir = new File(OUTPUT_DIRECTORY);
+    String outputDirectory = "generated/invoices/xml";
+    File outputDir = new File(outputDirectory);
     outputDir.mkdirs();
     try {
-      BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_DIRECTORY + String.format("/invoice_n_%s_to_%s", HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]) + ".xml"));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(outputDirectory + String.format("/invoice_n_%s_to_%s", HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]) + ".xml"));
       writer.write(document);
       writer.close();
     } catch (Exception e) {
       reset();
       return -1;
     }
-
     reset();
+    try {
+      Desktop.getDesktop().open(new File(outputDirectory + "/" + String.format("invoice_n_%s_to_%s", HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]) + ".xml"));
+    } catch (IOException ignored) { }
     return 0;
   }
 
