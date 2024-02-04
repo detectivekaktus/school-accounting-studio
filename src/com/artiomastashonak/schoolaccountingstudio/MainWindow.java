@@ -40,7 +40,10 @@ public class MainWindow {
         mainPanel.remove(component);
       }
       InvoicePanel invoicePanel = new InvoicePanel(Parameters.getBundle());
+      invoicePanel.setPreferredSize(new Dimension(1200, 875));
       JScrollPane invoice = new JScrollPane(invoicePanel);
+      invoice.getVerticalScrollBar().setUnitIncrement(5);
+      invoice.getHorizontalScrollBar().setUnitIncrement(5);
       invoice.setName("INVOICE");
       invoice.setBorder(null);
       mainPanel.add(invoice, "INVOICE");
