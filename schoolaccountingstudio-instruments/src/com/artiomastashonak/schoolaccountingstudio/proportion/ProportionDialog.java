@@ -84,6 +84,7 @@ public class ProportionDialog extends JDialog {
           return;
         }
         JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
+        PROPORTION.reset();
       } catch (NoSolutionException nse) {
         JOptionPane.showInternalMessageDialog(null, bundle.getString("noSolutionFoundInvalid"));
       }
@@ -122,8 +123,14 @@ public class ProportionDialog extends JDialog {
     }
     try {
       PROPORTION.setA(Double.parseDouble(FIRST_TERM.getText()));
+    } catch (Exception ignored) { }
+    try {
       PROPORTION.setB(Double.parseDouble(SECOND_TERM.getText()));
+    } catch (Exception ignored) { }
+    try {
       PROPORTION.setC(Double.parseDouble(THIRD_TERM.getText()));
+    } catch (Exception ignored) { }
+    try {
       PROPORTION.setD(Double.parseDouble(FOURTH_TERM.getText()));
     } catch (Exception ignored) { }
 

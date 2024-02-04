@@ -8,6 +8,7 @@ public class InvoiceHandler {
   private String[] customer = new String[] {};
   private String[] invoice = new String[] {};
   private ArrayList<Item> items = new ArrayList<>(10);
+  private HashMap<Short, Double> itemsMap = new HashMap<>(4);
   private double nonDocumentedCost = 0;
   private double packagingCost = 0;
   private double documentedCost = 0;
@@ -17,7 +18,16 @@ public class InvoiceHandler {
   public InvoiceHandler() { }
 
   public double calculate() {
-    HashMap<Short, Double> itemsMap = new HashMap<>(4);
+    composeMap();
+    double semiResult = 0.0;
+    for (double value : itemsMap.values()) {
+      semiResult += value;
+    }
+
+    return Math.round((semiResult + documentedCost + interests + deposit) * 100.0)/100.0;
+  }
+
+  public void composeMap() {
     itemsMap.put((short) 4, 0.0);
     itemsMap.put((short) 5, 0.0);
     itemsMap.put((short) 10, 0.0);
@@ -41,13 +51,6 @@ public class InvoiceHandler {
 
       itemsMap.put(key, itemsMap.get(key) * (100 + key)/100);
     });
-
-    double semiResult = 0.0;
-    for (double value : itemsMap.values()) {
-      semiResult += value;
-    }
-
-    return Math.round((semiResult + documentedCost + interests + deposit) * 100.0)/100.0;
   }
 
   public void reset() {
@@ -55,6 +58,7 @@ public class InvoiceHandler {
     this.customer = new String[] {};
     this.invoice = new String[] {};
     this.items = new ArrayList<>(10);
+    this.itemsMap = new HashMap<>(4);
     this.nonDocumentedCost = 0;
     this.packagingCost = 0;
     this.documentedCost = 0;
@@ -68,9 +72,12 @@ public class InvoiceHandler {
       printer.addHeader()
         .addSeller()
         .addCustomer()
+        .addLegalInformation()
         .addInformation()
         .addItems()
-        .addCostInformation();
+        .addVatInformation()
+        .addCostInformation()
+        .endFile();
     } catch (Exception ignored) { }
     return printer.print();
   }
@@ -93,7 +100,6 @@ public class InvoiceHandler {
         .addInterests()
         .addDeposit()
         .addTotal();
-
     } catch (Exception ignored) { }
     return printer.print();
   }
@@ -128,6 +134,10 @@ public class InvoiceHandler {
 
   public void addItem(Item item) {
     this.items.add(item);
+  }
+
+  public HashMap<Short, Double> getItemsMap() {
+    return itemsMap;
   }
 
   public double getNonDocumentedCost() {

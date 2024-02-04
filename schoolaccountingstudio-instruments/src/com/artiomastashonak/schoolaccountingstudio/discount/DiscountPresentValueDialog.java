@@ -149,6 +149,7 @@ public class DiscountPresentValueDialog extends JDialog {
       } else {
         JOptionPane.showInternalMessageDialog(null, BUNDLE.getString("calculationError"));
       }
+      DISCOUNT_HANDLER.reset();
     });
     discountPanel.add(discountCalcButton);
     layout.putConstraint(SpringLayout.SOUTH, discountCalcButton, -25, SpringLayout.SOUTH, discountPanel);
@@ -299,6 +300,7 @@ public class DiscountPresentValueDialog extends JDialog {
       } else {
         JOptionPane.showInternalMessageDialog(null, BUNDLE.getString("calculationError"));
       }
+      PRESENT_VALUE_HANDLER.reset();
     });
     presValuePanel.add(presValueCalcButton);
     layout.putConstraint(SpringLayout.SOUTH, presValueCalcButton, -25, SpringLayout.SOUTH, presValuePanel);

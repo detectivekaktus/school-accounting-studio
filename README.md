@@ -55,6 +55,7 @@ Down below, you can see a described representation of the project structure.
   |  |- printing                            Printing templates
   |  |- strings                             Locale string values
   |- schoolaccountingstudio-instruments     UI components combined with logic
+  |- schoolaccountingstudio-settings        Set of constant values and settings for the application
   |- schoolaccountingstudio-ui              UI components
   |- schoolaccountingstudio-utils           Utility classes, enums and data
   |- src                                    Source folder for the main class

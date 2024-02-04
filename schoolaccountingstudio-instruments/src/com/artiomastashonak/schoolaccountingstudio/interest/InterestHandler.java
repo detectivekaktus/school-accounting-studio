@@ -63,6 +63,7 @@ public class InterestHandler {
   }
 
   public void reset() {
+    this.capital = 0;
     this.time = 0;
     this.quote = 0;
     this.interest = 0;

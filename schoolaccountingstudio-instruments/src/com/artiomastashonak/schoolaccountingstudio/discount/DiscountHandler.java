@@ -63,6 +63,7 @@ public class DiscountHandler {
   }
 
   public void reset() {
+    this.capital = 0;
     this.time = 0;
     this.quote = 0;
     this.discount = 0;
