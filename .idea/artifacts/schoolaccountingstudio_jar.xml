@@ -6,6 +6,7 @@
       <element id="module-output" name="schoolaccountingstudio-ui" />
       <element id="module-output" name="schoolaccountingstudio-utils" />
       <element id="module-output" name="schoolaccountingstudio-instruments" />
+      <element id="module-output" name="schoolaccountingstudio-settings" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/annotations-24.0.0.jar" path-in-jar="/" />
     </root>
   </artifact>
