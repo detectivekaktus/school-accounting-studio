@@ -6,7 +6,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Random;
 
 public class HTMLInvoicePrinter {
@@ -212,30 +211,136 @@ public class HTMLInvoicePrinter {
   public int print() {
     String documentName = String.format("invoice_n_%s_to_%s", HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]);
     String outputDirectory = "generated/invoices/html";
-    String cssDirectory = "resources/printing/invoice/css/style.css";
-    String jsDirectory = "resources/printing/invoice/js/main.js";
     try {
-      File documentOutput = new File(outputDirectory + "/" + documentName);
-      documentOutput.mkdirs();
+      new File(outputDirectory + "/" + documentName).mkdirs();
+      new File(outputDirectory + "/" + documentName + "/css").mkdirs();
+      new File(outputDirectory + "/" + documentName + "/js").mkdirs();
 
-      BufferedWriter writer = new BufferedWriter(new FileWriter(outputDirectory + "/" + documentName + "/" + documentName + ".html"));
-      writer.write(document);
-      writer.close();
+      var htmlWriter = new BufferedWriter(new FileWriter(outputDirectory + "/" + documentName + "/" + documentName + ".html"));
+      htmlWriter.write(document);
+      htmlWriter.close();
 
-      File invoiceCssDir = new File(outputDirectory + "/" + documentName + "/css");
-      invoiceCssDir.mkdirs();
+      var cssWriter = new BufferedWriter(new FileWriter(outputDirectory + "/" + documentName + "/css/style.css"));
+      cssWriter.write("""
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+                
+        :root {
+            --primary-color: #34ebcf;
+            --accent-color: #11806f;
+            --text-color: #000000;
+            --bright-text-color: #ffffff;
+            --white-accent-color: #e7e7e7;
+            --disabled-color: #bdbdbd;
+        }
+                
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-family: 'Roboto', sans-serif;
+        }
+                
+        .break {
+            margin-bottom: 1em;
+        }
+                
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border-radius: 5px 5px 0 0;
+            overflow: hidden;
+        }
+                
+        table thead {
+            font-size: 1.5em;
+            font-weight: 600;
+            background-color: var(--accent-color);
+            color: var(--bright-text-color);
+        }
+                
+        table tr,
+        table th,
+        table td {
+            padding: .5em .5em;
+            border-bottom: 1px solid var(--disabled-color);
+        }
+                
+        .document {
+            margin: 0 auto;
+            width: 66%;
+            padding: .5em;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .25);
+            border-bottom: 1px solid var(--disabled-color);
+            overflow: hidden;
+        }
+                
+        .header {
+            display: flex;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-color);
+            justify-content: flex-end;
+        }
+                
+        .seller-customer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5em;
+        }
+                
+        .seller-customer h3 {
+            font-weight: 800;
+            color: var(--accent-color);
+        }
+                
+        .seller {
+            text-align: left;
+        }
+                
+        .customer {
+            text-align: right;
+        }
+                
+        .items tbody tr:nth-of-type(even) {
+            background-color: var(--white-accent-color);
+        }
+                
+        @media print {
+            .document {
+                padding: 0;
+                width: 100%;
+            }
+                
+            .seller-customer {
+                font-size: 1em;
+            }
+                
+            .seller-customer h3 {
+                font-weight: 800;
+                font-size: 1.15em;
+                color: var(--accent-color);
+            }
+                
+            table thead {
+                font-size: 1.2em;
+            }
+        }
+        """);
+      cssWriter.close();
 
-      File invoiceJsDir = new File(outputDirectory + "/" + documentName + "/js");
-      invoiceJsDir.mkdirs();
-
-      File cssSource = new File(cssDirectory);
-      File jsSource = new File(jsDirectory);
-      File cssOutput = new File(outputDirectory + "/" + documentName + "/css/style.css");
-      File jsOutput = new File(outputDirectory + "/" + documentName + "/js/main.js");
-
-      Files.copy(cssSource.toPath(), cssOutput.toPath());
-      Files.copy(jsSource.toPath(), jsOutput.toPath());
+      var jsWriter = new BufferedWriter(new FileWriter(outputDirectory + "/" + documentName + "/js/main.js"));
+      jsWriter.write(String.format("""
+        let toBePrinted = confirm("%s");
+        if (toBePrinted) {
+         print();
+        }
+        """, Parameters.getBundle().getString("printToPDF")));
+      jsWriter.close();
     } catch (Exception e) {
+      new File(outputDirectory + "/" + documentName + "/" + documentName + ".html").delete();
+      new File(outputDirectory + "/" + documentName + "/css/style.css").delete();
+      new File(outputDirectory + "/" + documentName + "/js/main.js").delete();
+      new File(outputDirectory + "/" + documentName).delete();
       reset();
       return -1;
     }

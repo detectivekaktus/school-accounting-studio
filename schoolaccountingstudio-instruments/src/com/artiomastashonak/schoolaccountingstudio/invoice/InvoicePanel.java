@@ -324,92 +324,92 @@ public final class InvoicePanel extends JPanel {
   }
 
   private void showSellerDialog() {
-    JDialog sellerDialog = new JDialog();
-    sellerDialog.setTitle(BUNDLE.getString("seller"));
-    sellerDialog.setModal(true);
-    sellerDialog.setSize(375, 400);
-    sellerDialog.setResizable(false);
-    sellerDialog.getContentPane().setBackground(MAIN_WINDOW_COLOR);
+    JDialog dialog = new JDialog();
+    dialog.setTitle(BUNDLE.getString("seller"));
+    dialog.setModal(true);
+    dialog.setSize(450, 400);
+    dialog.setResizable(true);
+    dialog.getContentPane().setBackground(MAIN_WINDOW_COLOR);
     SpringLayout layout = new SpringLayout();
-    sellerDialog.setLayout(layout);
+    dialog.setLayout(layout);
 
     Label sellerNameLabel = new Label(BUNDLE.getString("name"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerNameLabel);
-    layout.putConstraint(SpringLayout.NORTH, sellerNameLabel, 5, SpringLayout.NORTH, sellerDialog);
-    layout.putConstraint(SpringLayout.WEST, sellerNameLabel, 5, SpringLayout.WEST, sellerDialog);
+    dialog.add(sellerNameLabel);
+    layout.putConstraint(SpringLayout.NORTH, sellerNameLabel, 5, SpringLayout.NORTH, dialog.getContentPane());
+    layout.putConstraint(SpringLayout.WEST, sellerNameLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_NAME.setColumns(12);
-    sellerDialog.add(SELLER_NAME);
+    dialog.add(SELLER_NAME);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_NAME, 0, SpringLayout.SOUTH, sellerNameLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_NAME, 5, SpringLayout.EAST, sellerNameLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_NAME, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label sellerAddressLabel = new Label(BUNDLE.getString("address"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerAddressLabel);
+    dialog.add(sellerAddressLabel);
     layout.putConstraint(SpringLayout.NORTH, sellerAddressLabel, 5, SpringLayout.SOUTH, sellerNameLabel);
-    layout.putConstraint(SpringLayout.WEST, sellerAddressLabel, 5, SpringLayout.WEST, sellerDialog);
+    layout.putConstraint(SpringLayout.WEST, sellerAddressLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_ADDRESS.setColumns(12);
-    sellerDialog.add(SELLER_ADDRESS);
+    dialog.add(SELLER_ADDRESS);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_ADDRESS, 0, SpringLayout.SOUTH, sellerAddressLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_ADDRESS, 5, SpringLayout.EAST, sellerAddressLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_ADDRESS, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label sellerPhoneLabel = new Label(BUNDLE.getString("phone"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerPhoneLabel);
+    dialog.add(sellerPhoneLabel);
     layout.putConstraint(SpringLayout.NORTH, sellerPhoneLabel, 5, SpringLayout.SOUTH, sellerAddressLabel);
-    layout.putConstraint(SpringLayout.WEST, sellerPhoneLabel, 5, SpringLayout.WEST, sellerDialog);
+    layout.putConstraint(SpringLayout.WEST, sellerPhoneLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_PHONE.setColumns(12);
-    sellerDialog.add(SELLER_PHONE);
+    dialog.add(SELLER_PHONE);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_PHONE, 0, SpringLayout.SOUTH, sellerPhoneLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_PHONE, 5, SpringLayout.EAST, sellerPhoneLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_PHONE, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label sellerEmailLabel = new Label(BUNDLE.getString("email"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerEmailLabel);
+    dialog.add(sellerEmailLabel);
     layout.putConstraint(SpringLayout.NORTH, sellerEmailLabel, 5, SpringLayout.SOUTH, sellerPhoneLabel);
-    layout.putConstraint(SpringLayout.WEST, sellerEmailLabel, 5, SpringLayout.WEST, sellerDialog);
+    layout.putConstraint(SpringLayout.WEST, sellerEmailLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_EMAIL.setColumns(12);
-    sellerDialog.add(SELLER_EMAIL);
+    dialog.add(SELLER_EMAIL);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_EMAIL, 0, SpringLayout.SOUTH, sellerEmailLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_EMAIL, 5, SpringLayout.EAST, sellerEmailLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_EMAIL, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label sellerVatNumberLabel = new Label(BUNDLE.getString("vat"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerVatNumberLabel);
+    dialog.add(sellerVatNumberLabel);
     layout.putConstraint(SpringLayout.NORTH, sellerVatNumberLabel, 5, SpringLayout.SOUTH, sellerEmailLabel);
-    layout.putConstraint(SpringLayout.WEST, sellerVatNumberLabel, 5, SpringLayout.WEST, sellerDialog);
+    layout.putConstraint(SpringLayout.WEST, sellerVatNumberLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_VAT_NUMBER.setColumns(12);
-    sellerDialog.add(SELLER_VAT_NUMBER);
+    dialog.add(SELLER_VAT_NUMBER);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_VAT_NUMBER, 0, SpringLayout.SOUTH, sellerVatNumberLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_VAT_NUMBER, 5, SpringLayout.EAST, sellerVatNumberLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_VAT_NUMBER, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label sellerRegisterLabel = new Label(BUNDLE.getString("register"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerRegisterLabel);
+    dialog.add(sellerRegisterLabel);
     layout.putConstraint(SpringLayout.NORTH, sellerRegisterLabel, 5, SpringLayout.SOUTH, sellerVatNumberLabel);
-    layout.putConstraint(SpringLayout.WEST, sellerRegisterLabel, 5, SpringLayout.WEST, sellerDialog);
+    layout.putConstraint(SpringLayout.WEST, sellerRegisterLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_REGISTER.setColumns(12);
-    sellerDialog.add(SELLER_REGISTER);
+    dialog.add(SELLER_REGISTER);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_REGISTER, 0, SpringLayout.SOUTH, sellerRegisterLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_REGISTER, 5, SpringLayout.EAST, sellerRegisterLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_REGISTER, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label sellerCapitalLabel = new Label(BUNDLE.getString("capital"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    sellerDialog.add(sellerCapitalLabel);
+    dialog.add(sellerCapitalLabel);
     layout.putConstraint(SpringLayout.NORTH, sellerCapitalLabel, 5, SpringLayout.SOUTH, sellerRegisterLabel);
-    layout.putConstraint(SpringLayout.WEST, sellerCapitalLabel, 5, SpringLayout.WEST, sellerDialog);
+    layout.putConstraint(SpringLayout.WEST, sellerCapitalLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     SELLER_SHARED_CAPITAL.setColumns(12);
-    sellerDialog.add(SELLER_SHARED_CAPITAL);
+    dialog.add(SELLER_SHARED_CAPITAL);
     layout.putConstraint(SpringLayout.SOUTH, SELLER_SHARED_CAPITAL, 0, SpringLayout.SOUTH, sellerCapitalLabel);
-    layout.putConstraint(SpringLayout.WEST, SELLER_SHARED_CAPITAL, 5, SpringLayout.EAST, sellerCapitalLabel);
+    layout.putConstraint(SpringLayout.EAST, SELLER_SHARED_CAPITAL, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Button submitSellerButton = new Button(BUNDLE.getString("submit"), BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
-    sellerDialog.add(submitSellerButton);
+    dialog.add(submitSellerButton);
     layout.putConstraint(SpringLayout.NORTH, submitSellerButton, 5, SpringLayout.SOUTH, SELLER_SHARED_CAPITAL);
-    layout.putConstraint(SpringLayout.EAST, submitSellerButton, 0, SpringLayout.EAST, SELLER_PHONE);
+    layout.putConstraint(SpringLayout.EAST, submitSellerButton, -10, SpringLayout.EAST, dialog.getContentPane());
     submitSellerButton.addActionListener((e) -> submitSeller());
 
-    sellerDialog.show();
+    dialog.show();
   }
 
   private void submitSeller() {
@@ -436,92 +436,92 @@ public final class InvoicePanel extends JPanel {
   }
 
   private void showCustomerDialog() {
-    JDialog customerDialog = new JDialog();
-    customerDialog.setTitle(BUNDLE.getString("customer"));
-    customerDialog.setModal(true);
-    customerDialog.setSize(375, 400);
-    customerDialog.setResizable(false);
-    customerDialog.getContentPane().setBackground(MAIN_WINDOW_COLOR);
+    JDialog dialog = new JDialog();
+    dialog.setTitle(BUNDLE.getString("customer"));
+    dialog.setModal(true);
+    dialog.setSize(450, 400);
+    dialog.setResizable(true);
+    dialog.getContentPane().setBackground(MAIN_WINDOW_COLOR);
     SpringLayout layout = new SpringLayout();
-    customerDialog.setLayout(layout);
+    dialog.setLayout(layout);
 
     Label customerNameLabel = new Label(BUNDLE.getString("name"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerNameLabel);
-    layout.putConstraint(SpringLayout.NORTH, customerNameLabel, 5, SpringLayout.NORTH, customerDialog);
-    layout.putConstraint(SpringLayout.WEST, customerNameLabel, 5, SpringLayout.WEST, customerDialog);
+    dialog.add(customerNameLabel);
+    layout.putConstraint(SpringLayout.NORTH, customerNameLabel, 5, SpringLayout.NORTH, dialog.getContentPane());
+    layout.putConstraint(SpringLayout.WEST, customerNameLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_NAME.setColumns(12);
-    customerDialog.add(CUSTOMER_NAME);
+    dialog.add(CUSTOMER_NAME);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_NAME, 0, SpringLayout.SOUTH, customerNameLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_NAME, 5, SpringLayout.EAST, customerNameLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_NAME, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label customerAddressLabel = new Label(BUNDLE.getString("address"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerAddressLabel);
+    dialog.add(customerAddressLabel);
     layout.putConstraint(SpringLayout.NORTH, customerAddressLabel, 5, SpringLayout.SOUTH, customerNameLabel);
-    layout.putConstraint(SpringLayout.WEST, customerAddressLabel, 5, SpringLayout.WEST, customerDialog);
+    layout.putConstraint(SpringLayout.WEST, customerAddressLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_ADDRESS.setColumns(12);
-    customerDialog.add(CUSTOMER_ADDRESS);
+    dialog.add(CUSTOMER_ADDRESS);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_ADDRESS, 0, SpringLayout.SOUTH, customerAddressLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_ADDRESS, 5, SpringLayout.EAST, customerAddressLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_ADDRESS, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label customerPhoneLabel = new Label(BUNDLE.getString("phone"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerPhoneLabel);
+    dialog.add(customerPhoneLabel);
     layout.putConstraint(SpringLayout.NORTH, customerPhoneLabel, 5, SpringLayout.SOUTH, customerAddressLabel);
-    layout.putConstraint(SpringLayout.WEST, customerPhoneLabel, 5, SpringLayout.WEST, customerDialog);
+    layout.putConstraint(SpringLayout.WEST, customerPhoneLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_PHONE.setColumns(12);
-    customerDialog.add(CUSTOMER_PHONE);
+    dialog.add(CUSTOMER_PHONE);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_PHONE, 0, SpringLayout.SOUTH, customerPhoneLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_PHONE, 5, SpringLayout.EAST, customerPhoneLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_PHONE, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label customerEmailLabel = new Label(BUNDLE.getString("email"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerEmailLabel);
+    dialog.add(customerEmailLabel);
     layout.putConstraint(SpringLayout.NORTH, customerEmailLabel, 5, SpringLayout.SOUTH, customerPhoneLabel);
-    layout.putConstraint(SpringLayout.WEST, customerEmailLabel, 5, SpringLayout.WEST, customerDialog);
+    layout.putConstraint(SpringLayout.WEST, customerEmailLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_EMAIL.setColumns(12);
-    customerDialog.add(CUSTOMER_EMAIL);
+    dialog.add(CUSTOMER_EMAIL);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_EMAIL, 0, SpringLayout.SOUTH, customerEmailLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_EMAIL, 5, SpringLayout.EAST, customerEmailLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_EMAIL, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label customerVatNumberLabel = new Label(BUNDLE.getString("vat"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerVatNumberLabel);
+    dialog.add(customerVatNumberLabel);
     layout.putConstraint(SpringLayout.NORTH, customerVatNumberLabel, 5, SpringLayout.SOUTH, customerEmailLabel);
-    layout.putConstraint(SpringLayout.WEST, customerVatNumberLabel, 5, SpringLayout.WEST, customerDialog);
+    layout.putConstraint(SpringLayout.WEST, customerVatNumberLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_VAT_NUMBER.setColumns(12);
-    customerDialog.add(CUSTOMER_VAT_NUMBER);
+    dialog.add(CUSTOMER_VAT_NUMBER);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_VAT_NUMBER, 0, SpringLayout.SOUTH, customerVatNumberLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_VAT_NUMBER, 5, SpringLayout.EAST, customerVatNumberLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_VAT_NUMBER, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label customerRegisterLabel = new Label(BUNDLE.getString("register"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerRegisterLabel);
+    dialog.add(customerRegisterLabel);
     layout.putConstraint(SpringLayout.NORTH, customerRegisterLabel, 5, SpringLayout.SOUTH, customerVatNumberLabel);
-    layout.putConstraint(SpringLayout.WEST, customerRegisterLabel, 5, SpringLayout.WEST, customerDialog);
+    layout.putConstraint(SpringLayout.WEST, customerRegisterLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_REGISTER.setColumns(12);
-    customerDialog.add(CUSTOMER_REGISTER);
+    dialog.add(CUSTOMER_REGISTER);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_REGISTER, 0, SpringLayout.SOUTH, customerRegisterLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_REGISTER, 5, SpringLayout.EAST, customerRegisterLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_REGISTER, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Label customerCapitalLabel = new Label(BUNDLE.getString("capital"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    customerDialog.add(customerCapitalLabel);
+    dialog.add(customerCapitalLabel);
     layout.putConstraint(SpringLayout.NORTH, customerCapitalLabel, 5, SpringLayout.SOUTH, customerRegisterLabel);
-    layout.putConstraint(SpringLayout.WEST, customerCapitalLabel, 5, SpringLayout.WEST, customerDialog);
+    layout.putConstraint(SpringLayout.WEST, customerCapitalLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     CUSTOMER_SHARED_CAPITAL.setColumns(12);
-    customerDialog.add(CUSTOMER_SHARED_CAPITAL);
+    dialog.add(CUSTOMER_SHARED_CAPITAL);
     layout.putConstraint(SpringLayout.SOUTH, CUSTOMER_SHARED_CAPITAL, 0, SpringLayout.SOUTH, customerCapitalLabel);
-    layout.putConstraint(SpringLayout.WEST, CUSTOMER_SHARED_CAPITAL, 5, SpringLayout.EAST, customerCapitalLabel);
+    layout.putConstraint(SpringLayout.EAST, CUSTOMER_SHARED_CAPITAL, -10, SpringLayout.EAST, dialog.getContentPane());
 
     Button submitCustomerButton = new Button(BUNDLE.getString("submit"), BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
-    customerDialog.add(submitCustomerButton);
+    dialog.add(submitCustomerButton);
     layout.putConstraint(SpringLayout.NORTH, submitCustomerButton, 5, SpringLayout.SOUTH, CUSTOMER_SHARED_CAPITAL);
-    layout.putConstraint(SpringLayout.EAST, submitCustomerButton, 0, SpringLayout.EAST, CUSTOMER_PHONE);
+    layout.putConstraint(SpringLayout.EAST, submitCustomerButton, -10, SpringLayout.EAST, dialog.getContentPane());
     submitCustomerButton.addActionListener((e) -> submitCustomer());
 
-    customerDialog.show();
+    dialog.show();
   }
 
   private void submitCustomer() {
@@ -548,132 +548,132 @@ public final class InvoicePanel extends JPanel {
   }
 
   private void showInvoiceInfoDialog() {
-    JDialog invoiceDialog = new JDialog();
-    invoiceDialog.setTitle(BUNDLE.getString("invoice"));
-    invoiceDialog.setModal(true);
-    invoiceDialog.setSize(725, 300);
-    invoiceDialog.setResizable(false);
-    invoiceDialog.getContentPane().setBackground(MAIN_WINDOW_COLOR);
+    JDialog dialog = new JDialog();
+    dialog.setTitle(BUNDLE.getString("invoice"));
+    dialog.setModal(true);
+    dialog.setSize(725, 300);
+    dialog.setResizable(false);
+    dialog.getContentPane().setBackground(MAIN_WINDOW_COLOR);
     SpringLayout layout = new SpringLayout();
-    invoiceDialog.setLayout(layout);
+    dialog.setLayout(layout);
 
     Label invoiceNumberLabel = new Label(BUNDLE.getString("documentNumber"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceNumberLabel);
-    layout.putConstraint(SpringLayout.NORTH, invoiceNumberLabel, 5, SpringLayout.NORTH, invoiceDialog);
-    layout.putConstraint(SpringLayout.WEST, invoiceNumberLabel, 5, SpringLayout.WEST, invoiceDialog);
+    dialog.add(invoiceNumberLabel);
+    layout.putConstraint(SpringLayout.NORTH, invoiceNumberLabel, 5, SpringLayout.NORTH, dialog.getContentPane());
+    layout.putConstraint(SpringLayout.WEST, invoiceNumberLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     INVOICE_NUMBER.setColumns(12);
-    invoiceDialog.add(INVOICE_NUMBER);
+    dialog.add(INVOICE_NUMBER);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_NUMBER, 5, SpringLayout.SOUTH, invoiceNumberLabel);
-    layout.putConstraint(SpringLayout.WEST, INVOICE_NUMBER, 5, SpringLayout.WEST, invoiceDialog);
+    layout.putConstraint(SpringLayout.WEST, INVOICE_NUMBER, 5, SpringLayout.WEST, dialog.getContentPane());
 
     Label invoiceDateLabel = new Label(BUNDLE.getString("documentDate"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceDateLabel);
-    layout.putConstraint(SpringLayout.NORTH, invoiceDateLabel, 5, SpringLayout.NORTH, invoiceDialog);
+    dialog.add(invoiceDateLabel);
+    layout.putConstraint(SpringLayout.NORTH, invoiceDateLabel, 5, SpringLayout.NORTH, dialog.getContentPane());
     layout.putConstraint(SpringLayout.WEST, invoiceDateLabel, 5, SpringLayout.EAST, INVOICE_NUMBER);
 
     INVOICE_DATE.setColumns(12);
-    invoiceDialog.add(INVOICE_DATE);
+    dialog.add(INVOICE_DATE);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_DATE, 5, SpringLayout.SOUTH, invoiceDateLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_DATE, 5, SpringLayout.EAST, INVOICE_NUMBER);
 
     Label invoiceDeliveryLabel = new Label(BUNDLE.getString("delivery"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceDeliveryLabel);
-    layout.putConstraint(SpringLayout.NORTH, invoiceDeliveryLabel, 5, SpringLayout.NORTH, invoiceDialog);
+    dialog.add(invoiceDeliveryLabel);
+    layout.putConstraint(SpringLayout.NORTH, invoiceDeliveryLabel, 5, SpringLayout.NORTH, dialog.getContentPane());
     layout.putConstraint(SpringLayout.WEST, invoiceDeliveryLabel, 5, SpringLayout.EAST, INVOICE_DATE);
 
     INVOICE_DELIVERY.setColumns(12);
-    invoiceDialog.add(INVOICE_DELIVERY);
+    dialog.add(INVOICE_DELIVERY);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_DELIVERY, 5, SpringLayout.SOUTH, invoiceDeliveryLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_DELIVERY, 5, SpringLayout.EAST, INVOICE_DATE);
 
     Label invoiceTransportLabel = new Label(BUNDLE.getString("transport"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceTransportLabel);
-    layout.putConstraint(SpringLayout.NORTH, invoiceTransportLabel, 5, SpringLayout.NORTH, invoiceDialog);
+    dialog.add(invoiceTransportLabel);
+    layout.putConstraint(SpringLayout.NORTH, invoiceTransportLabel, 5, SpringLayout.NORTH, dialog.getContentPane());
     layout.putConstraint(SpringLayout.WEST, invoiceTransportLabel, 5, SpringLayout.EAST, INVOICE_DELIVERY);
 
     INVOICE_TRANSPORT.setColumns(12);
-    invoiceDialog.add(INVOICE_TRANSPORT);
+    dialog.add(INVOICE_TRANSPORT);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_TRANSPORT, 5, SpringLayout.SOUTH, invoiceTransportLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_TRANSPORT, 5, SpringLayout.EAST, INVOICE_DELIVERY);
 
     Label invoicePackagingLabel = new Label(BUNDLE.getString("packaging"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoicePackagingLabel);
+    dialog.add(invoicePackagingLabel);
     layout.putConstraint(SpringLayout.NORTH, invoicePackagingLabel, 5, SpringLayout.SOUTH, INVOICE_NUMBER);
-    layout.putConstraint(SpringLayout.WEST, invoicePackagingLabel, 5, SpringLayout.WEST, invoiceDialog);
+    layout.putConstraint(SpringLayout.WEST, invoicePackagingLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     INVOICE_PACKAGING.setColumns(12);
-    invoiceDialog.add(INVOICE_PACKAGING);
+    dialog.add(INVOICE_PACKAGING);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_PACKAGING, 5, SpringLayout.SOUTH, invoicePackagingLabel);
-    layout.putConstraint(SpringLayout.WEST, INVOICE_PACKAGING, 5, SpringLayout.WEST, invoiceDialog);
+    layout.putConstraint(SpringLayout.WEST, INVOICE_PACKAGING, 5, SpringLayout.WEST, dialog.getContentPane());
 
     Label invoicePaymentLabel = new Label(BUNDLE.getString("payment"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoicePaymentLabel);
+    dialog.add(invoicePaymentLabel);
     layout.putConstraint(SpringLayout.NORTH, invoicePaymentLabel, 5, SpringLayout.SOUTH, INVOICE_DATE);
     layout.putConstraint(SpringLayout.WEST, invoicePaymentLabel, 5, SpringLayout.EAST, INVOICE_PACKAGING);
 
     INVOICE_PAYMENT.setColumns(12);
-    invoiceDialog.add(INVOICE_PAYMENT);
+    dialog.add(INVOICE_PAYMENT);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_PAYMENT, 5, SpringLayout.SOUTH, invoicePaymentLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_PAYMENT, 5, SpringLayout.EAST, INVOICE_PACKAGING);
 
     Label invoiceNonDocumentedCostLabel = new Label(BUNDLE.getString("nonDocumentedCost"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceNonDocumentedCostLabel);
+    dialog.add(invoiceNonDocumentedCostLabel);
     layout.putConstraint(SpringLayout.NORTH, invoiceNonDocumentedCostLabel, 5, SpringLayout.SOUTH, INVOICE_TRANSPORT);
     layout.putConstraint(SpringLayout.WEST, invoiceNonDocumentedCostLabel, 5, SpringLayout.EAST, INVOICE_PAYMENT);
 
     INVOICE_NON_DOCUMENTED_COST.setColumns(12);
-    invoiceDialog.add(INVOICE_NON_DOCUMENTED_COST);
+    dialog.add(INVOICE_NON_DOCUMENTED_COST);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_NON_DOCUMENTED_COST, 5, SpringLayout.SOUTH, invoiceNonDocumentedCostLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_NON_DOCUMENTED_COST, 5, SpringLayout.EAST, INVOICE_PAYMENT);
 
     Label invoicePackagingCostLabel = new Label(BUNDLE.getString("packaging"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoicePackagingCostLabel);
+    dialog.add(invoicePackagingCostLabel);
     layout.putConstraint(SpringLayout.NORTH, invoicePackagingCostLabel, 5, SpringLayout.SOUTH, INVOICE_TRANSPORT);
     layout.putConstraint(SpringLayout.WEST, invoicePackagingCostLabel,5, SpringLayout.EAST, INVOICE_NON_DOCUMENTED_COST);
 
     INVOICE_PACKAGING_COST.setColumns(12);
-    invoiceDialog.add(INVOICE_PACKAGING_COST);
+    dialog.add(INVOICE_PACKAGING_COST);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_PACKAGING_COST, 5, SpringLayout.SOUTH, invoicePackagingCostLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_PACKAGING_COST, 5, SpringLayout.EAST, INVOICE_NON_DOCUMENTED_COST);
 
     Label invoiceDocumentedCostLabel = new Label(BUNDLE.getString("documentedCost"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceDocumentedCostLabel);
+    dialog.add(invoiceDocumentedCostLabel);
     layout.putConstraint(SpringLayout.NORTH, invoiceDocumentedCostLabel, 5, SpringLayout.SOUTH, INVOICE_PACKAGING);
-    layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCostLabel, 5, SpringLayout.WEST, invoiceDialog);
+    layout.putConstraint(SpringLayout.WEST, invoiceDocumentedCostLabel, 5, SpringLayout.WEST, dialog.getContentPane());
 
     INVOICE_DOCUMENTED_COST.setColumns(12);
-    invoiceDialog.add(INVOICE_DOCUMENTED_COST);
+    dialog.add(INVOICE_DOCUMENTED_COST);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_DOCUMENTED_COST, 5, SpringLayout.SOUTH, invoiceDocumentedCostLabel);
-    layout.putConstraint(SpringLayout.WEST, INVOICE_DOCUMENTED_COST, 5, SpringLayout.WEST, invoiceDialog);
+    layout.putConstraint(SpringLayout.WEST, INVOICE_DOCUMENTED_COST, 5, SpringLayout.WEST, dialog.getContentPane());
 
     Label invoiceInterestLabel = new Label(BUNDLE.getString("interest"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceInterestLabel);
+    dialog.add(invoiceInterestLabel);
     layout.putConstraint(SpringLayout.NORTH, invoiceInterestLabel, 5, SpringLayout.SOUTH, INVOICE_PAYMENT);
     layout.putConstraint(SpringLayout.WEST, invoiceInterestLabel, 5, SpringLayout.EAST, INVOICE_DOCUMENTED_COST);
 
     INVOICE_INTEREST.setColumns(12);
-    invoiceDialog.add(INVOICE_INTEREST);
+    dialog.add(INVOICE_INTEREST);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_INTEREST, 5, SpringLayout.SOUTH, invoiceInterestLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_INTEREST, 5, SpringLayout.EAST, INVOICE_DOCUMENTED_COST);
 
     Label invoiceDepositLabel = new Label(BUNDLE.getString("deposit"), MAIN_WINDOW_COLOR, TEXT_COLOR, ELEMENT_TITLE_FONT);
-    invoiceDialog.add(invoiceDepositLabel);
+    dialog.add(invoiceDepositLabel);
     layout.putConstraint(SpringLayout.NORTH, invoiceDepositLabel, 5, SpringLayout.SOUTH, INVOICE_NON_DOCUMENTED_COST);
     layout.putConstraint(SpringLayout.WEST, invoiceDepositLabel, 5, SpringLayout.EAST, INVOICE_INTEREST);
 
     INVOICE_DEPOSIT.setColumns(12);
-    invoiceDialog.add(INVOICE_DEPOSIT);
+    dialog.add(INVOICE_DEPOSIT);
     layout.putConstraint(SpringLayout.NORTH, INVOICE_DEPOSIT, 5, SpringLayout.SOUTH, invoiceDepositLabel);
     layout.putConstraint(SpringLayout.WEST, INVOICE_DEPOSIT, 5, SpringLayout.EAST, INVOICE_INTEREST);
 
     Button submitInvoiceInfo = new Button(BUNDLE.getString("submit"), BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
-    invoiceDialog.add(submitInvoiceInfo);
+    dialog.add(submitInvoiceInfo);
     layout.putConstraint(SpringLayout.SOUTH, submitInvoiceInfo, 5, SpringLayout.SOUTH, INVOICE_DEPOSIT);
     layout.putConstraint(SpringLayout.EAST, submitInvoiceInfo, 5, SpringLayout.EAST, INVOICE_PACKAGING_COST);
     submitInvoiceInfo.addActionListener((e) -> submitInvoice());
 
-    invoiceDialog.show();
+    dialog.show();
   }
 
   private void submitInvoice() {
