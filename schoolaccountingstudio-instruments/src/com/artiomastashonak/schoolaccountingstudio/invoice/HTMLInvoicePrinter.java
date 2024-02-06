@@ -329,12 +329,12 @@ public class HTMLInvoicePrinter {
       cssWriter.close();
 
       var jsWriter = new BufferedWriter(new FileWriter(outputDirectory + "/" + documentName + "/js/main.js"));
-      jsWriter.write("""
-        let toBePrinted = confirm("Would you like to print this document as a PDF?");
+      jsWriter.write(String.format("""
+        let toBePrinted = confirm("%s");
         if (toBePrinted) {
          print();
         }
-        """);
+        """, Parameters.getBundle().getString("printToPDF")));
       jsWriter.close();
     } catch (Exception e) {
       new File(outputDirectory + "/" + documentName + "/" + documentName + ".html").delete();
