@@ -1,5 +1,6 @@
 package com.artiomastashonak.schoolaccountingstudio;
 
+import org.jetbrains.annotations.NotNull;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -7,7 +8,7 @@ import java.awt.Font;
 import java.awt.Dimension;
 
 public class Button extends JButton {
-  public Button(String text, Color backgroundColor, Color textColor, Font font) {
+  public Button(@NotNull String text, @NotNull Color backgroundColor, @NotNull Color textColor, @NotNull Font font) {
     setText(text);
     setBackground(backgroundColor);
     setForeground(textColor);
@@ -17,7 +18,7 @@ public class Button extends JButton {
     setOpaque(true);
   }
 
-  public Button(ImageIcon icon, Color backgroundColor) {
+  public Button(@NotNull ImageIcon icon, @NotNull Color backgroundColor) {
     setIcon(icon);
     setBackground(backgroundColor);
     setFocusable(false);
@@ -26,7 +27,7 @@ public class Button extends JButton {
     setOpaque(true);
   }
 
-  public Button(ImageIcon icon, String text, Color backgroundColor, Color textColor, Font font) {
+  public Button(@NotNull ImageIcon icon, @NotNull String text, @NotNull Color backgroundColor, @NotNull Color textColor, @NotNull Font font) {
     setIcon(icon);
     setText(text);
     setBackground(backgroundColor);

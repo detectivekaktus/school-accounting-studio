@@ -118,8 +118,11 @@ public class XMLInvoicePrinter {
     return this;
   }
 
-  public int print() {
+  public void endFile() {
     document += "</invoice>";
+  }
+
+  public int print() {
     String outputDirectory = "generated/invoices/xml";
     File outputDir = new File(outputDirectory);
     outputDir.mkdirs();
