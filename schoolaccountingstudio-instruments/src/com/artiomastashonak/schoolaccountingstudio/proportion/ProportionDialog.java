@@ -1,39 +1,30 @@
 package com.artiomastashonak.schoolaccountingstudio.proportion;
 
 import com.artiomastashonak.schoolaccountingstudio.Button;
-import com.artiomastashonak.schoolaccountingstudio.DarkThemeColors;
 import com.artiomastashonak.schoolaccountingstudio.Label;
+import com.artiomastashonak.schoolaccountingstudio.Parameters;
 import com.artiomastashonak.schoolaccountingstudio.TextField;
-import com.artiomastashonak.schoolaccountingstudio.TextSizes;
+import com.artiomastashonak.schoolaccountingstudio.UIHelper;
 import com.artiomastashonak.schoolaccountingstudio.exceptions.NoSolutionException;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ResourceBundle;
 
 public class ProportionDialog extends JDialog {
-  private final ResourceBundle BUNDLE;
   private final Proportion PROPORTION = new Proportion();
-  private final Color TEXT_INPUT_COLOR = DarkThemeColors.MENU_BAR_BACKGROUND_COLOR.color;
-  private final Color TEXT_COLOR = DarkThemeColors.PRIMARY_TEXT_COLOR.color;
-  private final Font INPUT_FONT = new Font("sans-serif", Font.PLAIN, TextSizes.BUTTON_TEXT_SIZE.size);
+  private final TextField FIRST_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
+  private final TextField SECOND_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
+  private final TextField THIRD_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
+  private final TextField FOURTH_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
 
-  private final TextField FIRST_TERM = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
-  private final TextField SECOND_TERM = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
-  private final TextField THIRD_TERM = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
-  private final TextField FOURTH_TERM = new TextField(TEXT_INPUT_COLOR, TEXT_COLOR, INPUT_FONT);
-
-  public ProportionDialog(ResourceBundle bundle) {
-    this.BUNDLE = bundle;
-    Color MAIN_WINDOW_COLOR = DarkThemeColors.MAIN_WINDOW_BACKGROUND_COLOR.color;
-
+  public ProportionDialog() {
     setMinimumSize(new Dimension(450, 250));
-    setTitle(bundle.getString("proportionCalculator"));
-    getContentPane().setBackground(MAIN_WINDOW_COLOR);
+    setTitle(Parameters.getBundle().getString("proportionCalculator"));
+    getContentPane().setBackground(UIHelper.getMainWindowColor());
     setModal(false);
     SpringLayout layout = new SpringLayout();
     setLayout(layout);
 
-    Label proportionCalculatorLabel = new Label(bundle.getString("proportionCalculator"), MAIN_WINDOW_COLOR, TEXT_COLOR, new Font("sans-serif", Font.BOLD, TextSizes.SUBSECTION_TITLE_TEXT_SIZE.size));
+    Label proportionCalculatorLabel = new Label(Parameters.getBundle().getString("proportionCalculator"), UIHelper.getMainWindowColor(), UIHelper.getPrimaryTextColor(), UIHelper.getSubsectionTitleFont());
     add(proportionCalculatorLabel);
     layout.putConstraint(SpringLayout.NORTH, proportionCalculatorLabel, 5, SpringLayout.NORTH, this);
     layout.putConstraint(SpringLayout.WEST, proportionCalculatorLabel, 5, SpringLayout.WEST, this);
@@ -43,7 +34,7 @@ public class ProportionDialog extends JDialog {
     layout.putConstraint(SpringLayout.NORTH, FIRST_TERM, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
     layout.putConstraint(SpringLayout.WEST, FIRST_TERM, 5, SpringLayout.WEST, this);
 
-    Label firstIsToLabel = new Label(":", MAIN_WINDOW_COLOR, TEXT_COLOR, INPUT_FONT);
+    Label firstIsToLabel = new Label(":", UIHelper.getMainWindowColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
     add(firstIsToLabel);
     layout.putConstraint(SpringLayout.NORTH, firstIsToLabel, 0, SpringLayout.NORTH, FIRST_TERM);
     layout.putConstraint(SpringLayout.WEST, firstIsToLabel, 5, SpringLayout.EAST, FIRST_TERM);
@@ -53,7 +44,7 @@ public class ProportionDialog extends JDialog {
     layout.putConstraint(SpringLayout.NORTH, SECOND_TERM, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
     layout.putConstraint(SpringLayout.WEST, SECOND_TERM, 5, SpringLayout.EAST, firstIsToLabel);
 
-    Label asLabel = new Label("=", MAIN_WINDOW_COLOR, TEXT_COLOR, INPUT_FONT);
+    Label asLabel = new Label("=", UIHelper.getMainWindowColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
     add(asLabel);
     layout.putConstraint(SpringLayout.NORTH, asLabel, 0, SpringLayout.NORTH, SECOND_TERM);
     layout.putConstraint(SpringLayout.WEST, asLabel, 5, SpringLayout.EAST, SECOND_TERM);
@@ -63,7 +54,7 @@ public class ProportionDialog extends JDialog {
     layout.putConstraint(SpringLayout.NORTH, THIRD_TERM, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
     layout.putConstraint(SpringLayout.WEST, THIRD_TERM, 5, SpringLayout.EAST, asLabel);
 
-    Label secondIsToLabel = new Label(":", MAIN_WINDOW_COLOR, TEXT_COLOR, INPUT_FONT);
+    Label secondIsToLabel = new Label(":", UIHelper.getMainWindowColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
     add(secondIsToLabel);
     layout.putConstraint(SpringLayout.NORTH, secondIsToLabel, 0, SpringLayout.NORTH, THIRD_TERM);
     layout.putConstraint(SpringLayout.WEST, secondIsToLabel, 5, SpringLayout.EAST, THIRD_TERM);
@@ -73,30 +64,29 @@ public class ProportionDialog extends JDialog {
     layout.putConstraint(SpringLayout.NORTH, FOURTH_TERM, 25, SpringLayout.SOUTH, proportionCalculatorLabel);
     layout.putConstraint(SpringLayout.WEST, FOURTH_TERM, 5, SpringLayout.EAST, secondIsToLabel);
 
-    Color BUTTON_COLOR = DarkThemeColors.BUTTON_BACKGROUND_COLOR.color;
-    Button solveButton = new Button(bundle.getString("solve"), BUTTON_COLOR, TEXT_COLOR, INPUT_FONT);
+    Button solveButton = new Button(Parameters.getBundle().getString("solve"), UIHelper.getBrightButtonColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
     solveButton.addActionListener((e) -> {
       try {
         if (composeProportion() == -1) return;
         double result = PROPORTION.solve();
         if (Double.isNaN(result)) {
-          JOptionPane.showInternalMessageDialog(null, bundle.getString("noSolutionFoundInvalid"));
+          JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("noSolutionFoundInvalid"));
           return;
         }
-        JOptionPane.showInternalMessageDialog(null, String.format(bundle.getString("solutionIs"), result));
+        JOptionPane.showInternalMessageDialog(null, String.format(Parameters.getBundle().getString("solutionIs"), result));
         PROPORTION.reset();
       } catch (NoSolutionException nse) {
-        JOptionPane.showInternalMessageDialog(null, bundle.getString("noSolutionFoundInvalid"));
+        JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("noSolutionFoundInvalid"));
       }
     });
     add(solveButton);
     layout.putConstraint(SpringLayout.SOUTH, solveButton, -25, SpringLayout.SOUTH, getContentPane());
     layout.putConstraint(SpringLayout.EAST, solveButton, -10, SpringLayout.EAST, getContentPane());
 
-    Button resetButton = new Button(bundle.getString("reset"),
-      BUTTON_COLOR,
-      TEXT_COLOR,
-      INPUT_FONT);
+    Button resetButton = new Button(Parameters.getBundle().getString("reset"),
+      UIHelper.getBrightButtonColor(),
+      UIHelper.getPrimaryTextColor(),
+      UIHelper.getInputFont());
     resetButton.addActionListener((e) -> {
       resetInput();
       PROPORTION.reset();
@@ -118,7 +108,7 @@ public class ProportionDialog extends JDialog {
       }
     }
     if (termsToFind != 1) {
-      JOptionPane.showInternalMessageDialog(null, BUNDLE.getString("noSolutionFoundUnsolvableComposed"));
+      JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("noSolutionFoundUnsolvableComposed"));
       return -1;
     }
     try {

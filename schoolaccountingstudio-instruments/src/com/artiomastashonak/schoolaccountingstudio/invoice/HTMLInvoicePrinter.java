@@ -1,6 +1,7 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import com.artiomastashonak.schoolaccountingstudio.Parameters;
+import com.artiomastashonak.schoolaccountingstudio.printing.Printer;
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
-public class HTMLInvoicePrinter {
+public class HTMLInvoicePrinter extends Printer {
   private final InvoiceHandler HANDLER;
   private String document;
 
@@ -208,6 +209,7 @@ public class HTMLInvoicePrinter {
       "</html>";
   }
 
+  @Override
   public int print() {
     String documentName = String.format("invoice_n_%s_to_%s", HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]);
     String outputDirectory = "generated/invoices/html";
@@ -351,7 +353,8 @@ public class HTMLInvoicePrinter {
     return 0;
   }
 
-  private void reset() {
+  @Override
+  protected void reset() {
     document = "<!DOCTYPE html>\n" +
       "<html lang=\"en\">\n" +
       "<head>\n" +

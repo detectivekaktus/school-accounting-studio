@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-public class Parameters {
+public final class Parameters {
   private static ResourceBundle BUNDLE;
   private static Properties CONFIG;
   private static MenuBar MENU_BAR;
@@ -38,7 +38,7 @@ public class Parameters {
   }
 
   private static void setupMenuBar() {
-    MENU_BAR = new MenuBar(BUNDLE);
+    MENU_BAR = new MenuBar();
   }
 
   public static ResourceBundle getBundle() {

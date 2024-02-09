@@ -4,7 +4,7 @@ public class InterestHandler {
   private final int DAYS_CALCULATION_MODE = 0;
   private final int MONTHS_CALCULATION_MODE = 1;
   private final int YEARS_CALCULATION_MODE = 2;
-  private final int CALCULATION_ERROR = -1;
+  private final double CALCULATION_ERROR = Double.NaN;
 
   private double capital = 0;
   private long time = 0;

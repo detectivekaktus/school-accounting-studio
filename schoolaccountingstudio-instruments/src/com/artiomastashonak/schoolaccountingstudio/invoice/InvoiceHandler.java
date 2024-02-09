@@ -8,7 +8,7 @@ public class InvoiceHandler {
   private String[] customer = new String[] {};
   private String[] invoice = new String[] {};
   private ArrayList<Item> items = new ArrayList<>(10);
-  private HashMap<Short, Double> itemsMap = new HashMap<>(4);
+  private HashMap<Integer, Double> itemsMap = new HashMap<>(4);
   private double nonDocumentedCost = 0;
   private double packagingCost = 0;
   private double documentedCost = 0;
@@ -28,10 +28,10 @@ public class InvoiceHandler {
   }
 
   public void composeMap() {
-    itemsMap.put((short) 4, 0.0);
-    itemsMap.put((short) 5, 0.0);
-    itemsMap.put((short) 10, 0.0);
-    itemsMap.put((short) 22, 0.0);
+    itemsMap.put(4, 0.0);
+    itemsMap.put(5, 0.0);
+    itemsMap.put(10, 0.0);
+    itemsMap.put(22, 0.0);
 
     for (Item item : items) {
       itemsMap.put(item.vat(), itemsMap.get(item.vat()) + (100 - item.discount2())/100 * ((100 - item.discount1())/100 * (item.quantity() * item.price())));
@@ -99,7 +99,8 @@ public class InvoiceHandler {
         .addDocumentedCost()
         .addInterests()
         .addDeposit()
-        .addTotal();
+        .addTotal()
+        .endFile();
     } catch (Exception ignored) { }
     return printer.print();
   }
@@ -136,7 +137,7 @@ public class InvoiceHandler {
     this.items.add(item);
   }
 
-  public HashMap<Short, Double> getItemsMap() {
+  public HashMap<Integer, Double> getItemsMap() {
     return itemsMap;
   }
 
