@@ -5,15 +5,12 @@ import com.artiomastashonak.schoolaccountingstudio.Label;
 import com.artiomastashonak.schoolaccountingstudio.Parameters;
 import com.artiomastashonak.schoolaccountingstudio.TextField;
 import com.artiomastashonak.schoolaccountingstudio.UIHelper;
+import com.artiomastashonak.schoolaccountingstudio.time.TimeValidator;
 import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class InterestTotAmountDialog extends JDialog {
   private final InterestHandler INTEREST_HANDLER = new InterestHandler();
@@ -32,6 +29,10 @@ public class InterestTotAmountDialog extends JDialog {
   private final TextField TOTAL_AMOUNT_QUOTE = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
   private final TextField TOTAL_AMOUNT_VALUE = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
   private JCheckBox totalAmountLeapYearCheck;
+
+  private final int DAYS_CALCULATION = 0;
+  private final int MONTHS_CALCULATION = 1;
+  private final int YEARS_CALCULATION = 2;
 
   public InterestTotAmountDialog() {
     setMinimumSize(new Dimension(600, 550));
@@ -184,7 +185,11 @@ public class InterestTotAmountDialog extends JDialog {
     }
 
     try {
-      if (!INTEREST_TIME.equals(solutionTerm.get(0))) INTEREST_HANDLER.setTime(validateTime(INTEREST_TIME, interestTimeCombo.getSelectedIndex()));
+      if (!INTEREST_TIME.equals(solutionTerm.get(0))) {
+        if (interestTimeCombo.getSelectedIndex() == DAYS_CALCULATION) INTEREST_HANDLER.setTime(TimeValidator.DAYS.valueOrBetween(INTEREST_TIME.getText()));
+        if (interestTimeCombo.getSelectedIndex() == MONTHS_CALCULATION) INTEREST_HANDLER.setTime(TimeValidator.MONTHS.valueOrBetween(INTEREST_TIME.getText()));
+        if (interestTimeCombo.getSelectedIndex() == YEARS_CALCULATION) INTEREST_HANDLER.setTime(TimeValidator.YEARS.valueOrBetween(INTEREST_TIME.getText()));
+      }
     } catch (Exception e) {
       JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("timeError"));
       INTEREST_HANDLER.reset();
@@ -333,7 +338,11 @@ public class InterestTotAmountDialog extends JDialog {
     }
 
     try {
-      if (!TOTAL_AMOUNT_TIME.equals(solutionTerm.get(0))) TOTAL_AMOUNT_HANDLER.setTime(validateTime(TOTAL_AMOUNT_TIME, totalAmountTimeCombo.getSelectedIndex()));
+      if (!TOTAL_AMOUNT_TIME.equals(solutionTerm.get(0))) {
+        if (totalAmountTimeCombo.getSelectedIndex() == DAYS_CALCULATION) TOTAL_AMOUNT_HANDLER.setTime(TimeValidator.DAYS.valueOrBetween(TOTAL_AMOUNT_TIME.getText()));
+        if (totalAmountTimeCombo.getSelectedIndex() == MONTHS_CALCULATION) TOTAL_AMOUNT_HANDLER.setTime(TimeValidator.MONTHS.valueOrBetween(TOTAL_AMOUNT_TIME.getText()));
+        if (totalAmountTimeCombo.getSelectedIndex() == YEARS_CALCULATION) TOTAL_AMOUNT_HANDLER.setTime(TimeValidator.YEARS.valueOrBetween(TOTAL_AMOUNT_TIME.getText()));
+      }
     } catch (Exception e) {
       JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("timeError"));
       INTEREST_HANDLER.reset();
@@ -366,17 +375,5 @@ public class InterestTotAmountDialog extends JDialog {
     totalAmountTimeCombo.setSelectedIndex(0);
     totalAmountLeapYearCheck.setSelected(false);
     TOTAL_AMOUNT_HANDLER.reset();
-  }
-
-  private long validateTime(TextField textField, int comboIndex) {
-    String timeRegex = "^((0[1-9]|[1-2]\\d|3[0-1])/(0[1-9]|1[0-2])/(\\d{4}))\\s-\\s((0[1-9]|[1-2]\\d|3[0-1])/(0[1-9]|1[0-2])/(\\d{4}))$";
-    Pattern pattern = Pattern.compile(timeRegex);
-    Matcher matcher = pattern.matcher(textField.getText());
-    if (matcher.matches() && comboIndex == 0) {
-      LocalDate initDate = LocalDate.of(Integer.parseInt(textField.getText().substring(6, 10)), Integer.parseInt(textField.getText().substring(3, 5)), Integer.parseInt(textField.getText().substring(0, 2)));
-      LocalDate endDate = LocalDate.of(Integer.parseInt(textField.getText().substring(19, 23)), Integer.parseInt(textField.getText().substring(16, 18)), Integer.parseInt(textField.getText().substring(13, 15)));
-      return ChronoUnit.DAYS.between(initDate, endDate);
-    }
-    return Long.parseLong(textField.getText());
   }
 }

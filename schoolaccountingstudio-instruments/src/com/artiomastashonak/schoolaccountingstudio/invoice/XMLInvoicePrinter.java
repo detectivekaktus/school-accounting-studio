@@ -1,12 +1,13 @@
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
+import com.artiomastashonak.schoolaccountingstudio.printing.Printer;
 import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class XMLInvoicePrinter {
+public class XMLInvoicePrinter extends Printer {
   private final InvoiceHandler HANDLER;
   private String document = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<invoice>\n";
 
@@ -122,6 +123,7 @@ public class XMLInvoicePrinter {
     document += "</invoice>";
   }
 
+  @Override
   public int print() {
     String outputDirectory = "generated/invoices/xml";
     File outputDir = new File(outputDirectory);
@@ -141,7 +143,8 @@ public class XMLInvoicePrinter {
     return 0;
   }
 
-  private void reset() {
+  @Override
+  protected void reset() {
     this.document = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<invoice>\n";
   }
 }

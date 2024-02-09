@@ -5,15 +5,12 @@ import com.artiomastashonak.schoolaccountingstudio.Label;
 import com.artiomastashonak.schoolaccountingstudio.Parameters;
 import com.artiomastashonak.schoolaccountingstudio.TextField;
 import com.artiomastashonak.schoolaccountingstudio.UIHelper;
+import com.artiomastashonak.schoolaccountingstudio.time.TimeValidator;
 import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DiscountPresentValueDialog extends JDialog {
   private final DiscountHandler DISCOUNT_HANDLER = new DiscountHandler();
@@ -32,6 +29,10 @@ public class DiscountPresentValueDialog extends JDialog {
   private final TextField PRESENT_VALUE_QUOTE = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
   private final TextField PRESENT_VALUE = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
   private JCheckBox presentValueLeapYearCheck;
+
+  private final int DAYS_CALCULATION = 0;
+  private final int MONTHS_CALCULATION = 1;
+  private final int YEARS_CALCULATION = 2;
 
   public DiscountPresentValueDialog() {
     setMinimumSize(new Dimension(600, 550));
@@ -184,7 +185,11 @@ public class DiscountPresentValueDialog extends JDialog {
     }
 
     try {
-      if (!DISCOUNT_TIME.equals(solutionTerm.get(0))) DISCOUNT_HANDLER.setTime(validateTime(DISCOUNT_TIME, discountTimeCombo.getSelectedIndex()));
+      if (!DISCOUNT_TIME.equals(solutionTerm.get(0))) {
+        if (discountTimeCombo.getSelectedIndex() == DAYS_CALCULATION) DISCOUNT_HANDLER.setTime(TimeValidator.DAYS.valueOrBetween(DISCOUNT_TIME.getText()));
+        if (discountTimeCombo.getSelectedIndex() == MONTHS_CALCULATION) DISCOUNT_HANDLER.setTime(TimeValidator.MONTHS.valueOrBetween(DISCOUNT_TIME.getText()));
+        if (discountTimeCombo.getSelectedIndex() == YEARS_CALCULATION) DISCOUNT_HANDLER.setTime(TimeValidator.YEARS.valueOrBetween(DISCOUNT_TIME.getText()));
+      }
     } catch (Exception e) {
       JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("timeError"));
       DISCOUNT_HANDLER.reset();
@@ -333,7 +338,11 @@ public class DiscountPresentValueDialog extends JDialog {
     }
 
     try {
-      if (!PRESENT_VALUE_TIME.equals(solutionTerm.get(0))) PRESENT_VALUE_HANDLER.setTime(validateTime(PRESENT_VALUE_TIME, presentValueTimeCombo.getSelectedIndex()));
+      if (!PRESENT_VALUE_TIME.equals(solutionTerm.get(0))) {
+        if (presentValueTimeCombo.getSelectedIndex() == DAYS_CALCULATION) PRESENT_VALUE_HANDLER.setTime(TimeValidator.DAYS.valueOrBetween(PRESENT_VALUE_TIME.getText()));
+        if (presentValueTimeCombo.getSelectedIndex() == MONTHS_CALCULATION) PRESENT_VALUE_HANDLER.setTime(TimeValidator.MONTHS.valueOrBetween(PRESENT_VALUE_TIME.getText()));
+        if (presentValueTimeCombo.getSelectedIndex() == YEARS_CALCULATION) PRESENT_VALUE_HANDLER.setTime(TimeValidator.YEARS.valueOrBetween(PRESENT_VALUE_TIME.getText()));
+      }
     } catch (Exception e) {
       JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("timeError"));
       PRESENT_VALUE_HANDLER.reset();
@@ -366,17 +375,5 @@ public class DiscountPresentValueDialog extends JDialog {
     presentValueTimeCombo.setSelectedIndex(0);
     presentValueLeapYearCheck.setSelected(false);
     PRESENT_VALUE_HANDLER.reset();
-  }
-
-  private long validateTime(TextField textField, int comboIndex) {
-    String timeRegex = "^((0[1-9]|[1-2]\\d|3[0-1])/(0[1-9]|1[0-2])/(\\d{4}))\\s-\\s((0[1-9]|[1-2]\\d|3[0-1])/(0[1-9]|1[0-2])/(\\d{4}))$";
-    Pattern pattern = Pattern.compile(timeRegex);
-    Matcher matcher = pattern.matcher(textField.getText());
-    if (matcher.matches() && comboIndex == 0) {
-      LocalDate initDate = LocalDate.of(Integer.parseInt(textField.getText().substring(6, 10)), Integer.parseInt(textField.getText().substring(3, 5)), Integer.parseInt(textField.getText().substring(0, 2)));
-      LocalDate endDate = LocalDate.of(Integer.parseInt(textField.getText().substring(19, 23)), Integer.parseInt(textField.getText().substring(16, 18)), Integer.parseInt(textField.getText().substring(13, 15)));
-      return ChronoUnit.DAYS.between(initDate, endDate);
-    }
-    return Long.parseLong(textField.getText());
   }
 }
