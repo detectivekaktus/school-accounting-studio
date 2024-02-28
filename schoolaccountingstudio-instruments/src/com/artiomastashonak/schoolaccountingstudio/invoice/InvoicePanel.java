@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import com.artiomastashonak.schoolaccountingstudio.Button;
@@ -8,7 +9,28 @@ import com.artiomastashonak.schoolaccountingstudio.UIHelper;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * The {@code InvoicePanel} object acts as a bridge between the low-level API calls
+ * in {@link InvoiceHandler}, {@link XMLInvoicePrinter}, and {@link HTMLInvoicePrinter};
+ * and different user input prompts placed on the screen to collect data to operate in
+ * the low-level API.
+ * <p>
+ * An object constructed with this class has a set of dialog windows implemented with
+ * {@link JDialog} requesting the user to provide the input, as well as a {@link JTable}
+ * object displaying the data already being handled by the program; simultaneously the data
+ * is stored inside the {@link InvoiceHandler} and {@link DefaultTableModel} instances.
+ *
+ * @see JPanel
+ * @see InvoiceHandler
+ * @see XMLInvoicePrinter
+ * @see HTMLInvoicePrinter
+ *
+ * @author Artiom Astashonak
+ */
 public final class InvoicePanel extends JPanel {
+  /**
+   * The main {@link InvoiceHandler} object that handles the invoice that gets processed.
+   */
   private final InvoiceHandler HANDLER = new InvoiceHandler();
 
   private final TextField SELLER_NAME = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
@@ -50,6 +72,9 @@ public final class InvoicePanel extends JPanel {
 
   private final DefaultTableModel TABLE_MODEL;
 
+  /**
+   * Constructs a new {@code InvoicePanel} object with default parameters and settings.
+   */
   public InvoicePanel() {
     setBackground(UIHelper.getMainWindowColor());
     SpringLayout layout = new SpringLayout();
@@ -201,6 +226,15 @@ public final class InvoicePanel extends JPanel {
     resetButton.addActionListener(e -> reset());
   }
 
+  /**
+   * Checks if {@code TextField MEASURE_UNIT, QUANTITY, DESCRIPTION, VAT,
+   * UNIT_PRICE, DISCOUNT_1, DISCOUNT_2} contain valid values for an {@link Item}
+   * record to be instantiated in the memory.
+   * <p>
+   * If the user's input is valid, adds a new row to the {@link DefaultTableModel}
+   * object as well as adds a new {@code Item} to the {@link InvoiceHandler}
+   * object. After that, the method clears the input fields.
+   */
   private void addItemAndClearInput() {
     for (TextField textField : new TextField[]{MEASURE_UNIT, QUANTITY, DESCRIPTION, VAT, UNIT_PRICE, DISCOUNT_1, DISCOUNT_2}) {
       if (textField.getText().isEmpty()) {
@@ -267,6 +301,9 @@ public final class InvoicePanel extends JPanel {
     }
   }
 
+  /**
+   * Resets all user input fields and {@link InvoiceHandler} object to the initial state.
+   */
   private void reset() {
     for (TextField textField : new TextField[]{SELLER_NAME,
       SELLER_ADDRESS,
@@ -311,6 +348,13 @@ public final class InvoicePanel extends JPanel {
     HANDLER.reset();
   }
 
+  /**
+   * Invokes a creation of new {@link JDialog} object from the source class
+   * which displays a prompt excepting the user to enter the information about
+   * the invoice's seller.
+   * <p>
+   * On {@code submitSellerButton} click disposes the {@code JDialog} window.
+   */
   private void showSellerDialog() {
     JDialog dialog = new JDialog();
     dialog.setTitle(Parameters.getBundle().getString("seller"));
@@ -403,6 +447,13 @@ public final class InvoicePanel extends JPanel {
     dialog.show();
   }
 
+  /**
+   * Checks if {@code TextField SELLER_NAME, SELLER_ADDRESS, SELLER_PHONE,
+   * SELLER_EMAIL, SELLER_VAT_NUMBER, SELLER_REGISTER, SELLER_SHARD_CAPITAL}
+   * contain valid values for seller to be stored in the memory.
+   * <p>
+   * If so, the values are stored inside {@link InvoiceHandler} class variable.
+   */
   private void submitSeller() {
     for (TextField textField : new TextField[]{SELLER_NAME,
       SELLER_ADDRESS,
@@ -426,6 +477,13 @@ public final class InvoicePanel extends JPanel {
       SELLER_SHARED_CAPITAL.getText()});
   }
 
+  /**
+   * Invokes a creation of new {@link JDialog} object from the source class
+   * which displays a prompt excepting the user to enter the information about
+   * the invoice's customer.
+   * <p>
+   * On {@code submitCustomerButton} click disposes the {@code JDialog} window.
+   * */
   private void showCustomerDialog() {
     JDialog dialog = new JDialog();
     dialog.setTitle(Parameters.getBundle().getString("customer"));
@@ -518,6 +576,13 @@ public final class InvoicePanel extends JPanel {
     dialog.show();
   }
 
+  /**
+   * Checks if {@code TextField CUSTOMER_NAME, CUSTOMER_ADDRESS, CUSTOMER_PHONE,
+   * CUSTOMER_EMAIL, CUSTOMER_VAT_NUMBER, CUSTOMER_REGISTER, CUSTOMER_SHARD_CAPITAL}
+   * contain valid values for customer to be stored in the memory.
+   * <p>
+   * If so, the values are stored inside {@link InvoiceHandler} class variable.
+   */
   private void submitCustomer() {
     for (TextField textField : new TextField[]{CUSTOMER_NAME,
       CUSTOMER_ADDRESS,
@@ -541,6 +606,13 @@ public final class InvoicePanel extends JPanel {
       CUSTOMER_SHARED_CAPITAL.getText()});
   }
 
+  /**
+   * Invokes a creation of new {@link JDialog} object from the source class
+   * which displays a prompt excepting the user to enter the information about
+   * the invoice's information.
+   * <p>
+   * On {@code submitInvoiceInfo} click disposes the {@code JDialog} window.
+   * */
   private void showInvoiceInfoDialog() {
     JDialog dialog = new JDialog();
     dialog.setTitle(Parameters.getBundle().getString("invoice"));
@@ -673,6 +745,15 @@ public final class InvoicePanel extends JPanel {
     dialog.show();
   }
 
+  /**
+   * Checks if {@code TextField INVOICE_NUMBER, INVOICE_DATE, INVOICE_DELIVERY,
+   * INVOICE_TRANSPORT, INVOICE_PACKAGING, INVOICE_PAYMENT,
+   * INVOICE_NON_DOCUMENTED_COST, INVOICE_DOCUMENTED_COST, INVOICE_INTEREST,
+   * INVOICE_DEPOSIT} contain valid values for invoice information to be
+   * stored in the memory.
+   * <p>
+   * If so, the values are stored inside {@link InvoiceHandler} class variable.
+   */
   private void submitInvoice() {
     for (TextField textField : new TextField[]{INVOICE_NUMBER,
       INVOICE_DATE,

@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.invoice;
 
 import com.artiomastashonak.schoolaccountingstudio.Parameters;
@@ -9,10 +10,40 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * The {@code HTMLInvoicePrinter} class defines a {@link Printer} inherited
+ * object to invoke printing a web page representing an invoice requested
+ * by the user actions on the user interface.
+ * <p>
+ * To print the invoice correctly, you need to invoke the print methods in the
+ * following order:
+ * <ol>
+ *   <li>{@code addHeader();}</li>
+ *   <li>{@code addSeller();}</li>
+ *   <li>{@code addCustomer();}</li>
+ *   <li>{@code addLegalInformation();}</li>
+ *   <li>{@code addInformation();}</li>
+ *   <li>{@code addItems();}</li>
+ *   <li>{@code addVatInformation();}</li>
+ *   <li>{@code addCostInformation();}</li>
+ *   <li>{@code endFile();}</li>
+ * </ol>
+ *
+ * @see Printer
+ * @see InvoiceHandler
+ *
+ * @author Artiom Astashonak
+ */
 public class HTMLInvoicePrinter extends Printer {
   private final InvoiceHandler HANDLER;
   private String document;
 
+  /**
+   * Constructs a new {@code HTMLInvoicePrinter} object with initial document
+   * parameters setup.
+   *
+   * @param handler the {@link InvoiceHandler} object containing the invoice data
+   */
   public HTMLInvoicePrinter(InvoiceHandler handler) {
     this.HANDLER = handler;
     document = "<!DOCTYPE html>\n" +
@@ -27,11 +58,22 @@ public class HTMLInvoicePrinter extends Printer {
       "\t<div class=\"document\">\n";
   }
 
+  /**
+   * Appends a header containing the invoice number and the customer name
+   * to the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addHeader() {
     document += String.format(String.format("\t\t<h1 class=\"header\">%s</h1>\n", Parameters.getBundle().getString("invoiceNTo")), HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]);
     return this;
   }
 
+  /**
+   * Appends seller information to the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addSeller() {
     document += "\t\t<div class=\"seller-customer break\">\n" +
       "\t\t\t<div class=\"seller\">\n" +
@@ -46,6 +88,11 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Appends customer information to the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addCustomer() {
     document += "\t\t\t<div class=\"customer\">\n" +
       String.format("\t\t\t\t<h3>%s</h3>\n", HANDLER.getCustomer()[0]) +
@@ -60,6 +107,11 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Appends a document code and a recipient code to the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addLegalInformation() {
     String[] codes = {"0G6TBBX", "0KDMVIB", "0ZCQR4A", "2LCMIUNI", "38P86EY", "39QMOPD", "3ZJY534", "4157ZO4", "5KQRP7D", "5P3UNVR", "M5UXCR1", "M62SGNV", "MJ10YNU"};
     Random random = new Random();
@@ -80,6 +132,11 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Appends delivery, transport, packaging, and payment information to the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addInformation() {
     document += "\t\t<table class=\"information break\">\n" +
       "\t\t\t<thead>\n" +
@@ -102,20 +159,26 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Appends all the invoice items, non-documented cost and packaging cost to
+   * the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addItems() {
-    document += "<table class=\"items break\">\n" +
-      "\t\t\t\t<thead>\n" +
-      "\t\t\t\t\t<tr>\n" +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("code")) +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("quantity")) +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("description")) +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("VATPercent")) +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("unitPrice")) +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("discount1")) +
-      String.format("\t\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("discount2")) +
-      "\t\t\t\t\t</tr>\n" +
-      "\t\t\t\t</thead>\n" +
-      "\t\t\t\t<tbody>\n";
+    document += "\t\t<table class=\"items break\">\n" +
+      "\t\t\t<thead>\n" +
+      "\t\t\t\t<tr>\n" +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("code")) +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("quantity")) +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("description")) +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("VATPercent")) +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("unitPrice")) +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("discount1")) +
+      String.format("\t\t\t\t\t<th>%s</th>\n", Parameters.getBundle().getString("discount2")) +
+      "\t\t\t\t</tr>\n" +
+      "\t\t\t</thead>\n" +
+      "\t\t\t<tbody>\n";
 
     for (Item item : HANDLER.getItems()) {
       document += "\t\t\t\t<tr>\n" +
@@ -157,6 +220,11 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Appends VAT values and calculations to the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addVatInformation() {
     HANDLER.composeMap();
     document += "\t\t<table class=\"vat\">\n" +
@@ -180,6 +248,12 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Appends documented cost, interest, deposit, and invoice total values to
+   * the document.
+   *
+   * @return the current object
+   */
   public HTMLInvoicePrinter addCostInformation() {
     document += "\t\t<table class=\"cost-information\">\n" +
       "\t\t\t<thead>\n" +
@@ -202,6 +276,9 @@ public class HTMLInvoicePrinter extends Printer {
     return this;
   }
 
+  /**
+   * Ends the file.
+   */
   public void endFile() {
     document += "\t</div>\n" +
       "\t<script src=\"js/main.js\"></script>\n" +
@@ -209,6 +286,30 @@ public class HTMLInvoicePrinter extends Printer {
       "</html>";
   }
 
+  /**
+   * Prints the document.
+   * <p>
+   * This process consists in the following parts:
+   * <ol>
+   *   <li>Creates a directory with <strong>{@code invoice_n_INVOICE_NUMBER_to_CUSTOMER_NAME}</strong>
+   *   inside the <strong>generated/invoice/html</strong> path.</li>
+   *   <li>Inside the document root directory creates <strong>css</strong> and <strong>js</strong>
+   *   directories.</li>
+   *   <li>Creates an HTML file with name
+   *   <strong>{@code invoice_n_INVOICE_NUMBER_to_CUSTOMER_NAME}</strong> and writes to it
+   *   inside the document root directory.</li>
+   *   <li>Creates a <strong>{@code style.css}</strong> file within the <strong>css</strong>
+   *   subdirectory of the document root directory.</li>
+   *   <li>Creates a <strong>{@code main.js}</strong> file within the <strong>js</strong>
+   *   subdirectory of the document root directory.</li>
+   *   <li>Opens the HTML file previously generated with user's default browser.</li>
+   * </ol>
+   * <p>
+   * If during this process a problem occurs, all the generated files with the document
+   * root directory get deleted and returns -1.
+   *
+   * @return 0 if the invoice is printed successfully, -1 if the invoice wasn't printed
+   */
   @Override
   public int print() {
     String documentName = String.format("invoice_n_%s_to_%s", HANDLER.getInvoice()[0], HANDLER.getCustomer()[0]);
@@ -353,6 +454,9 @@ public class HTMLInvoicePrinter extends Printer {
     return 0;
   }
 
+  /**
+   * Resets the object to its initial state.
+   */
   @Override
   protected void reset() {
     document = "<!DOCTYPE html>\n" +

@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio;
 
 import com.artiomastashonak.schoolaccountingstudio.discount.DiscountPresentValueDialog;
@@ -8,6 +9,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * The {@code MainWindow} object represents a window instance for the application
+ * running on the user side. On initialization, the object sets up configuration
+ * for the {@link Parameters} object to start running the main thread of the
+ * program.
+ * <p>
+ * After initializing all dependencies and configurations, the object creares a
+ * new {@link Window} instance visible to the end user and puts all necessary
+ * components on the canvas, as well as places {@code ActionListener} for the
+ * {@link MenuBar} object attached to the current instance.
+ * <p>
+ * If the application is run for the first time, the user will be welcomed with
+ * a message, after which the message won't appear on subsequent launches.
+ *
+ * @see Parameters
+ * @see InvoicePanel
+ *
+ * @author Artiom Astashonak
+ */
 public class MainWindow {
   public static void main(String[] args) {
     Parameters.initialize();
@@ -62,6 +82,13 @@ public class MainWindow {
     }
   }
 
+  /**
+   * Creates a new {@link JDialog} object displayed to the user with a list of
+   * currently available settings for the application.
+   * <p>
+   * When clicked on the {@code submitButton}, the changes are applied on the
+   * {@link Parameters} object and the dialog window gets disposed.
+   */
   private static void showSettings() {
     JDialog dialog = new JDialog();
     dialog.setModal(true);
@@ -99,31 +126,37 @@ public class MainWindow {
         case "English": {
           Parameters.getConfig().setProperty("language", "EN");
           Parameters.updateConfig();
+          dialog.dispose();
           break;
         }
         case "Italiano": {
           Parameters.getConfig().setProperty("language", "IT");
           Parameters.updateConfig();
+          dialog.dispose();
           break;
         }
         case "Español": {
           Parameters.getConfig().setProperty("language", "ES");
           Parameters.updateConfig();
+          dialog.dispose();
           break;
         }
         case "Русский": {
           Parameters.getConfig().setProperty("language", "RU");
           Parameters.updateConfig();
+          dialog.dispose();
           break;
         }
         case "Shqip": {
           Parameters.getConfig().setProperty("language", "SQ");
           Parameters.updateConfig();
+          dialog.dispose();
           break;
         }
         case "اَلْعَرَبِيَّة": {
           Parameters.getConfig().setProperty("language", "AR");
           Parameters.updateConfig();
+          dialog.dispose();
           break;
         }
         default: break;

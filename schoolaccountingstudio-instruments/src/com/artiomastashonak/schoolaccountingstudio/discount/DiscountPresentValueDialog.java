@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.discount;
 
 import com.artiomastashonak.schoolaccountingstudio.Button;
@@ -12,6 +13,20 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+/**
+ * The {@code DiscountPresentValueDialog} is a {@link JDialog} inherited object
+ * that displays the user the input prompts to compute the discount and the
+ * present values.
+ * <p>
+ * It communicates with {@link DiscountHandler} and with
+ * {@link PresentValueHandler} objects to provide defined solutions.
+ *
+ * @see JDialog
+ * @see DiscountHandler
+ * @see PresentValueHandler
+ *
+ * @author Artiom Astashonak
+ */
 public class DiscountPresentValueDialog extends JDialog {
   private final DiscountHandler DISCOUNT_HANDLER = new DiscountHandler();
   private final PresentValueHandler PRESENT_VALUE_HANDLER = new PresentValueHandler();
@@ -34,6 +49,9 @@ public class DiscountPresentValueDialog extends JDialog {
   private final int MONTHS_CALCULATION = 1;
   private final int YEARS_CALCULATION = 2;
 
+  /**
+   * Assembles a new {@code DiscountPresentValueDialog} object with initial values set up.
+   */
   public DiscountPresentValueDialog() {
     setMinimumSize(new Dimension(600, 550));
     setTitle(Parameters.getBundle().getString("discountCalculator"));
@@ -72,6 +90,11 @@ public class DiscountPresentValueDialog extends JDialog {
     show();
   }
 
+  /**
+   * Creates and sets the layout for the discount {@link JPanel} object.
+   *
+   * @return discount {@link JPanel} object
+   */
   private @NotNull JPanel createDiscountPanel() {
     JPanel panel = new JPanel();
     panel.setBackground(UIHelper.getMainWindowColor());
@@ -167,6 +190,13 @@ public class DiscountPresentValueDialog extends JDialog {
     return panel;
   }
 
+  /**
+   * Writes discount data given by the user into the {@link DiscountHandler} object
+   * associated with the current instance of the {@code DiscountPresentValueDialog} object.
+   *
+   * @throws InputMismatchException if provided wrong type value for any of the
+   * text fields
+   */
   private void insertDiscountData() throws InputMismatchException {
     ArrayList<TextField> solutionTerm = new ArrayList<>(1);
     for (TextField textField : new TextField[]{DISCOUNT_CAPITAL, DISCOUNT_TIME, DISCOUNT_QUOTE, DISCOUNT_VALUE}) {
@@ -215,6 +245,10 @@ public class DiscountPresentValueDialog extends JDialog {
     DISCOUNT_HANDLER.setLeapYear(discountLeapYearCheck.isSelected());
   }
 
+  /**
+   * Resets the text fields of the discount on the screen and resets the
+   * {@link DiscountHandler} object to its initial state.
+   */
   private void resetDiscount() {
     for (TextField textField : new TextField[]{DISCOUNT_TIME, DISCOUNT_CAPITAL, DISCOUNT_QUOTE, DISCOUNT_VALUE}) {
       textField.setText("");
@@ -224,6 +258,11 @@ public class DiscountPresentValueDialog extends JDialog {
     DISCOUNT_HANDLER.reset();
   }
 
+  /**
+   * Creates and sets the layout for the present value {@link JPanel} object.
+   *
+   * @return present value {@link JPanel} object
+   */
   private @NotNull JPanel createPresentValuePanel() {
     JPanel panel = new JPanel();
     panel.setBackground(UIHelper.getMainWindowColor());
@@ -319,6 +358,14 @@ public class DiscountPresentValueDialog extends JDialog {
     return panel;
   }
 
+  /**
+   * Writes present value data given by the user into the {@link PresentValueHandler}
+   * object associated with the current instance of the {@code DiscountPresentValueDialog}
+   * object.
+   *
+   * @throws InputMismatchException if provided wrong type value for any of the
+   * text fields
+   */
   private void insertPresentValueData() throws InputMismatchException {
     ArrayList<TextField> solutionTerm = new ArrayList<>(1);
     for (TextField textField : new TextField[]{PRESENT_VALUE_CAPITAL, PRESENT_VALUE_TIME, PRESENT_VALUE_QUOTE, PRESENT_VALUE}) {
@@ -368,6 +415,10 @@ public class DiscountPresentValueDialog extends JDialog {
     PRESENT_VALUE_HANDLER.setLeapYear(presentValueLeapYearCheck.isSelected());
   }
 
+  /**
+   * Resets the text fields of the present value on the screen and resets the
+   * {@link PresentValueHandler} object to its initial state.
+   */
   private void resetPresentValue() {
     for (TextField textField : new TextField[]{PRESENT_VALUE_TIME, PRESENT_VALUE_CAPITAL, PRESENT_VALUE_QUOTE, PRESENT_VALUE}) {
       textField.setText("");

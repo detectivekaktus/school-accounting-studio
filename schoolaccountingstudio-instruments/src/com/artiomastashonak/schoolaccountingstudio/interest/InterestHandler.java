@@ -1,5 +1,12 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.interest;
 
+/**
+ * The {@code InterestHandler} object handles the interest gotten from the user
+ * providing storage of necessary variables and calculation methods.
+ *
+ * @author Artiom Astashonak
+ */
 public class InterestHandler {
   private final int DAYS_CALCULATION_MODE = 0;
   private final int MONTHS_CALCULATION_MODE = 1;
@@ -12,8 +19,19 @@ public class InterestHandler {
   private double interest = 0;
   private boolean isLeapYear = false;
 
+  /**
+   * Construct a new {@code InterestHandler} object with standard properties set up.
+   */
   public InterestHandler() { }
 
+  /**
+   * Calculates and returns an unknown value of all class variables. If there is nothing
+   * to find the {@code CALCULATION_ERROR} is returned.
+   *
+   * @param mode the calculation mode
+   * @return the unknown value or the {@code CALCULATION_ERROR} if there is no value
+   * to be found
+   */
   public double calculate(int mode) {
     if (capital == 0) return calculateCapital(mode);
     if (time == 0) return calculateTime(mode);
@@ -22,6 +40,13 @@ public class InterestHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the interest.
+   *
+   * @param mode the calculation mode
+   * @return the interest value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateInterest(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((capital * quote * time) / 36600) * 100.0) / 100.0;
@@ -32,6 +57,13 @@ public class InterestHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the capital.
+   *
+   * @param mode the calculation mode
+   * @return the capital value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateCapital(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((interest * 36600) / (quote * time)) * 100.0) / 100.0;
@@ -42,6 +74,13 @@ public class InterestHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the quote.
+   *
+   * @param mode the calculation mode
+   * @return the quote value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateQuote(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((interest * 36600) / (capital * time)) * 100.0) / 100.0;
@@ -52,6 +91,13 @@ public class InterestHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the time.
+   *
+   * @param mode the calculation mode
+   * @return the time value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateTime(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((interest * 36600) / (capital * quote)) * 100.0) / 100.0;
@@ -62,6 +108,9 @@ public class InterestHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Resets the object to its initial state.
+   */
   public void reset() {
     this.capital = 0;
     this.time = 0;
