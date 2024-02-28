@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.proportion;
 
 import com.artiomastashonak.schoolaccountingstudio.Button;
@@ -9,6 +10,16 @@ import com.artiomastashonak.schoolaccountingstudio.exceptions.NoSolutionExceptio
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The {@code ProportionDialog} class defines a proportion calculator dialog
+ * interface for the end user and provides a communication with {@link Proportion}
+ * object.
+ *
+ * @see JDialog
+ * @see Proportion
+ *
+ * @author Artiom Astashonak
+ */
 public class ProportionDialog extends JDialog {
   private final Proportion PROPORTION = new Proportion();
   private final TextField FIRST_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
@@ -16,6 +27,9 @@ public class ProportionDialog extends JDialog {
   private final TextField THIRD_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
   private final TextField FOURTH_TERM = new TextField(UIHelper.getMenuBarColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
 
+  /**
+   * Constructs a new {@code ProportionDialog} object with default parameters set up.
+   */
   public ProportionDialog() {
     setMinimumSize(new Dimension(450, 250));
     setTitle(Parameters.getBundle().getString("proportionCalculator"));
@@ -98,6 +112,12 @@ public class ProportionDialog extends JDialog {
     show();
   }
 
+  /**
+   * Sets each term of the {@link Proportion} object saved as a class variable of
+   * the current object.
+   *
+   * @return 0 if successful, -1 if there are no solutions
+   */
   private int composeProportion() {
     int termsToFind = 0;
     for (TextField textField : new TextField[]{FIRST_TERM, SECOND_TERM, THIRD_TERM, FOURTH_TERM}) {
@@ -127,6 +147,10 @@ public class ProportionDialog extends JDialog {
     return 0;
   }
 
+  /**
+   * Resets all input fields. Resets {@link Proportion} object associated with
+   * the current object to its initial state.
+   */
   private void resetInput() {
     for (TextField textField : new TextField[]{FIRST_TERM, SECOND_TERM, THIRD_TERM, FOURTH_TERM}) {
       textField.setText("");

@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.interest;
 
 import com.artiomastashonak.schoolaccountingstudio.Button;
@@ -12,6 +13,20 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+/**
+ * The {@code InterestTotAmountDialog} is a {@link JDialog} inherited object
+ * that displays the user the input prompts to compute the interest and the
+ * total amount values.
+ * <p>
+ * It communicates with {@link InterestHandler} and with
+ * {@link TotalAmountHandler} objects to provide defined solutions.
+ *
+ * @see JDialog
+ * @see InterestHandler
+ * @see TotalAmountHandler
+ *
+ * @author Artiom Astashonak
+ */
 public class InterestTotAmountDialog extends JDialog {
   private final InterestHandler INTEREST_HANDLER = new InterestHandler();
   private final TotalAmountHandler TOTAL_AMOUNT_HANDLER = new TotalAmountHandler();
@@ -34,6 +49,9 @@ public class InterestTotAmountDialog extends JDialog {
   private final int MONTHS_CALCULATION = 1;
   private final int YEARS_CALCULATION = 2;
 
+  /**
+   * Assembles a new {@code InterestTotAmountDialog} object with initial values set up.
+   */
   public InterestTotAmountDialog() {
     setMinimumSize(new Dimension(600, 550));
     setTitle(Parameters.getBundle().getString("interestCalculator"));
@@ -72,6 +90,11 @@ public class InterestTotAmountDialog extends JDialog {
     show();
   }
 
+  /**
+   * Creates and sets the layout for the interest {@link JPanel} object.
+   *
+   * @return interest {@link JPanel} object
+   */
   private @NotNull JPanel createInterestPanel() {
     JPanel panel = new JPanel();
     panel.setBackground(UIHelper.getMainWindowColor());
@@ -167,6 +190,13 @@ public class InterestTotAmountDialog extends JDialog {
     return panel;
   }
 
+  /**
+   * Writes interest data given by the user into the {@link InterestHandler} object
+   * associated with the current instance of the {@code InterestTotAmountDialog} object.
+   *
+   * @throws InputMismatchException if provided wrong type value for any of the
+   * text fields
+   */
   private void insertInterestData() throws InputMismatchException {
     ArrayList<TextField> solutionTerm = new ArrayList<>(1);
     for (TextField textField : new TextField[]{INTEREST_CAPITAL, INTEREST_TIME, INTEREST_QUOTE, INTEREST_VALUE}) {
@@ -215,6 +245,10 @@ public class InterestTotAmountDialog extends JDialog {
     INTEREST_HANDLER.setLeapYear(interestLeapYearCheck.isSelected());
   }
 
+  /**
+   * Resets the text fields of the interest on the screen and resets the
+   * {@link InterestHandler} object to its initial state.
+   */
   private void resetInterest() {
     for (TextField textField : new TextField[]{INTEREST_TIME, INTEREST_CAPITAL, INTEREST_QUOTE, INTEREST_VALUE}) {
       textField.setText("");
@@ -224,6 +258,11 @@ public class InterestTotAmountDialog extends JDialog {
     INTEREST_HANDLER.reset();
   }
 
+  /**
+   * Creates and sets the layout for the total amount {@link JPanel} object.
+   *
+   * @return total amount {@link JPanel} object
+   */
   private @NotNull JPanel createTotalAmountPanel() {
     JPanel panel = new JPanel();
     panel.setBackground(UIHelper.getMainWindowColor());
@@ -319,6 +358,14 @@ public class InterestTotAmountDialog extends JDialog {
     return panel;
   }
 
+  /**
+   * Writes total amount data given by the user into the {@link TotalAmountHandler}
+   * object associated with the current instance of the {@code InterestTotAmountDialog}
+   * object.
+   *
+   * @throws InputMismatchException if provided wrong type value for any of the
+   * text fields
+   */
   private void insertTotalAmountData() throws InputMismatchException {
     ArrayList<TextField> solutionTerm = new ArrayList<>(1);
     for (TextField textField : new TextField[]{TOTAL_AMOUNT_CAPITAL, TOTAL_AMOUNT_TIME, TOTAL_AMOUNT_QUOTE, TOTAL_AMOUNT_VALUE}) {
@@ -368,6 +415,10 @@ public class InterestTotAmountDialog extends JDialog {
     TOTAL_AMOUNT_HANDLER.setLeapYear(totalAmountLeapYearCheck.isSelected());
   }
 
+  /**
+   * Resets the text fields of the total amount on the screen and resets the
+   * {@link TotalAmountHandler} object to its initial state.
+   */
   private void resetTotalAmount() {
     for (TextField textField : new TextField[]{TOTAL_AMOUNT_TIME, TOTAL_AMOUNT_CAPITAL, TOTAL_AMOUNT_QUOTE, TOTAL_AMOUNT_VALUE}) {
       textField.setText("");

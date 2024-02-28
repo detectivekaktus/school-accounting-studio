@@ -1,5 +1,12 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio.discount;
 
+/**
+ * The {@code PresentValurHandler} object handles the present value gotten from the user
+ * providing storage of necessary variables and calculation methods.
+ *
+ * @author Artiom Astashonak
+ */
 public class PresentValueHandler {
   private final int DAYS_CALCULATION_MODE = 0;
   private final int MONTHS_CALCULATION_MODE = 1;
@@ -12,8 +19,19 @@ public class PresentValueHandler {
   private double presentValue = 0;
   private boolean isLeapYear = false;
 
+  /**
+   * Constructs a new {@code PresentValueHandler} object with standard properties set up.
+   */
   public PresentValueHandler() { }
 
+  /**
+   * Calculates and returns an unknown value of all class variables. If there is nothing
+   * to find the {@code CALCULATION_ERROR} is returned.
+   *
+   * @param mode the calculation mode
+   * @return the unknown value or the {@code CALCULATION_ERROR} if there is no value
+   * to be found
+   */
   public double calculate(int mode) {
     if (capital == 0) return calculateCapital(mode);
     if (time == 0) return calculateTime(mode);
@@ -22,6 +40,13 @@ public class PresentValueHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the present value.
+   *
+   * @param mode the calculation mode
+   * @return the present value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculatePresentValue(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((capital * (36600 - time * quote)) / 36600) * 100.0) / 100.0;
@@ -32,6 +57,13 @@ public class PresentValueHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the capital.
+   *
+   * @param mode the calculation mode
+   * @return the capital value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateCapital(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((36600 * presentValue) / (36600 - time * quote)) * 100.0) / 100.0;
@@ -42,6 +74,13 @@ public class PresentValueHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the time.
+   *
+   * @param mode the calculation mode
+   * @return the time value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateTime(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((((36600 * presentValue) / capital) - 36600) / -quote) * 100.0) / 100.0;
@@ -52,6 +91,13 @@ public class PresentValueHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Computes the value of the quote.
+   *
+   * @param mode the calculation mode
+   * @return the quote value or the {@code CALCULATION_ERROR} if there is no
+   * value to be found
+   */
   private double calculateQuote(int mode) {
     if (mode == DAYS_CALCULATION_MODE) {
       if (isLeapYear) return Math.round(((((36600 * presentValue) / capital) - 36600) / -time) * 100.0) / 100.0;
@@ -62,6 +108,9 @@ public class PresentValueHandler {
     return CALCULATION_ERROR;
   }
 
+  /**
+   * Resets the object to its initial state.
+   */
   public void reset() {
     this.capital = 0;
     this.time = 0;

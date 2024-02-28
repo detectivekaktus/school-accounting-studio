@@ -1,3 +1,4 @@
+// Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio;
 
 import org.jetbrains.annotations.NotNull;
@@ -9,19 +10,38 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * The {@code MenuBar} object describes a menu bar attached to the top of the
+ * {@link Window} object in memory.
+ * <p>
+ * It provides control and access to its child elements to be modified (yet
+ * not reassigned) objects of the application.
+ *
+ * @see JMenuBar
+ * @see JMenu
+ * @see JMenuItem
+ * @see Window
+ *
+ * @author Artiom Astashonak
+ */
 public class MenuBar extends JMenuBar {
-  public JMenuItem fileCreateInvoice;
-  public JMenuItem fileSettingsItem;
-  public JMenuItem fileExitItem;
+  public final JMenuItem fileCreateInvoice;
+  public final JMenuItem fileSettingsItem;
+  public final JMenuItem fileExitItem;
 
-  public JMenuItem toolsProportionCalcItem;
-  public JMenuItem toolsInterestCalcItem;
-  public JMenuItem toolsDiscountCalcItem;
+  public final JMenuItem toolsProportionCalcItem;
+  public final JMenuItem toolsInterestCalcItem;
+  public final JMenuItem toolsDiscountCalcItem;
 
-  public JMenuItem helpWelcomeItem;
-  public JMenuItem helpLicenseItem;
-  public JMenuItem helpGitHubItem;
+  public final JMenuItem helpWelcomeItem;
+  public final JMenuItem helpLicenseItem;
+  public final JMenuItem helpGitHubItem;
 
+  /**
+   * Constructs a new {@code MenuBar} instance in memory with {@code fileExitItem},
+   * {@code helpWelcomeItem}, {@code helpLicenseItem}, and {@code helpGitHubItem}
+   * menu elements setup by default.
+   */
   public MenuBar() {
     setFont(UIHelper.getMenuBarFont());
     setBackground(UIHelper.getMenuBarColor());
@@ -117,6 +137,11 @@ public class MenuBar extends JMenuBar {
     add(helpMenu);
   }
 
+  /**
+   * Applies standard styling properties to the menu.
+   *
+   * @param menu the {@link JMenu} instance to be modified
+   */
   private void setupMenu(@NotNull JMenu menu) {
     menu.setFont(UIHelper.getMenuBarFont());
     menu.setBackground(UIHelper.getMenuBarColor());
@@ -126,6 +151,11 @@ public class MenuBar extends JMenuBar {
     menu.setOpaque(true);
   }
 
+  /**
+   * Applies standard styling properties to the menu item.
+   *
+   * @param menuItem the {@link JMenuItem} instance to be modified
+   */
   private void setupMenuItem(@NotNull JMenuItem menuItem) {
     menuItem.setFont(UIHelper.getMenuBarFont());
     menuItem.setBackground(UIHelper.getMenuBarColor());
