@@ -39,6 +39,9 @@ public class DateDialog extends JDialog {
     layout.putConstraint(SpringLayout.NORTH, title, 5, SpringLayout.NORTH, this.getContentPane());
     layout.putConstraint(SpringLayout.WEST, title, 5, SpringLayout.WEST, this.getContentPane());
 
+    COMBO.setBackground(UIHelper.getMenuBarColor());
+    COMBO.setForeground(UIHelper.getPrimaryTextColor());
+    COMBO.setFont(UIHelper.getInputFont());
     add(COMBO);
     layout.putConstraint(SpringLayout.NORTH, COMBO, 5, SpringLayout.SOUTH, title);
     layout.putConstraint(SpringLayout.WEST, COMBO, 5, SpringLayout.WEST, this.getContentPane());
@@ -49,6 +52,15 @@ public class DateDialog extends JDialog {
     layout.putConstraint(SpringLayout.WEST, TIME, 5, SpringLayout.WEST, this.getContentPane());
 
     Button calculate = new Button(Parameters.getBundle().getString("calculate"), UIHelper.getBrightButtonColor(), UIHelper.getPrimaryTextColor(), UIHelper.getInputFont());
+    calculate.addActionListener(e -> {
+      try {
+        if (COMBO.getSelectedIndex() == TimeValidator.DAYS_CALCULATION_MODE) JOptionPane.showInternalMessageDialog(null, String.format(Parameters.getBundle().getString("solutionIs"), (double) TimeValidator.DAYS.valueOrBetween(TIME.getText())));
+        if (COMBO.getSelectedIndex() == TimeValidator.MONTHS_CALCULATION_MODE) JOptionPane.showInternalMessageDialog(null, String.format(Parameters.getBundle().getString("solutionIs"),(double) TimeValidator.MONTHS.valueOrBetween(TIME.getText())));
+        if (COMBO.getSelectedIndex() == TimeValidator.YEARS_CALCULATION_MODE) JOptionPane.showInternalMessageDialog(null, String.format(Parameters.getBundle().getString("solutionIs"), (double) (TimeValidator.YEARS.valueOrBetween(TIME.getText()))));
+      } catch (Exception exception) {
+        JOptionPane.showInternalMessageDialog(null, Parameters.getBundle().getString("wrongInput"));
+      }
+    });
     add(calculate);
     layout.putConstraint(SpringLayout.SOUTH, calculate, -5, SpringLayout.SOUTH, this.getContentPane());
     layout.putConstraint(SpringLayout.EAST, calculate, -5, SpringLayout.EAST, this.getContentPane());
