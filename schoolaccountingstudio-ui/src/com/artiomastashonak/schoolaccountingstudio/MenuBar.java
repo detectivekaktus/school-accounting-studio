@@ -32,6 +32,7 @@ public class MenuBar extends JMenuBar {
   public final JMenuItem toolsProportionCalcItem;
   public final JMenuItem toolsInterestCalcItem;
   public final JMenuItem toolsDiscountCalcItem;
+  public final JMenuItem toolsDateCalcItem;
 
   public final JMenuItem helpWelcomeItem;
   public final JMenuItem helpLicenseItem;
@@ -101,9 +102,15 @@ public class MenuBar extends JMenuBar {
     toolsDiscountCalcItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
     setupMenuItem(toolsDiscountCalcItem);
 
+    toolsDateCalcItem = new JMenuItem(Parameters.getBundle().getString("dateCalculator"));
+    toolsDateCalcItem.setMnemonic(KeyEvent.VK_T);
+    toolsDateCalcItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK));
+    setupMenuItem(toolsDateCalcItem);
+
     toolsMenu.add(mathematicalMenu);
     toolsMenu.add(toolsInterestCalcItem);
     toolsMenu.add(toolsDiscountCalcItem);
+    toolsMenu.add(toolsDateCalcItem);
     add(toolsMenu);
 
     JMenu helpMenu = new JMenu(Parameters.getBundle().getString("help"));

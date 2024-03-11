@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
  * @author Artiom Astashonak
  */
 public final class TimeValidator {
+  private final int DAYS_CALCULATION_MODE = 0;
+  private final int MONTHS_CALCULATION_MODE = 1;
+  private final int YEARS_CALCULATION_MODE = 2;
   /**
    * The {@code DAYS} inner instance of the {@link TimeValidator} is a helper
    * object that allows to perform time validations on the user input and get

@@ -1,6 +1,7 @@
 // Copyright 2023-2024 Artiom Astashonak. Use of this code is governed by the Apache License 2.0 that can be found in the LICENSE file.
 package com.artiomastashonak.schoolaccountingstudio;
 
+import com.artiomastashonak.schoolaccountingstudio.date.DateDialog;
 import com.artiomastashonak.schoolaccountingstudio.discount.DiscountPresentValueDialog;
 import com.artiomastashonak.schoolaccountingstudio.interest.InterestTotAmountDialog;
 import com.artiomastashonak.schoolaccountingstudio.invoice.InvoicePanel;
@@ -68,10 +69,11 @@ public class MainWindow {
       mainPanel.add(invoice, "INVOICE");
       cardLayout.show(mainPanel, "INVOICE");
     });
-    menuBar.fileSettingsItem.addActionListener((e) -> showSettings());
-    menuBar.toolsInterestCalcItem.addActionListener((e) -> new InterestTotAmountDialog());
-    menuBar.toolsDiscountCalcItem.addActionListener((e) -> new DiscountPresentValueDialog());
-    menuBar.toolsProportionCalcItem.addActionListener((e) -> new ProportionDialog());
+    menuBar.fileSettingsItem.addActionListener(e -> showSettings());
+    menuBar.toolsInterestCalcItem.addActionListener(e -> new InterestTotAmountDialog());
+    menuBar.toolsDiscountCalcItem.addActionListener(e -> new DiscountPresentValueDialog());
+    menuBar.toolsProportionCalcItem.addActionListener(e -> new ProportionDialog());
+    menuBar.toolsDateCalcItem.addActionListener(e -> new DateDialog());
 
     window.setVisible(true);
 
