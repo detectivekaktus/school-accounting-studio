@@ -1,6 +1,0 @@
-Anyone who helps a project of any kind is welcome to write down its own name in the CREDITS file to be visible to end users.
-
-Please write your name in the following way:
-Name Surname [email@address.com]
-
-Artiom Astashonak [artiomastashonak@gmail.com]
